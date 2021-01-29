@@ -1,0 +1,8 @@
+--recurse=yes
+--tag-relative=yes
+--fields=+l
+--languages=ruby,javascript
+--exclude=.git
+--exclude=node_modules
+--exclude=log
+--exclude=*.min.js

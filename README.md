@@ -10,3 +10,9 @@
 2. Install plugins (if necessary):
   - Load automatically variables from env[Link](https://github.com/mmarusyk/autoloadenv)
 
+## Go to definition
+(0. Install ctags and copy .ctags to home folder)*check*
+1. gem install ripper-tags
+2. Run in project: ripper-tags -R --exclude=vendor --exclude=chef --extra=q
+3. Vw - choose class; Ctrl + ] - go to; Ctrl + T - go back
+
