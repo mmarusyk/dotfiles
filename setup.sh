@@ -10,6 +10,11 @@ sudo apt install git -y
 
 echo 'Configurate Git...'
 git config --global color.ui true
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
 echo 'Enter the Global username:';
 read GITUSER;
 git config --global user.name "${GITUSER}"
@@ -26,7 +31,7 @@ echo 'Installing curl...'
 sudo apt install curl -y
 
 
-## Install necessery packages for ruby
+## Install necessery packages for ruby ##
 echo 'Installing necessery packages for ruby development...'
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -79,6 +84,11 @@ sudo apt install libreoffie -y
 ## Install vim ##
 echo 'Installing vim...'
 sudo apt install vim -y
+
+
+## Install tmux
+echo 'Installing tmux...'
+sudo apt install tmux -y
 
 
 #TODO: skype telegram code(download deb packages and install); setting up auto vim and code profiles, fonts  

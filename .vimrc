@@ -1,4 +1,4 @@
-set nocompatible               " be iMproved, required
+set nocompatible               " be improved, required
 filetype off                   " required
 
 syntax enable                  " enable syntax highlighting
@@ -32,6 +32,8 @@ set smarttab                   " use shiftwidth to enter tabs
 set autoindent                 " automatically indent to match adjacent lines
 set smartindent
 
+set tags+=gems.tags
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -63,4 +65,3 @@ nnoremap <silent> <Leader>v :NERDTreeFind<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
     \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
-
