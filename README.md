@@ -1,18 +1,33 @@
-## Vim
+# My dotfiles repository
 
-1. Copy .vimrc to home folder.
-2. Install Vundle Plugin Manager.[Link](https://github.com/VundleVim/Vundle.vim).
-3. Open vim and install plugins: `:PluginInstall`
+## Installation
+```
+git clone https://github.com/mmarusyk/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./install.sh
+```
+This will install:
+* Necessery software:
+  * curl
+  * git
+  * zsh
+  * tmux
+  * vim
+* Custom dotfiles
+  * zsh
+  * tmux
+  * vim
 
-## ZSH
+## Docs
+* [Git Cheat Sheet](docs/git.md)
+* [Vim Cheat Sheet](docs/vim.md)
+* [Vim Plugins](docs/vim-plugins.md)
+* [Tmux Cheat Sheet](docs/tmux.md)
+* [Oh-my-zsh alias](docs/oh-my-zsh.md)
 
-1. Copy .zshrc to home folder.
-2. Install plugins (if necessary):
-  - Load automatically variables from env[Link](https://github.com/mmarusyk/autoloadenv)
+## ToDo
+[ - ] Add ctags
 
-## Go to definition
-(0. Install ctags and copy .ctags to home folder)*check*
-1. gem install ripper-tags
-2. Run in project: ripper-tags -R --exclude=vendor --exclude=chef --extra=q
-3. Vw - choose class; Ctrl + ] - go to; Ctrl + T - go back
+[ - ] Add tmux config
 
+[ - ] Add vs code config

@@ -3,6 +3,10 @@ filetype off                   " required
 
 syntax enable                  " enable syntax highlighting
 
+filetype plugin indent on      " recognize the typ of the file
+filetype on                    " load th file ftplugin.vim in runtimepath
+filetype indent on             " load the file indent.vim in runtimepath
+
 set encoding=utf-8             " open file with encoding
 set fileencoding=utf-8         " save file with encoding
 
@@ -32,36 +36,45 @@ set smarttab                   " use shiftwidth to enter tabs
 set autoindent                 " automatically indent to match adjacent lines
 set smartindent
 
-set tags+=gems.tags
+" set tags+=gems.tags              " ctags or
+set tags=./tags;                 " ctags
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" leader
+let mapleader=","
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'preservim/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-ruby/vim-ruby'
+" plugins
+call plug#begin('~/.vim/plugged')
+  Plug 'preservim/nerdtree'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-rails'
+  Plug 'junegunn/fzf'
+  Plug 'tpope/vim-fugitive'
+  Plug 'majutsushi/tagbar'
+  Plug 'ctrlpvim/ctrlp.vim'
+call plug#end()
 
-call vundle#end()
 filetype plugin indent on
 
 hi CursorLine cterm=None ctermbg=237
 hi CursorColumn cterm=None ctermbg=239
 hi ColorColumn ctermbg=52
 
-set tags+=$HOME/.rbenv/versions/3.0.0/lib/ruby/3.0.0/
+" ctags Plugin
+map <Leader>.z :CtrlPTag<CR>
+nmap <C-t> :TagbarToggle<CR>
+map <Leader>.t :ta /^
 
 " NERDTree Plugin
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeQuitOnOpen = 1
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeShowHidden = 1
+map <C-n> :NERDTreeToggle<CR>
 
-nmap <Leader>f :NERDTreeToggle<Enter>
-nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+let NERDTreeShowHidden=1
 
-" Start NERDTree when Vim starts with a directory argument.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+" fugitive Plugin
+map <Leader>.s :Gstatus<CR>
+map <Leader>.b :Gblame<CR>
+map <Leader>.w :Gbrowse<CR>
+map <Leader>.d :Gdiff<CR>
+set diffopt+=vertical
+
+" ctrlpvim
+let g:ctrlp_custom_ignore = 'node_modules\||.git\||bin\||Gemfile.lock'
