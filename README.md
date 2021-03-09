@@ -28,6 +28,16 @@ This will install:
 ## ToDo
 [ - ] Add ctags
 
+VSCODE
+1. sudo apt install ctags
+2. Use extenssion: https://marketplace.visualstudio.com/items?itemName=jaydenlin.ctags-support
+3. For generating tags file:
+```
+gem install ripper-tags
+ripper-tags -R --exclude=vendor --exclude=chef --extra=q --tag-file=.tags
+```
+4. Shortcuts: Ctrl+Alt+G - got to definition, Ctrl+Shift+T - history
+
 [ - ] Add tmux config
 
 [ - ] Add vs code config
