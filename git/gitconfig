@@ -1,0 +1,11 @@
+[user]
+  name = Mykhailo Marusyk
+  email = misha.marusyk@gmail.com
+[core]
+  pager = less -F -X
+[alias]
+  co = checkout
+  br = branch
+  ci = commit
+  st = status
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
