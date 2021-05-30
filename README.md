@@ -2,42 +2,17 @@
 
 ## Installation
 ```
-git clone https://github.com/mmarusyk/dotfiles.git ~/.dotfiles
+git clone https://github.com/mmarusyk/dotfiles.git ~/dotfiles
 cd ~/.dotfiles
-./install.sh
+./setup.sh
 ```
-This will install:
-* Necessery software:
-  * curl
-  * git
-  * zsh
-  * tmux
-  * vim
-* Custom dotfiles
-  * zsh
-  * tmux
-  * vim
+## Necessery software
+### Instalation git
+```sudo apt install git```
 
-## Docs
-* [Git Cheat Sheet](docs/git.md)
-* [Vim Cheat Sheet](docs/vim.md)
-* [Vim Plugins](docs/vim-plugins.md)
-* [Tmux Cheat Sheet](docs/tmux.md)
-* [Oh-my-zsh alias](docs/oh-my-zsh.md)
+### Instalation vim
+```sudo apt install vim```
 
-## ToDo
-[ - ] Add ctags
-
-VSCODE
-1. sudo apt install ctags
-2. Use extenssion: https://marketplace.visualstudio.com/items?itemName=jaydenlin.ctags-support
-3. For generating tags file:
-```
-gem install ripper-tags
-ripper-tags -R --exclude=vendor --exclude=chef --extra=q --tag-file=.tags
-```
-4. Shortcuts: Ctrl+Alt+G - got to definition, Ctrl+Shift+T - history
-
-[ - ] Add tmux config
-
-[ - ] Add vs code config
+### Installation zsh
+1. Install zsh: ```sudo apt install zsh```
+2. Install oh-my-zsh follow this [link](https://github.com/ohmyzsh/ohmyzsh).
