@@ -1,0 +1,13 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+  {
+    "key": "ctrl+alt+g",
+    "command": "extension.searchCTags",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "-extension.searchCTags",
+    "when": "editorTextFocus"
+  }
+]

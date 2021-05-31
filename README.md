@@ -16,3 +16,5 @@ cd ~/.dotfiles
 ### Installation zsh
 1. Install zsh: ```sudo apt install zsh```
 2. Install oh-my-zsh follow this [link](https://github.com/ohmyzsh/ohmyzsh).
+3. Install tmux: ```sudo apt install tmux```
+4. Istall vscode: ```sudo snap install code --classic```
