@@ -14,9 +14,13 @@ mkdir $backup_dir
 
 mv ~/.zshrc $backup_dir
 mv ~/.gitconfig $backup_dir
+mv ~/.gitignore $backup_dir
 mv ~/.vimrc $backup_dir
 
 # Create symlinks
-ln -s $dotfiles_dir/zsh/zshrc ~/.zshrc
-ln -s $dotfiles_dir/git/gitconfig ~/.gitconfig
-ln -s $dotfiles_dir/vim/vimrc ~/.vimrc
+ln -df $dotfiles_dir/zsh/zshrc ~/.zshrc
+ln -df $dotfiles_dir/git/gitconfig ~/.gitconfig
+ln -df $dotfiles_dir/git/gitignore ~/.gitignore
+ln -df $dotfiles_dir/vim/vimrc ~/.vimrc
+
+git config --global core.excludesfile $HOME/.gitignore
