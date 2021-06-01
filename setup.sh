@@ -17,6 +17,8 @@ mv ~/.gitconfig $backup_dir
 mv ~/.gitignore $backup_dir
 mv ~/.vimrc $backup_dir
 mv ~/.tmux.conf $backup_dir
+
+mkdir $backup_dir/Code
 mv ~/.config/Code/User/settings.json $backup_dir/Code/User
 mv ~/.config/Code/User/keybindings.json $backup_dir/Code/User
 
