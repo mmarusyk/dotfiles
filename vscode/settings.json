@@ -3,6 +3,8 @@
     "telemetry.enableTelemetry": false,
     "editor.wordWrap": "on",
     "editor.tabSize": 2,
+    "editor.fontSize": 14,
+    "editor.lineHeight": 18,
     "window.titleBarStyle": "custom",
     "files.insertFinalNewline": true,
     "ruby.intellisense": "rubyLocate",
@@ -66,7 +68,6 @@
     "json.maxItemsComputed": 10000,
     "files.autoSave": "afterDelay",
     "gitlens.codeLens.enabled": false,
-    "window.zoomLevel": -1,
     "files.exclude": {
         ".tags": true,
         "tags": true
