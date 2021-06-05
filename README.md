@@ -21,6 +21,9 @@ cd ~/.dotfiles
 
 ### Installation tmux
 1. Install tmux: ```sudo apt install tmux```
+2. clone Tmux Plugin Manager: git clone ```https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm```
+3. Install plugins: ```~/.tmux/plugins/tpm/bin/install_plugins```
+4. User Middle Mouse Button to paste text into another app.
 
 ### Installation VSCode
 1. Istall vscode: ```sudo snap install code --classic```
