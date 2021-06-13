@@ -1,9 +1,15 @@
-[user]
-  name = Mykhailo Marusyk
-  email = misha.marusyk@gmail.com
-[core]
-  pager = less -F -X
-[alias]
+#! /bin/sh
+echo "
+  ---ZSH---
+  alias load_tags=$SCRIPTS_PATH/load_tags.sh
+  alias catsc=$SCRIPTS_PATH/cat_shortcuts.sh
+  alias dce=docker-compose exec
+  alias dcu=docker-compse up -d
+  alias dcd=docker-compose down
+  alias dps=docker ps
+  alias dpsa=docker ps -a
+
+  ---GIT---
   br = branch
   bd = branch -D # Using: git bd PR-53
   ci = commit -m # Using: git cm "Some message"
@@ -13,3 +19,4 @@
   last = log -1 HEAD --stat
   st = status
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+"
