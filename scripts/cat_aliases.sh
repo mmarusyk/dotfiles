@@ -3,11 +3,11 @@ echo "
   ---ZSH---
   alias load_tags=$SCRIPTS_PATH/load_tags.sh
   alias catsc=$SCRIPTS_PATH/cat_shortcuts.sh
-  alias dce=docker-compose exec
-  alias dcu=docker-compse up -d
-  alias dcd=docker-compose down
-  alias dps=docker ps
-  alias dpsa=docker ps -a
+  alias dce='docker-compose exec'
+  alias dcu='docker-compose up -d'
+  alias dcd='docker-compose down'
+  alias dps='docker ps'
+  alias dpsa='docker ps -a'
 
   ---GIT---
   br = branch
