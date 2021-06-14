@@ -1,8 +1,11 @@
 #! /bin/sh
 echo "
+  ---TMUX---
+  1) <prefix>+: 2) Enter respawn-pane -k # Restart pane
+
   ---ZSH---
   alias load_tags=$SCRIPTS_PATH/load_tags.sh
-  alias catsc=$SCRIPTS_PATH/cat_shortcuts.sh
+  alias cata=$SCRIPTS_PATH/cat_shortcuts.sh
   alias dce='docker-compose exec'
   alias dcu='docker-compose up -d'
   alias dcd='docker-compose down'
@@ -19,4 +22,5 @@ echo "
   last = log -1 HEAD --stat
   st = status
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+
 "
