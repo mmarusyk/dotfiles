@@ -4,13 +4,18 @@ echo "
   1) <prefix>+: 2) Enter respawn-pane -k # Restart pane
 
   ---ZSH---
+  # Scripts
   alias load_tags=$SCRIPTS_PATH/load_tags.sh
-  alias cata=$SCRIPTS_PATH/cat_shortcuts.sh
+  alias cata=$SCRIPTS_PATH/cat_aliases.sh
+  #Docker
   alias dce='docker-compose exec'
   alias dcu='docker-compose up -d'
   alias dcd='docker-compose down'
   alias dps='docker ps'
   alias dpsa='docker ps -a'
+  # Rails
+  alias be='bundle exec'
+
 
   ---GIT---
   br = branch
