@@ -7,6 +7,8 @@ echo "
   # Scripts
   alias load_tags=$SCRIPTS_PATH/load_tags.sh
   alias cata=$SCRIPTS_PATH/cat_aliases.sh
+  alias fix_kb='sudo $SCRIPTS_PATH/fix_kb.sh'
+  
   #Docker
   alias dce='docker-compose exec'
   alias dcu='docker-compose up -d'
