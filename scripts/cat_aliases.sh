@@ -18,6 +18,9 @@ echo "
   # Rails
   alias be='bundle exec'
 
+  # OH
+  alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
+  alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml stop
 
   ---GIT---
   br = branch
@@ -30,4 +33,7 @@ echo "
   st = status
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 
+  ---RUBYMINE---
+  minecd
+  minedir path_to_folder
 "

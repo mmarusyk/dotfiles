@@ -36,3 +36,7 @@ alias be='bundle exec'
 # OH
 alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
 alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml stop'
+
+#Rubymine
+alias minecd='nohup mine . &'
+alias minedir=$SCRIPTS_PATH/minedir.sh

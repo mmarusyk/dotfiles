@@ -25,7 +25,13 @@ cd ~/.dotfiles
 3. Install plugins: ```~/.tmux/plugins/tpm/bin/install_plugins```
 4. User Middle Mouse Button to paste text into another app.
 
-### Installation VSCode
+### Installation RubyMine
+1. install rubymine: ```sudo snap install mine --classic```
+2. Tools -> Create command-line launcher -> OK
+3. Install Plugins:
+  3.1. VIM
+
+### Installation VSCode (unused)
 1. Istall vscode: ```sudo snap install code --classic```
 2. Install extensions:
    1. CTags Support
