@@ -12,14 +12,14 @@ echo "
   #Docker
   alias dce='docker-compose exec'
   alias dcu='docker-compose up -d'
-  alias dcd='docker-compose down'
+  alias dcs='docker-compose stop'
   alias dps='docker ps'
   alias dpsa='docker ps -a'
   # Rails
   alias be='bundle exec'
 
   # OH
-  alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
+  alias ohdcu='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
   alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml stop
 
   ---GIT---

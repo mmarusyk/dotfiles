@@ -24,8 +24,8 @@ alias fix_kb='sudo $SCRIPTS_PATH/fix_kb.sh'
 
 #Docker
 alias dce='docker-compose exec'
-alias dcu='docker-compose up -d'
-alias dcd='docker-compose down'
+alias dcu='docker-compose up'
+alias dcs='docker-compose stop'
 alias dps='docker ps'
 alias dpsa='docker ps -a'
 
@@ -34,7 +34,7 @@ alias be='bundle exec'
 
 
 # OH
-alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
+alias ohdcu='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
 alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml stop'
 
 #Rubymine
