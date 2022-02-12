@@ -24,8 +24,8 @@ echo "
 
   ---GIT---
   br = branch
-  bd = branch -D # Using: git bd PR-53
-  ci = commit -m # Using: git cm "Some message"
+  bd = branch -D
+  ci = commit
   cl = config --list
   cm = commit --amend --no-edit
   co = checkout

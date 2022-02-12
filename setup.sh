@@ -12,6 +12,7 @@ fi
 
 mkdir $backup_dir
 
+mv ~/.bashrc $backup_dir
 mv ~/.zshrc $backup_dir
 mv ~/.gitconfig $backup_dir
 mv ~/.gitignore $backup_dir
@@ -23,6 +24,7 @@ mv ~/.config/Code/User/settings.json $backup_dir/Code/User
 mv ~/.config/Code/User/keybindings.json $backup_dir/Code/User
 
 # Create symlinks
+ln -df $dotfiles_dir/bash/bashrc ~/.bashrc
 ln -df $dotfiles_dir/zsh/zshrc ~/.zshrc
 ln -df $dotfiles_dir/git/gitconfig ~/.gitconfig
 ln -df $dotfiles_dir/git/gitignore ~/.gitignore
