@@ -16,10 +16,8 @@ export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 
 SCRIPTS_PATH=$HOME/dotfiles/scripts
 
-# aliases
+# Aliases
 # Scripts
-alias load_tags=$SCRIPTS_PATH/load_tags.sh
-alias cata=$SCRIPTS_PATH/cat_aliases.sh
 alias fix_kb='sudo $SCRIPTS_PATH/fix_kb.sh'
 
 # Docker
@@ -29,7 +27,7 @@ alias dcs='docker-compose stop'
 alias dps='docker ps'
 alias dpsa='docker ps -a'
 
-# Rails
+# Bundle
 alias be='bundle exec'
 
 
@@ -40,6 +38,5 @@ alias ohdcp='docker-compose -f ../overhaul-backend-local/docker-compose.developm
 
 # Rubymine
 alias minecd='nohup mine . &'
-alias minedir=$SCRIPTS_PATH/minedir.sh
 
 # Private

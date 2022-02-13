@@ -65,7 +65,7 @@ nmap <C-t> :TagbarToggle<CR>
 map <Leader>.t :ta /^
 
 " NERDTree Plugin
-map <C-n> :NERDTreeToggle<CR>
+map <C-n :NERDTreeToggle<CR>
 
 let NERDTreeShowHidden=1
 
