@@ -128,6 +128,12 @@ fi
 ln -df vscode/settings.json $home_dir/.config/Code/User/settings.json
 
 # plugins
+echo "Install extensions for VSCode"
+code --install-extension vscodevim.vim
+code --install-extension sianglim.slim
+code --install-extension rebornix.Ruby
+code --install-extension wingrunr21.vscode-ruby
+
 
 # ================
 #      Ruby

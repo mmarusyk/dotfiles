@@ -3,7 +3,7 @@
   email = misha.marusyk@gmail.com
 [core]
   pager = less -F -X
-  excludesfile = $HOME/.gitignore
+  excludesFile = ~/.gitignore
 [alias]
   br = branch
   bd = branch -D
