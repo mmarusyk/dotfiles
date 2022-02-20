@@ -80,6 +80,17 @@ if [ ! -d $home_dir/.tmux/plugins/tpm ]; then
 fi
 $home_dir/.tmux/plugins/tpm/bin/install_plugins
 
+# ===============
+#   NERD FONT
+# ===============
+
+echo "Download and install fonts"
+mkdir -p $home_dir/.local/share/fonts
+wget -q https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/UbuntuMono.zip
+unzip -o UbuntuMono.zip -d $home_dir/.local/share/fonts >/dev/null 2>&1
+fc-cache -fv >/dev/null 2>&1
+rm -rf UbuntuMono.zip
+
 # ================
 #      NEOVIM
 # ================
