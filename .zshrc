@@ -37,6 +37,6 @@ alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.developm
 alias ohdcp='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml ps'
 
 # Rubymine
-alias minecd='nohup mine . &'
+alias minecd='nohup rubymine . &'
 
 # Private
