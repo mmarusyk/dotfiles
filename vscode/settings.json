@@ -15,5 +15,6 @@
         ".vimrc": "shellscript"
     },
     "json.maxItemsComputed": 10000,
-    "files.autoSave": "afterDelay"
+    "files.autoSave": "afterDelay",
+    "vim.useSystemClipboard": true
 }
