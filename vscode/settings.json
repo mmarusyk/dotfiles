@@ -16,5 +16,6 @@
     },
     "json.maxItemsComputed": 10000,
     "files.autoSave": "afterDelay",
-    "vim.useSystemClipboard": true
+    "vim.useSystemClipboard": true,
+    "editor.lineNumbers": "relative"
 }
