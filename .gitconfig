@@ -1,9 +1,10 @@
 [user]
-  name = Mykhailo Marusyk
   email = misha.marusyk@gmail.com
+  name = Mykhailo Marusyk
 [core]
-  pager = less -F -X
+  editor = nvim
   excludesFile = ~/.gitignore
+  pager = less -F -X
 [alias]
   br = branch
   bd = branch -D
@@ -11,6 +12,6 @@
   cl = config --list
   cm = commit --amend --no-edit
   co = checkout
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   last = log -1 HEAD --stat
   st = status
-  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
