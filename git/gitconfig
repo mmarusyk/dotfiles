@@ -1,6 +1,6 @@
 [user]
   email = misha.marusyk@gmail.com
-  name = Mykhailo Marusyk
+  name = Misha Marusyk
 [core]
   editor = nvim
   excludesFile = ~/.gitignore
