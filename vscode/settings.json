@@ -1,10 +1,6 @@
 {
-    "telemetry.enableCrashReporter": false,
-    "telemetry.enableTelemetry": false,
     "editor.wordWrap": "on",
     "editor.tabSize": 2,
-    "editor.fontSize": 14,
-    "editor.lineHeight": 18,
     "window.titleBarStyle": "custom",
     "files.insertFinalNewline": true,
     "workbench.editor.enablePreview": true,
@@ -17,5 +13,6 @@
     "json.maxItemsComputed": 10000,
     "files.autoSave": "afterDelay",
     "vim.useSystemClipboard": true,
-    "editor.lineNumbers": "relative"
+    "editor.lineNumbers": "relative",
+    "telemetry.telemetryLevel": "off"
 }

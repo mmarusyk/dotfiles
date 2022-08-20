@@ -14,6 +14,7 @@ CONFIGS=(
   "tmux"
   "asdf"
   "ruby"
+  "vscode"
 )
 
 # Create backup directory for storing old configs
@@ -24,3 +25,4 @@ for config in ${CONFIGS[@]}; do
 done
 
 printf "$GREEN\n\nDONE$NC\n\n"
+

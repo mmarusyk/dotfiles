@@ -29,3 +29,4 @@ if [ -f ~/.zshrc ]; then
   mv ~/.zshrc $BACKUP_DIR
 fi
 ln -sf $DIR/zshrc ~/.zshrc
+
