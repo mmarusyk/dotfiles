@@ -14,6 +14,7 @@ CONFIGS=(
   "tmux"
   "asdf"
   "ruby"
+  "nodejs"
   "vscode"
 )
 

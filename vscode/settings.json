@@ -14,5 +14,6 @@
     "files.autoSave": "afterDelay",
     "vim.useSystemClipboard": true,
     "editor.lineNumbers": "relative",
-    "telemetry.telemetryLevel": "off"
+    "telemetry.telemetryLevel": "off",
+    "workbench.iconTheme": "vscode-icons"
 }
