@@ -17,8 +17,13 @@ printf "$GREEN\nUpdating vscode config...$NC\n"
 if [ -f ~/.config/Code/User/settings.json ]; then
   mv ~/.config/Code/User/settings.json $BACKUP_DIR
 fi
-ln -df vscode/settings.json ~/.config/Code/User/settings.json
+ln -df $DIR/settings.json ~/.config/Code/User/settings.json
 
 printf "$GREEN\nInstalling vscode plugins...$NC\n"
 code --install-extension vscodevim.vim
 code --install-extension vscode-icons-team.vscode-icons
+code --install-extension aaron-bond.better-comments
+code --install-extension karunamurti.haml
+code --install-extension wingrunr21.vscode-ruby
+code --install-extension rebornix.ruby
+code --install-extension donjayamanne.githistory
