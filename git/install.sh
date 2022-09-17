@@ -3,6 +3,11 @@ NC='\033[0m'
 DIR=$(pwd)/git
 BACKUP_DIR=$1
 
+if [ -z "$1" ]; then
+  BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
+  mkdir $BACKUP_DIR -p
+fi
+
 if ! command -v git >/dev/null 2>&1; then
   printf "$GREEN\nInstalling git...$NC\n"
 	sudo apt-get install -yqq git

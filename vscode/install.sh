@@ -3,6 +3,11 @@ NC='\033[0m'
 DIR=$(pwd)/vscode
 BACKUP_DIR=$1
 
+if [ -z "$1" ]; then
+  BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
+  mkdir $BACKUP_DIR -p
+fi
+
 if ! command -v code >/dev/null 2>&1; then
   printf "$GREEN\nInstalling vscode...$NC\n"
   sudo snap install code --classic

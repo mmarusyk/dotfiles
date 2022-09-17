@@ -6,3 +6,8 @@
 ```
 git clone https://github.com/mmarusyk/dotfiles.git && cd dotfiles && ./install.sh
 ```
+
+If you want to run a specific script use the next command:
+```
+./path_to_install_script/install.sh
+```

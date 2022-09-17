@@ -6,7 +6,7 @@ NC='\033[0m'
 BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
 
 # Delete configs carefully!
-# Some config have dependencies and order matters.
+# Some configs have dependencies and order matters.
 CONFIGS=(
   "software"
   "git"
