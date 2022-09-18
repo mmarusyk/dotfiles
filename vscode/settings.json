@@ -15,12 +15,18 @@
     "[ruby]": {
         "editor.defaultFormatter": "rebornix.ruby"
     },
+    "ruby.lint": {
+        "rubocop": {
+            "command": "rubocop",
+            "useBundler": true,
+            "lint": true
+        }
+    },
+    "ruby.useLanguageServer": true,
     "telemetry.telemetryLevel": "off",
     "vim.useSystemClipboard": true,
     "vsicons.dontShowNewVersionMessage": true,
     "window.titleBarStyle": "custom",
     "workbench.editor.enablePreview": true,
-    "workbench.iconTheme": "vscode-icons",
-    "ruby.useLanguageServer": true,
-    "ruby.format": "rubocop"
+    "workbench.iconTheme": "vscode-icons"
 }
