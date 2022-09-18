@@ -8,7 +8,7 @@ ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="obraun-custom"
 
-plugins=(dotenv asdf)
+plugins=(dotenv asdf vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
