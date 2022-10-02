@@ -16,6 +16,7 @@ CONFIGS=(
   "ruby"
   "nodejs"
   "vscode"
+  "neovim"
 )
 
 # Create backup directory for storing old configs

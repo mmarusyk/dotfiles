@@ -14,7 +14,6 @@ Plug 'vim-airline/vim-airline'
 
 " Ruby on Rails plugins
 Plug 'tpope/vim-rails'
-Plug 'tpope/vim-rbenv'
 Plug 'vim-ruby/vim-ruby'
 call plug#end()
 
