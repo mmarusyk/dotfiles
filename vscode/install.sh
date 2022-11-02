@@ -31,4 +31,7 @@ code --install-extension aaron-bond.better-comments
 code --install-extension karunamurti.haml
 code --install-extension wingrunr21.vscode-ruby
 code --install-extension rebornix.ruby
-code --install-extension donjayamanne.githistory
+code --install-extension hridoy.rails-snippets
+code --install-extension esbenp.prettier-vscode
+code --install-extension castwide.solargraph
+code --install-extension miguel-savignano.ruby-symbols

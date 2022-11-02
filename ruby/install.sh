@@ -12,4 +12,5 @@ if ! command -v ruby >/dev/null 2>&1; then
   gem install bundler
   gem install rails
   gem install rubocop
+  gem install solargraph
 fi

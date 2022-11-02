@@ -19,11 +19,45 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 alias be='bundle exec'
 
 # OH
-alias ohdcu='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
-alias ohdcs='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml stop'
-alias ohdcp='docker-compose -f ../overhaul-backend-local/docker-compose.development.yml ps'
+alias ohdcu='docker compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
+alias ohdcs='docker compose -f ../overhaul-backend-local/docker-compose.development.yml stop'
+alias ohdcp='docker compose -f ../overhaul-backend-local/docker-compose.development.yml ps'
 
 # Rubymine
 alias minecd='nohup rubymine . &'
 
 # Private
+# login to aws and set KUBECONFIG
+saml_login ()
+{
+    export KUBECONFIG=~/Documents/kubeconfigs/oh-aws-us-east-1-app-$1.yaml;
+    kubectl config set-context --current --namespace="default" > /dev/null
+    if saml2aws login -a oh-aws-app-$1 --force; then
+        export AWS_PROFILE=oh-aws-app-$1;
+    fi
+}
+
+# get all pods
+cube_pods ()
+{
+    kubectl get pod -n backend
+}
+
+# exec into a pod
+enter_cube ()
+{
+    kubectl exec -it -n backend $1 -- bash
+}
+
+# set current namespace so you don't have to put "-n ..." everywhere
+nset ()
+{
+    kubectl config set-context --current --namespace="$@" > /dev/null;
+}
+
+kset ()
+{
+    unset AWS_SECRET_ACCESS_KEY
+    unset AWS_ACCESS_KEY_ID
+    export KUBECONFIG={{/path/to/home/folder}}/.kube/$@.yaml;
+}
