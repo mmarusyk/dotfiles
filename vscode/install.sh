@@ -35,3 +35,4 @@ code --install-extension hridoy.rails-snippets
 code --install-extension esbenp.prettier-vscode
 code --install-extension castwide.solargraph
 code --install-extension miguel-savignano.ruby-symbols
+code --install-extension donjayamanne.githistory

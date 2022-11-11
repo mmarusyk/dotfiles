@@ -1,32 +1,35 @@
 {
-    "editor.lineNumbers": "relative",
-    "editor.rulers": [
-        80
-    ],
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "editor.wordWrap": "on",
-    "files.associations": {
-        ".vimrc": "shellscript"
-    },
-    "files.autoSave": "afterDelay",
-    "files.insertFinalNewline": true,
-    "json.maxItemsComputed": 10000,
-    "[ruby]": {
-        "editor.defaultFormatter": "rebornix.ruby"
-    },
-    "ruby.lint": {
-        "rubocop": {
-            "command": "rubocop",
-            "useBundler": true,
-            "lint": true
-        }
-    },
-    "ruby.useLanguageServer": true,
-    "telemetry.telemetryLevel": "off",
-    "vim.useSystemClipboard": true,
-    "vsicons.dontShowNewVersionMessage": true,
-    "window.titleBarStyle": "custom",
-    "workbench.editor.enablePreview": true,
-    "workbench.iconTheme": "vscode-icons"
+  "editor.lineNumbers": "relative",
+  "editor.rulers": [80, 120],
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "files.associations": {
+    ".vimrc": "shellscript"
+  },
+  "files.autoSave": "afterDelay",
+  "files.insertFinalNewline": true,
+  "json.maxItemsComputed": 10000,
+  "[ruby]": {
+    "editor.defaultFormatter": "rebornix.ruby"
+  },
+  "ruby.lint": {
+    "rubocop": {
+      "command": "rubocop",
+      "useBundler": true,
+      "lint": true
+    }
+  },
+  "ruby.useLanguageServer": true,
+  "telemetry.telemetryLevel": "off",
+  "vim.useSystemClipboard": true,
+  "vsicons.dontShowNewVersionMessage": true,
+  "window.titleBarStyle": "custom",
+  "workbench.editor.enablePreview": true,
+  "workbench.iconTheme": "vscode-icons",
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.editorAssociations": {
+    "*.xls": "default"
+  },
+  "extensions.ignoreRecommendations": true
 }
