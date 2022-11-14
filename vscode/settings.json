@@ -23,6 +23,11 @@
   "ruby.useLanguageServer": true,
   "telemetry.telemetryLevel": "off",
   "vim.useSystemClipboard": true,
+  "vim.handleKeys": {
+    "<C-k>": false,
+    "<C-q>": false,
+    "<C-t>": false
+  },
   "vsicons.dontShowNewVersionMessage": true,
   "window.titleBarStyle": "custom",
   "workbench.editor.enablePreview": true,
@@ -31,5 +36,8 @@
   "workbench.editorAssociations": {
     "*.xls": "default"
   },
-  "extensions.ignoreRecommendations": true
+  "extensions.ignoreRecommendations": true,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
