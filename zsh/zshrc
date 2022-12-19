@@ -22,6 +22,7 @@ alias be='bundle exec'
 alias ohdcu='docker compose -f ../overhaul-backend-local/docker-compose.development.yml up -d'
 alias ohdcs='docker compose -f ../overhaul-backend-local/docker-compose.development.yml stop'
 alias ohdcp='docker compose -f ../overhaul-backend-local/docker-compose.development.yml ps'
+alias ohrmbr='git branch | grep "OK-" | xargs git branch -D'
 
 # Rubymine
 alias minecd='nohup rubymine . &'
