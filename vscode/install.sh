@@ -36,3 +36,4 @@ code --install-extension esbenp.prettier-vscode
 code --install-extension castwide.solargraph
 code --install-extension miguel-savignano.ruby-symbols
 code --install-extension donjayamanne.githistory
+code --install-extension eamodio.gitlens
