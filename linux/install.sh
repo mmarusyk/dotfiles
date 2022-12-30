@@ -6,6 +6,8 @@ BACKUP_DIR=$1
 
 printf "$GREEN\nSetting up resolution...$NC\n"
 
+cvt 2560 1440 40
+
 if [ -z "$1" ]; then
   BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
   mkdir $BACKUP_DIR -p
