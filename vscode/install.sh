@@ -28,7 +28,8 @@ printf "$GREEN\nInstalling vscode plugins...$NC\n"
 code --install-extension vscodevim.vim
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension aaron-bond.better-comments
-code --install-extension karunamurti.haml
+code --install-extension sianglim.slim
+code --install-extension bradlc.vscode-tailwindcss
 code --install-extension wingrunr21.vscode-ruby
 code --install-extension rebornix.ruby
 code --install-extension hridoy.rails-snippets

@@ -39,5 +39,6 @@
   "extensions.ignoreRecommendations": true,
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "tailwindCSS.emmetCompletions": true
 }
