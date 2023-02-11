@@ -1,6 +1,6 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
-RUBY_VERSION='3.1.2'
+RUBY_VERSION='3.2.1'
 
 if ! command -v ruby >/dev/null 2>&1; then
   printf "$GREEN\nInstalling Ruby $RUBY_VERSION...$NC\n"
