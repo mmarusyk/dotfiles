@@ -62,3 +62,8 @@ kset ()
     unset AWS_ACCESS_KEY_ID
     export KUBECONFIG={{/path/to/home/folder}}/.kube/$@.yaml;
 }
+
+rbc()
+{
+    bundle exec pronto run --commit origin/$1 --runner rubocop
+}
