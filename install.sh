@@ -9,7 +9,7 @@ BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
 # Some configs have dependencies and order matters.
 CONFIGS=(
   "software"
-  "linux"
+  # "linux" Not actual
   "git"
   "zsh"
   "tmux"
