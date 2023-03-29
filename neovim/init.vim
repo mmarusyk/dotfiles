@@ -39,7 +39,7 @@ let g:auto_save = 1                " Enable AutoSave on Vim startup
 let g:auto_save_silent = 1         " Do not display the auto-save notification
 let g:gitgutter_enabled = 1
 
-colorscheme onedark
+" colorscheme onedark
 
 nnoremap <C-t> :NERDTreeToggle<CR>
 nmap <F8> :TagbarToggle<CR>
