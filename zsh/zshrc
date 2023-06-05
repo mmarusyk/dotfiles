@@ -20,5 +20,7 @@ source $ZSH/oh-my-zsh.sh
 # vi-mode plugin
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
-# Bundle
+# Aliases
 alias be='bundle exec'
+
+alias rubsf='git diff --name-only --cached | xargs rubocop -A --config .rubocop.yml --force-exclusion {}'
