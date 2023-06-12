@@ -15,3 +15,5 @@
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   last = log -1 HEAD --stat
   st = status
+[color]
+  ui = auto
