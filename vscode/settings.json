@@ -40,5 +40,8 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "tailwindCSS.emmetCompletions": true
+  "tailwindCSS.emmetCompletions": true,
+  "editor.inlineSuggest.enabled": true,
+  "ruby.rubocop.executePath": "/home/${env:HOME}/.asdf/shims/",
+  "ruby.rubocop.configFilePath": "/.rubocop.yml"
 }

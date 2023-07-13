@@ -25,16 +25,18 @@ fi
 ln -df $DIR/settings.json ~/.config/Code/User/settings.json
 
 printf "$GREEN\nInstalling vscode plugins...$NC\n"
-code --install-extension vscodevim.vim
-code --install-extension vscode-icons-team.vscode-icons
 code --install-extension aaron-bond.better-comments
-code --install-extension sianglim.slim
+code --install-extension amazonwebservices.aws-toolkit-vscode
 code --install-extension bradlc.vscode-tailwindcss
-code --install-extension wingrunr21.vscode-ruby
-code --install-extension rebornix.ruby
-code --install-extension hridoy.rails-snippets
-code --install-extension esbenp.prettier-vscode
 code --install-extension castwide.solargraph
-code --install-extension miguel-savignano.ruby-symbols
 code --install-extension donjayamanne.githistory
 code --install-extension eamodio.gitlens
+code --install-extension esbenp.prettier-vscode
+code --install-extension hridoy.rails-snippets
+code --install-extension miguel-savignano.ruby-symbols
+code --install-extension misogi.ruby-rubocop
+code --install-extension rebornix.ruby
+code --install-extension sianglim.slim
+code --install-extension vscode-icons-team.vscode-icons
+code --install-extension vscodevim.vim
+code --install-extension wingrunr21.vscode-ruby
