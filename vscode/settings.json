@@ -1,7 +1,7 @@
 {
   "editor.lineNumbers": "relative",
   "editor.rulers": [80, 120],
-  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modifications",
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "files.associations": {
