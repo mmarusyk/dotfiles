@@ -1,6 +1,6 @@
 {
   "editor.lineNumbers": "relative",
-  "editor.rulers": [80, 120],
+  "editor.rulers": [80],
   "editor.formatOnSaveMode": "modifications",
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
