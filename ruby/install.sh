@@ -1,6 +1,6 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
-RUBY_VERSION='3.2.1'
+RUBY_VERSION='3.2.2'
 DIR=$(pwd)/ruby
 BACKUP_DIR=$1
 
