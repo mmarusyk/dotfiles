@@ -26,7 +26,8 @@
   "vim.handleKeys": {
     "<C-k>": false,
     "<C-q>": false,
-    "<C-t>": false
+    "<C-t>": false,
+    "<C-p>": false
   },
   "vsicons.dontShowNewVersionMessage": true,
   "window.titleBarStyle": "custom",
