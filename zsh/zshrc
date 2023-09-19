@@ -17,5 +17,9 @@ plugins=(dotenv asdf vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
+if [ -f ~/.aliases.zsh ]; then
+    source ~/.aliases.zsh
+fi
+
 # vi-mode plugin
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true

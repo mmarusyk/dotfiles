@@ -35,3 +35,9 @@ if [ -f ~/.zshrc ]; then
 fi
 ln -sf $DIR/zshrc ~/.zshrc
 
+printf "$GREEN\nUpdating zsh aliases...$NC\n"
+if [ -f ~/.aliases.zsh ]; then
+  mv ~/.aliases.zsh $BACKUP_DIR
+fi
+ln -sf $DIR/aliases.zsh ~/.aliases.zsh
+source ~/.aliases.zsh

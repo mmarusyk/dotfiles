@@ -1,0 +1,15 @@
+# Git Aliases
+
+alias gaa='git add --all'
+alias gst='git status'
+alias gb='git branch'
+alias gbd='git branch -d'
+alias gba='git branch -a'
+alias gcn!='git commit -v --no-edit --amend'
+alias gcam='git commit -a -m'
+alias grst='git restore --staged'
+alias ggp='git push origin $(git_current_branch)'
+alias ggf='git push --force origin $(git_current_branch)'
+alias gfo='git fetch origin'
+alias glast='git log -1 HEAD --stat'
+alias grs='git reset HEAD~1 --soft'
