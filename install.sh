@@ -9,7 +9,8 @@ BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
 # Some configs have dependencies and order matters.
 CONFIGS=(
   "software"
-  # "linux" Not actual
+  # "linux"
+  "docker"
   "git"
   "zsh"
   "tmux"
@@ -28,4 +29,3 @@ for config in ${CONFIGS[@]}; do
 done
 
 printf "$GREEN\n\nDONE$NC\n\n"
-

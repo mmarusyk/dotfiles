@@ -21,6 +21,7 @@ sudo apt-get install -yq zlib1g-dev \
   libcurl4-openssl-dev \
   software-properties-common \
   libffi-dev \
+  libpq-dev \
   xclip
 
 # git
