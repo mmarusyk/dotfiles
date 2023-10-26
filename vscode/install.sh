@@ -27,13 +27,7 @@ ln -df $DIR/settings.json ~/.config/Code/User/settings.json
 printf "$GREEN\nInstalling vscode plugins...$NC\n"
 code --install-extension aaron-bond.better-comments
 code --install-extension bradlc.vscode-tailwindcss
-code --install-extension castwide.solargraph
-code --install-extension donjayamanne.githistory
 code --install-extension eamodio.gitlens
-code --install-extension esbenp.prettier-vscode
-code --install-extension hridoy.rails-snippets
-code --install-extension misogi.ruby-rubocop
-code --install-extension miguel-savignano.ruby-symbols
 code --install-extension shopify.ruby-lsp
 code --install-extension sianglim.slim
 code --install-extension vscodevim.vim
