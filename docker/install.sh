@@ -44,5 +44,5 @@ sudo apt-get update
 sudo apt-get install docker-compose-plugin
 
 #
-#  Add: docker compose "$@" to: /bin/docker-compose (optional)
+#  Add: docker compose "$@" to: /bin/docker-compose (optional) with permission: chmod 755 /bin/docker-compose
 #

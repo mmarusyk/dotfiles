@@ -1,6 +1,6 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
-NODEJS_VERSION='18.17.1'
+NODEJS_VERSION='20.10.0'
 
 if ! command -v node >/dev/null 2>&1; then
   printf "$GREEN\nInstalling Node.js $NODEJS_VERSION...$NC\n"

@@ -16,8 +16,7 @@ fi
 printf "$GREEN\nInstalling Ruby Gems...$NC\n"
 gem install bundler
 gem install rails
-gem install rubocop
-gem install solargraph
+# gem install solargraph
 gem install awesome_print
 
 if [ -z "$1" ]; then

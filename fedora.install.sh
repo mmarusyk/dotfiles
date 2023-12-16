@@ -25,7 +25,13 @@ CONFIGS=(
 mkdir $BACKUP_DIR -p
 
 for config in ${CONFIGS[@]}; do
-  ./"$config/fedora.install.sh" $BACKUP_DIR
+  script_path="./$config/fedora.install.sh"
+
+  if [ -f "$script_path" ]; then
+    "$script_path" "$BACKUP_DIR"
+  else
+    "./$config/install.sh" "$BACKUP_DIR"
+  fi
 done
 
 printf "$GREEN\n\nDONE$NC\n\n"
