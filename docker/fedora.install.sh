@@ -25,7 +25,16 @@ sudo systemctl start docker
 # To test
 sudo docker run hello-world
 
-printf "$GREEN\nSetup managing docker as a non-root user...$NC\n"
+# Rootless: https://docs.docker.com/engine/security/rootless/
+# printf "$GREEN\nSetup managing docker as a non-root user...$NC\n"
+# sudo dnf install -yq iptables fuse-overlayfs
+# sudo systemctl disable --now docker.service docker.socket
+# dockerd-rootless-setuptool.sh install # As a non-root user
+# systemctl --user enable docker
+# sudo loginctl enable-linger $(whoami)
+
+# systemctl --user status docker
+
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
