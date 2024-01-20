@@ -28,7 +28,9 @@ sudo dnf install -yq git-core \
   postresql-devel \
   git \
   gcc-c++ \
-  curl
+  curl \
+  grim \
+  wl-clipboard
 
 ## tmux: xclip
 sudo dnf install -yq xclip
