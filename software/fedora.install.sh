@@ -30,7 +30,8 @@ sudo dnf install -yq git-core \
   gcc-c++ \
   curl \
   grim \
-  wl-clipboard
+  wl-clipboard \
+  sqlite-devel
 
 ## tmux: xclip
 sudo dnf install -yq xclip
