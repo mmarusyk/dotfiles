@@ -1,6 +1,6 @@
 {
   "editor.lineNumbers": "relative",
-  "editor.rulers": [80],
+  "editor.rulers": [120],
   "editor.formatOnSaveMode": "modifications",
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
@@ -23,7 +23,8 @@
   "workbench.iconTheme": "vscode-icons",
   "security.workspace.trust.untrustedFiles": "open",
   "workbench.editorAssociations": {
-    "*.xls": "default"
+    "*.xls": "default",
+    "*.xlsx": "default"
   },
   "extensions.ignoreRecommendations": true,
   "[json]": {
@@ -32,5 +33,19 @@
   "tailwindCSS.emmetCompletions": true,
   "editor.inlineSuggest.enabled": true,
   "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true
+  "files.trimFinalNewlines": true,
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "editor.rulers": [
+      120
+    ],
+    "editor.semanticHighlighting.enabled": true
+  }
 }

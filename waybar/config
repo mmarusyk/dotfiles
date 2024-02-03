@@ -36,6 +36,10 @@
             "unlocked": ""
         }
     },
+    "sway/language": {
+        "format": "{short} {variant}",
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+    },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -86,7 +90,29 @@
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d %H:%M}"
+        "format": "{:%Y-%m-%d %H:%M}",
+        "format-alt": "{:%Y-%m-%d %H:%M}",
+        "calendar": {
+            "mode"          : "year",
+            "mode-mon-col"  : 2,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "on-click-right": "mode",
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                }
+        },
+        "actions":  {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
     "cpu": {
         "format": "{usage}% ",
@@ -101,7 +127,7 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["❄️", "🌡️", "🔥"]
+        "format-icons": ["❄️", "❄️", "🌡️", "🔥"]
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -115,8 +141,8 @@
             "critical": 15
         },
         "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
+        "format-charging": "{capacity}% 🔋",
+        "format-plugged": "{capacity}% 🔌",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
@@ -166,4 +192,3 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     }
 }
-
