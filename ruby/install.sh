@@ -1,6 +1,6 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
-RUBY_VERSION='3.2.2'
+RUBY_VERSION='3.2.3'
 DIR=$(pwd)/ruby
 BACKUP_DIR=$1
 
@@ -16,7 +16,6 @@ fi
 printf "$GREEN\nInstalling Ruby Gems...$NC\n"
 gem install bundler
 gem install rails
-# gem install solargraph
 gem install awesome_print
 
 if [ -z "$1" ]; then

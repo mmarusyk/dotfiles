@@ -5,7 +5,7 @@ printf "$GREEN\nUpgrading Fedora Software...$NC\n"
 sudo dnf update -yq
 
 # Additional packages
-## ruby
+## Ruby
 printf "$GREEN\nInstalling additional packages...$NC\n"
 
 sudo dnf install -yq git-core \
@@ -25,7 +25,7 @@ sudo dnf install -yq git-core \
   perl-lib \
   perl-File-Compare \
   perl-IPC-Cmd \
-  postresql-devel \
+  postgresql-devel \
   git \
   gcc-c++ \
   curl \
@@ -33,5 +33,5 @@ sudo dnf install -yq git-core \
   wl-clipboard \
   sqlite-devel
 
-## tmux: xclip
+## Tmux
 sudo dnf install -yq xclip
