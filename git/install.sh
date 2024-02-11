@@ -10,7 +10,7 @@ fi
 
 if ! command -v git >/dev/null 2>&1; then
   printf "$GREEN\nInstalling git...$NC\n"
-	sudo apt-get install -yqq git
+	sudo dnf install -yq git
 fi
 
 printf "$GREEN\nUpdating gitconfig config...$NC\n"

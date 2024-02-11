@@ -10,7 +10,7 @@ fi
 
 if ! command -v zsh >/dev/null 2>&1; then
   printf "$GREEN\nInstalling zsh...$NC\n"
-	sudo apt-get install -yqq zsh
+  sudo dnf install -yq zsh
 fi
 
 if [ "$SHELL" != "/usr/bin/zsh" -a "$SHELL" != "/bin/zsh" ]; then
@@ -40,4 +40,3 @@ if [ -f ~/.aliases.zsh ]; then
   mv ~/.aliases.zsh $BACKUP_DIR
 fi
 ln -sf $DIR/aliases.zsh ~/.aliases.zsh
-source ~/.aliases.zsh

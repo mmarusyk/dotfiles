@@ -1,37 +1,37 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-printf "$GREEN\nUpgrading Ubuntu Software...$NC\n"
-sudo apt-get update -qq
-sudo apt-get upgrade -yq
+printf "$GREEN\nUpgrading Fedora Software...$NC\n"
+sudo dnf update -yq
 
 # Additional packages
-# ruby: most of them
-# tmux: xclip
+## Ruby
 printf "$GREEN\nInstalling additional packages...$NC\n"
-sudo apt-get install -yq zlib1g-dev \
-  build-essential \
-  libssl-dev \
-  libreadline-dev \
-  libyaml-dev \
-  libsqlite3-dev \
-  sqlite3 \
-  libxml2-dev \
-  libxslt1-dev \
-  libcurl4-openssl-dev \
-  software-properties-common \
-  libffi-dev \
-  libpq-dev \
-  xclip
 
-# git
-if ! command -v git >/dev/null 2>&1; then
-  printf "$GREEN\nInstalling git...$NC\n"
-	sudo apt-get install -yqq git
-fi
+sudo dnf install -yq git-core \
+  gcc \
+  rust \
+  patch \
+  make \
+  bzip2 \
+  openssl-devel \
+  libyaml-devel \
+  libffi-devel \
+  readline-devel \
+  zlib-devel \
+  gdbm-devel \
+  ncurses-devel \
+  perl-FindBin \
+  perl-lib \
+  perl-File-Compare \
+  perl-IPC-Cmd \
+  postgresql-devel \
+  git \
+  gcc-c++ \
+  curl \
+  grim \
+  wl-clipboard \
+  sqlite-devel
 
-# curl
-if ! command -v curl >/dev/null 2>&1; then
-  printf "$GREEN\nInstalling curl...$NC\n"
-	sudo apt-get install -yqq curl
-fi
+## Tmux
+sudo dnf install -yq xclip

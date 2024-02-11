@@ -1,6 +1,9 @@
 {
   "editor.lineNumbers": "relative",
-  "editor.rulers": [120],
+  "editor.rulers": [
+    120
+  ],
+  "editor.fontSize": 14,
   "editor.formatOnSaveMode": "modifications",
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
@@ -17,10 +20,8 @@
     "<C-t>": false,
     "<C-p>": false
   },
-  "vsicons.dontShowNewVersionMessage": true,
   "window.titleBarStyle": "custom",
   "workbench.editor.enablePreview": true,
-  "workbench.iconTheme": "vscode-icons",
   "security.workspace.trust.untrustedFiles": "open",
   "workbench.editorAssociations": {
     "*.xls": "default",
@@ -47,5 +48,8 @@
       120
     ],
     "editor.semanticHighlighting.enabled": true
-  }
+  },
+  "workbench.iconTheme": "vscode-icons",
+  "editor.fontFamily": "'Victor Mono', 'Droid Sans Mono', 'monospace', monospace",
+  "glassit.alpha": 240
 }
