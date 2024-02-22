@@ -33,5 +33,9 @@ sudo dnf install -yq git-core \
   wl-clipboard \
   sqlite-devel
 
+## nvim
+sudo dnf install -yq fzf \
+  ripgrep
+
 ## Tmux
 sudo dnf install -yq xclip

@@ -56,6 +56,7 @@ set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 nnoremap <Leader>ct :silent ! ctags -R --languages=ruby --exclude=.git --exclude=log -f .tags<CR>
 nnoremap <silent> <C-f> :Files<CR>
 nnoremap <silent> <Leader>f :Rg<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
 
 
 
