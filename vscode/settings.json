@@ -50,5 +50,9 @@
   },
   "workbench.iconTheme": "vscode-icons",
   "editor.fontFamily": "'Victor Mono', 'Droid Sans Mono', 'monospace', monospace",
-  "vscode-erb-beautify.keepBlankLines": 1
+  "vscode-erb-beautify.keepBlankLines": 1,
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "auto"
+  },
+  "rubyLsp.bundleGemfile": "/home/mike/Code/dotfiles/rshared/Gemfile"
 }
