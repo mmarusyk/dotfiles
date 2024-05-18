@@ -1,7 +1,7 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 DIR=$(pwd)/vscode
-CONFIG_DIR=~/.var/app/com.visualstudio.code/config/Code/User
+CONFIG_DIR=~/.config/Code/User
 BACKUP_DIR=$1
 
 if [ -z "$1" ]; then
@@ -9,9 +9,9 @@ if [ -z "$1" ]; then
   mkdir $BACKUP_DIR -p
 fi
 
-if ! command -v flatpak run com.visualstudio.code >/dev/null 2>&1; then
+if ! command -v code >/dev/null 2>&1; then
   printf "$GREEN\nInstalling vscode...$NC\n"
-  sudo flatpak install com.visualstudio.code
+  sudo snap install code --classic
 fi
 
 if [ ! -d $CONFIG_DIR ]; then
@@ -26,13 +26,12 @@ fi
 ln -sf $DIR/settings.json $CONFIG_DIR/settings.json
 
 printf "$GREEN\nInstalling vscode plugins...$NC\n"
-flatpak run com.visualstudio.code --install-extension aaron-bond.better-comments
-flatpak run com.visualstudio.code --install-extension aliariff.vscode-erb-beautify
-flatpak run com.visualstudio.code --install-extension eamodio.gitlens
-flatpak run com.visualstudio.code --install-extension github.copilot
-flatpak run com.visualstudio.code --install-extension github.copilot-chat
-flatpak run com.visualstudio.code --install-extension ms-vscode.vscode-speech
-flatpak run com.visualstudio.code --install-extension shopify.ruby-extensions-pack
-flatpak run com.visualstudio.code --install-extension s-nlf-fh.glassit
-flatpak run com.visualstudio.code --install-extension vscodevim.vim
-flatpak run com.visualstudio.code --install-extension vscode-icons-team.vscode-icons
+code --install-extension aaron-bond.better-comments
+code --install-extension aliariff.vscode-erb-beautify
+code --install-extension eamodio.gitlens
+code --install-extension github.copilot
+code --install-extension github.copilot-chat
+code --install-extension ms-vscode.vscode-speech
+code --install-extension shopify.ruby-extensions-pack
+code --install-extension vscodevim.vim
+code --install-extension vscode-icons-team.vscode-icons

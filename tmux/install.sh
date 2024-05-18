@@ -10,7 +10,7 @@ fi
 
 if ! command -v tmux >/dev/null 2>&1; then
   printf "$GREEN\nInstalling tmux...$NC\n"
-  sudo dnf -yq install tmux
+  sudo apt -yq install tmux
 fi
 
 

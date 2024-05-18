@@ -10,7 +10,7 @@ fi
 
 if ! command -v zsh >/dev/null 2>&1; then
   printf "$GREEN\nInstalling zsh...$NC\n"
-  sudo dnf install -yq zsh
+  sudo apt install -yq zsh
 fi
 
 if [ "$SHELL" != "/usr/bin/zsh" -a "$SHELL" != "/bin/zsh" ]; then

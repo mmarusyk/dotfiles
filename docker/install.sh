@@ -9,23 +9,33 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+printf "$GREEN\nInstalling Docker Engine...$NC\n"
+
 if command -v docker &> /dev/null; then
   printf "$YELLOW\nDocker is already installed.$NC\n"
 else
-  printf "$GREEN\nInstalling the dnf-plugins-core package and set up the repository...$NC\n"
+  printf "$GREEN\nAdding Docker's official GPG key...$NC\n"
+  sudo apt-get update
+  sudo apt-get install ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-  sudo dnf -yq install dnf-plugins-core
-  sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  # Add the repository to Apt sources:
+  printf "$GREEN\nAdding the repository to Apt sources...$NC\n"
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
 
-  printf "$GREEN\nInstalling Docker...$NC\n"
-
-  # Install Docker Engine
-  sudo dnf -yq install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  printf "$GREEN\nInstalling the Docker latest version...$NC\n"
+  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   # Start Docker
   sudo systemctl start docker
 
-  # To test
+  # To Test
   sudo docker run hello-world
 
   # Manage Docker as a non-root user
@@ -39,11 +49,11 @@ if command -v docker-compose &> /dev/null; then
   printf  "$YELLOW\nDocker Compose is already installed.$NC\n"
 else
   printf "$GREEN\nInstalling Docker Compose...$NC\n"
-  sudo yum -y update
-  sudo yum -y install docker-compose-plugin
+  sudo apt-get update
+  sudo apt-get install docker-compose-plugin
   docker compose version
 
-  printf "$GREEN\nAdd docker compose "$@" to /bin/docker-compose...$NC\n"
+  printf "$GREEN\nAdding docker compose to /bin/docker-compose...$NC\n"
   echo 'docker compose "$@"' | sudo tee -a /bin/docker-compose > /dev/null
   sudo chmod 755 /bin/docker-compose
 fi

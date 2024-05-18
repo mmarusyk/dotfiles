@@ -1,54 +1,39 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-printf "$GREEN\nUpgrading Fedora Software...$NC\n"
-sudo dnf update -yq
+printf "$GREEN\nUpgrading Ubuntu Software...$NC\n"
+sudo apt update -yq
+sudo apt upgrade -yq
 
 # Additional packages
 ## Ruby
 printf "$GREEN\nInstalling additional packages...$NC\n"
 
-sudo dnf install -yq git-core \
-  gcc \
-  rust \
-  patch \
-  make \
-  bzip2 \
-  openssl-devel \
-  libyaml-devel \
-  libffi-devel \
-  readline-devel \
-  zlib-devel \
-  gdbm-devel \
-  ncurses-devel \
-  perl-FindBin \
-  perl-lib \
-  perl-File-Compare \
-  perl-IPC-Cmd \
-  postgresql-devel \
-  git \
-  gcc-c++ \
-  curl \
-  grim \
-  wl-clipboard \
-  sqlite-devel
+sudo apt install -yq curl \
+  git-core \
+  zlib1g-dev \
+  build-essential \
+  libssl-dev \
+  libreadline-dev \
+  libyaml-dev \
+  libsqlite3-dev \
+  sqlite3 \
+  libxml2-dev \
+  libxslt1-dev \
+  libcurl4-openssl-dev \
+  software-properties-common \
+  libffi-dev \
+  libpq-dev
 
 ## Nvim
-sudo dnf install -yq fzf \
+sudo apt install -yq fzf \
   ripgrep
 
 ## Tmux
-sudo dnf install -yq xclip
+sudo apt install -yq xclip
 
 ## Other
-sudo dnf install -yq vlc \
-  gimp
-
-## Skype
-sudo flatpak install -y com.skype.Client
-
-## Postman
-sudo flatpak install -y com.getpostman.Postman
-
-## Chrome
-sudo flatpak install -y com.google.Chrome
+sudo snap install -yq vlc \
+  gimp \
+  skype \
+  postman

@@ -50,6 +50,5 @@
   },
   "workbench.iconTheme": "vscode-icons",
   "editor.fontFamily": "'Victor Mono', 'Droid Sans Mono', 'monospace', monospace",
-  "glassit.alpha": 220,
   "vscode-erb-beautify.keepBlankLines": 1
 }

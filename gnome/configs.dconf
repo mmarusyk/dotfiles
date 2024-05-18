@@ -1,80 +1,70 @@
-[desktop/calendar]
-show-weekdate=true
+[desktop/input-sources]
+mru-sources=[('xkb', 'us'), ('xkb', 'ua')]
+per-window=true
+sources=[('xkb', 'us'), ('xkb', 'ua')]
+xkb-options=@as []
 
 [desktop/interface]
 color-scheme='prefer-dark'
+gtk-theme='Yaru-dark'
+icon-theme='Yaru'
 show-battery-percentage=true
-toolkit-accessibility=false
+
+[desktop/session]
+idle-delay=uint32 0
 
 [desktop/wm/keybindings]
-minimize=['<Super>m']
+minimize=@as []
 move-to-monitor-down=['<Shift><Super>j']
+move-to-monitor-left=['<Shift><Super>h']
+move-to-monitor-right=['<Shift><Super>l']
 move-to-monitor-up=['<Shift><Super>k']
-move-to-workspace-left=['<Shift><Alt>h']
-move-to-workspace-right=['<Shift><Alt>l']
-switch-to-workspace-left=['<Alt>h']
-switch-to-workspace-right=['<Alt>l']
-switch-windows=['<Super>l']
-switch-windows-backward=['<Super>h']
+switch-to-workspace-left=@as []
+switch-to-workspace-right=@as []
+switch-windows=['<Super>k']
+switch-windows-backward=['<Super>j']
 toggle-maximized=['<Super>f']
+
+[evolution-data-server]
+migrated=true
+
+[gnome-system-monitor]
+show-dependencies=false
+show-whose-processes='user'
+
+[gnome-system-monitor/disktreenew]
+col-6-visible=true
+col-6-width=0
+columns-order=[6]
+sort-col=1
+sort-order=0
+
+[mutter]
+edge-tiling=false
+
+[mutter/keybindings]
+toggle-tiled-left=['<Super>h']
+toggle-tiled-right=['<Super>l']
+
+[settings-daemon/plugins/media-keys]
+custom-keybindings=@as []
+screensaver=['<Control><Alt>l']
+terminal=['<Super>Return']
 
 [settings-daemon/plugins/power]
 idle-dim=false
-power-saver-profile-on-low-battery=false
 sleep-inactive-ac-timeout=7200
 sleep-inactive-ac-type='nothing'
-sleep-inactive-battery-timeout=1800
-sleep-inactive-battery-type='suspend'
+sleep-inactive-battery-timeout=3600
 
-[mutter/keybindings]
-toggle-tiled-left=['<Shift><Super>h']
-toggle-tiled-right=['<Shift><Super>l']
+[shell/extensions/dash-to-dock]
+dock-fixed=false
+dock-position='BOTTOM'
+extend-height=false
 
-[settings-daemon/plugins/media-keys]
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']
-screensaver=['<Super>c']
+[shell/extensions/ding]
+check-x11wayland=true
+show-home=false
 
-[settings-daemon/plugins/media-keys/custom-keybindings/custom0]
-binding='<Super>Return'
-command='gnome-terminal'
-name='Open Terminal'
-
-[settings-daemon/plugins/media-keys/custom-keybindings/custom1]
-binding='<Super>h'
-command='switch-windows-backward'
-name='Switch Windows Backward'
-
-[shell/app-switcher]
-current-workspace-only=true
-
-[shell/extensions/unite]
-enable-titlebar-actions=false
-extend-left-box=false
-greyscale-tray-icons=false
-hide-activities-button='always'
-hide-app-menu-icon=true
-hide-window-titlebars='both'
-notifications-position='center'
-reduce-panel-spacing=true
-restrict-to-primary-screen=false
-show-appmenu-button=false
-show-desktop-name=false
-show-legacy-tray=true
-show-window-buttons='never'
-show-window-title='never'
-use-activities-text=false
-window-buttons-placement='auto'
-window-buttons-theme='auto'
-
-[terminal/legacy/keybindings]
-toggle-menubar='<Control><Shift>M'
-
-[terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
-audible-bell=false
-background-transparency-percent=6
-font='Victor Mono 10'
-scroll-on-keystroke=true
-scrollbar-policy='never'
-use-system-font=false
-use-theme-colors=true
-use-transparent-background=true
+[shell/world-clocks]
+locations=@av []

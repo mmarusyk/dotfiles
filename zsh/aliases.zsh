@@ -36,6 +36,3 @@ alias gco='git checkout'
 alias gcm='git checkout main'
 alias gcma='git checkout master'
 alias gcd='git checkout develop'
-
-# Flatpak Aliases
-alias code="flatpak run com.visualstudio.code"

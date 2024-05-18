@@ -11,6 +11,6 @@ fi
 
 dconf dump /org/gnome/ > $BACKUP_DIR/configs.dconf
 
-dconf load /org/gnome/ < $DIR/configs.dconf
+# dconf load /org/gnome/ < $DIR/configs.dconf
 
 printf "$GREEN\nGnome config has been imported.$NC\n"

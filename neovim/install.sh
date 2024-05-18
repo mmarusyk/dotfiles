@@ -11,7 +11,7 @@ fi
 
 if ! command -v nvim >/dev/null 2>&1; then
   printf "$GREEN\nInstalling neovim...$NC\n"
-  sudo dnf install -yq neovim python3-neovim
+  sudo apt install -yq neovim
 
   printf "$GREEN\nInstalling plugin manager...$NC"
   sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
