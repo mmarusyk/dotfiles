@@ -9,7 +9,7 @@ BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
 # Some configs have dependencies and order matters.
 CONFIGS=(
   "software"
-  # "linux"
+  "fonts"
   "gnome"
   "docker"
   "git"
@@ -26,7 +26,7 @@ CONFIGS=(
 mkdir $BACKUP_DIR -p
 
 for config in ${CONFIGS[@]}; do
-  script_path="./$config/fedora.install.sh"
+  script_path="./$config/install.sh"
 
   if [ -f "$script_path" ]; then
     "$script_path" "$BACKUP_DIR"

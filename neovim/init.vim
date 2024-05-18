@@ -1,62 +1,30 @@
 call plug#begin('~/.config/nvim/plugged')
-Plug '907th/vim-auto-save'         " Functionality of automatically saving changed files
-Plug 'airblade/vim-gitgutter'      " Shows a git diff in the sign column
-Plug 'ap/vim-css-color'
-Plug 'joshdick/onedark.vim'
-
-" Search plugin
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'preservim/nerdtree'
-Plug 'preservim/tagbar'            " Plugin that provides viewing the tags of the current file
-Plug 'ryanoasis/vim-devicons'      " Icons for NerdTree Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'          " Parentheses, brackets, quotes, XML tags, and more
-Plug 'vim-airline/vim-airline'
-
-" Ruby on Rails plugins
-Plug 'tpope/vim-rails'
-Plug 'vim-ruby/vim-ruby'
+  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 syntax on
-set encoding=utf-8                  " The encoding displayed
-set mouse=a
-set nobackup
-set noswapfile
-set number
-set relativenumber                 " Each line in your file is numbered relative to the cursor’s position
-set colorcolumn=120
+set encoding=utf-8                                " Set the character encoding to UTF-8 for proper handling of Unicode characters
+set mouse=a                                       " Enable mouse support in all modes (normal, insert, visual)
+set nobackup                                      " Disable the creation of backup files (files ending with ~)
+set noswapfile                                    " Disable the creation of swap files for buffer recovery
+set number                                        " Display line numbers on the left side of the window
+set relativenumber                                " Display line numbers relative to the current cursor position
+set colorcolumn=120                               " Highlight the column at character position 120 for better code readability
+set hidden                                        " Buffer switching without saving changes
+set nocp                                          " Disable compatibility mode (vi compatibility)
+set hlsearch                                      " Highlight searching
 
-" Spaces & Tabs
-set autoindent
-set copyindent                     " copy indent from the previous line
-set expandtab                      " tabs are space
-set shiftwidth=2                   " number of spaces to use for autoindent
-set smarttab
-set softtabstop=2                  " number of spaces in tab when editing
-set tabstop=2                      " number of visual spaces per TAB
+set grepprg=rg\ --vimgrep\ --smart-case\ --follow " When you run :grep, you will use this command
 
-" let g:auto_save = 1                " Enable AutoSave on Vim startup
-" let g:auto_save_silent = 1         " Do not display the auto-save notification
-let g:gitgutter_enabled = 1
+filetype plugin on                                " Enable filetype detection and plugins
 
-" colorscheme onedark
-
-nnoremap <C-t> :NERDTreeToggle<CR>
-nmap <F8> :TagbarToggle<CR>
-
-let NERDTreeShowHidden=1
-
-set tags+=.tags
-set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-
-nnoremap <Leader>ct :silent ! ctags -R --languages=ruby --exclude=.git --exclude=log -f .tags<CR>
+" Silent file search and text search
 nnoremap <silent> <C-f> :Files<CR>
 nnoremap <silent> <Leader>f :Rg<CR>
-nnoremap <silent> <Leader>b :Buffers<CR>
 
-
-
+" Disable arrow navigation
+nnoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+nnoremap <Right> <NOP>

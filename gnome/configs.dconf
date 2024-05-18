@@ -1,6 +1,11 @@
 [desktop/calendar]
 show-weekdate=true
 
+[desktop/interface]
+color-scheme='prefer-dark'
+show-battery-percentage=true
+toolkit-accessibility=false
+
 [desktop/wm/keybindings]
 minimize=['<Super>m']
 move-to-monitor-down=['<Shift><Super>j']
@@ -12,6 +17,14 @@ switch-to-workspace-right=['<Alt>l']
 switch-windows=['<Super>l']
 switch-windows-backward=['<Super>h']
 toggle-maximized=['<Super>f']
+
+[settings-daemon/plugins/power]
+idle-dim=false
+power-saver-profile-on-low-battery=false
+sleep-inactive-ac-timeout=7200
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-timeout=1800
+sleep-inactive-battery-type='suspend'
 
 [mutter/keybindings]
 toggle-tiled-left=['<Shift><Super>h']
@@ -30,11 +43,6 @@ name='Open Terminal'
 binding='<Super>h'
 command='switch-windows-backward'
 name='Switch Windows Backward'
-
-[settings-daemon/plugins/power]
-idle-dim=false
-sleep-inactive-ac-type='nothing'
-sleep-inactive-battery-timeout=1800
 
 [shell/app-switcher]
 current-workspace-only=true

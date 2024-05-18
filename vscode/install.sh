@@ -1,6 +1,7 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 DIR=$(pwd)/vscode
+CONFIG_DIR=~/.var/app/com.visualstudio.code/config/Code/User
 BACKUP_DIR=$1
 
 if [ -z "$1" ]; then
@@ -8,28 +9,30 @@ if [ -z "$1" ]; then
   mkdir $BACKUP_DIR -p
 fi
 
-if ! command -v code >/dev/null 2>&1; then
+if ! command -v flatpak run com.visualstudio.code >/dev/null 2>&1; then
   printf "$GREEN\nInstalling vscode...$NC\n"
-  sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-  sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
-  dnf check-update
-  sudo dnf install code
+  sudo flatpak install com.visualstudio.code
 fi
 
-if [ ! -d ~/.config/Code/User ]; then
+if [ ! -d $CONFIG_DIR ]; then
   printf "$GREEN\nCreating config folder for vscode...$NC\n"
-  mkdir -p ~/.config/Code/User
+  mkdir -p $CONFIG_DIR
 fi
 
 printf "$GREEN\nUpdating vscode config...$NC\n"
-if [ -f ~/.config/Code/User/settings.json ]; then
-  mv ~/.config/Code/User/settings.json $BACKUP_DIR
+if [ -f $CONFIG_DIR/settings.json ]; then
+  mv $CONFIG_DIR/settings.json $BACKUP_DIR
 fi
-ln -df $DIR/settings.json ~/.config/Code/User/settings.json
+ln -sf $DIR/settings.json $CONFIG_DIR/settings.json
 
 printf "$GREEN\nInstalling vscode plugins...$NC\n"
-code --install-extension aaron-bond.better-comments
-code --install-extension eamodio.gitlens
-code --install-extension shopify.ruby-extensions-pack
-code --install-extension vscodevim.vim
-code --install-extension vscode-icons-team.vscode-icons
+flatpak run com.visualstudio.code --install-extension aaron-bond.better-comments
+flatpak run com.visualstudio.code --install-extension aliariff.vscode-erb-beautify
+flatpak run com.visualstudio.code --install-extension eamodio.gitlens
+flatpak run com.visualstudio.code --install-extension github.copilot
+flatpak run com.visualstudio.code --install-extension github.copilot-chat
+flatpak run com.visualstudio.code --install-extension ms-vscode.vscode-speech
+flatpak run com.visualstudio.code --install-extension shopify.ruby-extensions-pack
+flatpak run com.visualstudio.code --install-extension s-nlf-fh.glassit
+flatpak run com.visualstudio.code --install-extension vscodevim.vim
+flatpak run com.visualstudio.code --install-extension vscode-icons-team.vscode-icons

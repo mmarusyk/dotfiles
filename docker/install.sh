@@ -47,4 +47,3 @@ else
   echo 'docker compose "$@"' | sudo tee -a /bin/docker-compose > /dev/null
   sudo chmod 755 /bin/docker-compose
 fi
-

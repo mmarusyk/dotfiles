@@ -4,7 +4,7 @@
     120
   ],
   "editor.fontSize": 14,
-  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSaveMode": "file",
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "files.associations": {
@@ -31,7 +31,6 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "tailwindCSS.emmetCompletions": true,
   "editor.inlineSuggest.enabled": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -51,5 +50,6 @@
   },
   "workbench.iconTheme": "vscode-icons",
   "editor.fontFamily": "'Victor Mono', 'Droid Sans Mono', 'monospace', monospace",
-  "glassit.alpha": 240
+  "glassit.alpha": 220,
+  "vscode-erb-beautify.keepBlankLines": 1
 }

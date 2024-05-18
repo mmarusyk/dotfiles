@@ -33,9 +33,22 @@ sudo dnf install -yq git-core \
   wl-clipboard \
   sqlite-devel
 
-## nvim
+## Nvim
 sudo dnf install -yq fzf \
   ripgrep
 
 ## Tmux
 sudo dnf install -yq xclip
+
+## Other
+sudo dnf install -yq vlc \
+  gimp
+
+## Skype
+sudo flatpak install -y com.skype.Client
+
+## Postman
+sudo flatpak install -y com.getpostman.Postman
+
+## Chrome
+sudo flatpak install -y com.google.Chrome
