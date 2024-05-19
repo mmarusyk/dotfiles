@@ -32,8 +32,12 @@ sudo apt install -yq fzf \
 ## Tmux
 sudo apt install -yq xclip
 
+## Obsidian
+sudo snap install -yq obsidian --classic
+
 ## Other
 sudo snap install -yq vlc \
   gimp \
   skype \
   postman
+
