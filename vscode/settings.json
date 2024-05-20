@@ -10,7 +10,6 @@
   "files.associations": {
     ".vimrc": "shellscript"
   },
-  "files.autoSave": "afterDelay",
   "json.maxItemsComputed": 10000,
   "telemetry.telemetryLevel": "off",
   "vim.useSystemClipboard": true,
@@ -54,5 +53,6 @@
   "rubyLsp.rubyVersionManager": {
     "identifier": "auto"
   },
+  "files.autoSave": "afterDelay",
   "rubyLsp.bundleGemfile": "/home/mike/Code/dotfiles/rshared/Gemfile"
 }
