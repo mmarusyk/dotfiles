@@ -36,3 +36,6 @@ alias gco='git checkout'
 alias gcm='git checkout main'
 alias gcma='git checkout master'
 alias gcd='git checkout develop'
+
+# Script Aliases
+alias stopconts='$DOTFILES_DIR/scripts/stop_docker_containers.sh'
