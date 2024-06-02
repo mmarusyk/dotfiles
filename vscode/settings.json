@@ -31,7 +31,6 @@
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   "editor.inlineSuggest.enabled": true,
-  "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "[ruby]": {
     "editor.defaultFormatter": "Shopify.ruby-lsp",
@@ -54,5 +53,6 @@
     "identifier": "auto"
   },
   "files.autoSave": "afterDelay",
-  "rubyLsp.bundleGemfile": "/home/mike/Code/dotfiles/rshared/Gemfile"
+  "rubyLsp.bundleGemfile": "/home/mike/Code/dotfiles/rshared/Gemfile",
+  "github.copilot.editor.enableAutoCompletions": true
 }
