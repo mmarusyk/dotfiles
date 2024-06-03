@@ -5,6 +5,7 @@
   ],
   "editor.fontSize": 14,
   "editor.formatOnSaveMode": "file",
+  "editor.lineHeight": 17,
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "files.associations": {

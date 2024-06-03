@@ -25,6 +25,14 @@ sudo apt install -yq curl \
   libffi-dev \
   libpq-dev
 
+sudo apt install -yq gnome-shell-pomodoro
+
+## TLP
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt update -yq
+
+sudo apt install -yq tlp tlp-rdw
+
 ## Nvim
 sudo apt install -yq fzf \
   ripgrep
@@ -33,11 +41,10 @@ sudo apt install -yq fzf \
 sudo apt install -yq xclip
 
 ## Obsidian
-sudo snap install -yq obsidian --classic
+sudo snap install obsidian --classic
 
 ## Other
-sudo snap install -yq vlc \
+sudo snap install vlc \
   gimp \
   skype \
   postman
-

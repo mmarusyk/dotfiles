@@ -57,3 +57,9 @@ else
   echo 'docker compose "$@"' | sudo tee -a /bin/docker-compose > /dev/null
   sudo chmod 755 /bin/docker-compose
 fi
+
+printf "Disable docker by default"
+sudo systemctl disable docker.service
+sudo systemctl disable docker.socket
+
+systemctl list-unit-files | grep -i docker
