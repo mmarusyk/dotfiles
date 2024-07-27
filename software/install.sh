@@ -25,7 +25,7 @@ sudo apt install -yq curl \
   libffi-dev \
   libpq-dev
 
-sudo apt install -yq gnome-shell-pomodoro
+sudo apt install -yq libreoffice
 
 ## TLP
 sudo add-apt-repository ppa:linrunner/tlp

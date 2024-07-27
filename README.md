@@ -16,6 +16,9 @@ If you want to run a specific script use the next command:
 
 ## Shortcuts
 
+### Git
+[Oh-My-Zsh Git Plugin](https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh)
+
 ### Launchers
 | Shortcut                     | Default | Path Gnomef     | Description                                        |
 |------------------------------|---------|----------------|----------------------------------------------------|
