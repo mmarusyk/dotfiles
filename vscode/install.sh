@@ -28,10 +28,6 @@ ln -sf $DIR/settings.json $CONFIG_DIR/settings.json
 printf "$GREEN\nInstalling vscode plugins...$NC\n"
 code --install-extension aaron-bond.better-comments
 code --install-extension aliariff.vscode-erb-beautify
-code --install-extension eamodio.gitlens
-code --install-extension github.copilot
-code --install-extension github.copilot-chat
-code --install-extension ms-vscode.vscode-speech
 code --install-extension shopify.ruby-extensions-pack
 code --install-extension vscodevim.vim
 code --install-extension vscode-icons-team.vscode-icons

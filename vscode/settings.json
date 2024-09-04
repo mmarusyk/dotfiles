@@ -48,12 +48,11 @@
     "editor.semanticHighlighting.enabled": true
   },
   "workbench.iconTheme": "vscode-icons",
-  "editor.fontFamily": "'Victor Mono', 'Droid Sans Mono', 'monospace', monospace",
+  "editor.fontFamily": "'Iosevka', 'Droid Sans Mono', 'monospace', monospace",
   "vscode-erb-beautify.keepBlankLines": 1,
   "rubyLsp.rubyVersionManager": {
     "identifier": "auto"
   },
   "files.autoSave": "afterDelay",
-  "rubyLsp.bundleGemfile": "/home/mike/Code/dotfiles/rshared/Gemfile",
-  "github.copilot.editor.enableAutoCompletions": true
+  "aws.telemetry": false
 }

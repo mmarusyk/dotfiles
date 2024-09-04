@@ -2,7 +2,7 @@
   email = misha.marusyk@gmail.com
   name = Michael Marusyk
 [core]
-  editor = nvim
+  editor = code --wait
   excludesFile = ~/.gitignore
   pager = less -F -X
 [color]
