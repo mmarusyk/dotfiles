@@ -8,6 +8,7 @@ BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
 # Delete configs carefully!
 # Some configs have dependencies and order matters.
 CONFIGS=(
+  "alacritty"
   "software"
   "gnome"
   "fonts"

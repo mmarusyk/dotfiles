@@ -3,9 +3,9 @@
   "editor.rulers": [
     120
   ],
-  "editor.fontSize": 14,
+  "editor.fontSize": 16,
   "editor.formatOnSaveMode": "file",
-  "editor.lineHeight": 17,
+  "editor.lineHeight": 20,
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "files.associations": {
