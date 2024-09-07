@@ -8,10 +8,10 @@
 git clone https://github.com/mmarusyk/dotfiles.git && cd dotfiles && ./install.sh
 ```
 
-If you want to run a specific script use the next command:
+If you want to run a specific script or scripts use the next command:
 
 ```bash
-./path_to_install_script/install.sh
+./install.sh git asdf ruby erlang elixir
 ```
 
 ## Using Ubuntu Work Configurations
