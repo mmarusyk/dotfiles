@@ -4,15 +4,36 @@
 
 **Warning:** If you want use this dotfiles, you should first review the code and remove things that you don't want have.
 
-```
+```bash
 git clone https://github.com/mmarusyk/dotfiles.git && cd dotfiles && ./install.sh
 ```
 
 If you want to run a specific script use the next command:
 
-```
+```bash
 ./path_to_install_script/install.sh
 ```
+
+## Using Ubuntu Work Configurations
+List Available Tags: To see which tags are available, use:
+
+```bash
+git tag
+```
+
+Checkout a Specific Tag: To switch to a tag that corresponds to Ubuntu configurations, use:
+
+```bash
+git checkout <tag_name>
+```
+
+Replace <tag_name> with the appropriate tag for Ubuntu configurations:
+
+```bash
+git checkout ubuntu-config
+```
+
+Run the installation script as usual.
 
 ## Shortcuts
 

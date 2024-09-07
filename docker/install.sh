@@ -1,8 +1,8 @@
 #! /bin/bash
 
 #
-# More info about docker: https://docs.docker.com/engine/install/ubuntu/
-# About docker compose: 
+# More info about docker: https://wiki.archlinux.org/title/Docker
+# About docker compose: https://docs.docker.com/compose/
 #
 
 GREEN='\033[0;32m'
@@ -14,26 +14,16 @@ printf "$GREEN\nInstalling Docker Engine...$NC\n"
 if command -v docker &> /dev/null; then
   printf "$YELLOW\nDocker is already installed.$NC\n"
 else
-  printf "$GREEN\nAdding Docker's official GPG key...$NC\n"
-  sudo apt-get update
-  sudo apt-get install ca-certificates curl
-  sudo install -m 0755 -d /etc/apt/keyrings
-  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-  sudo chmod a+r /etc/apt/keyrings/docker.asc
+  # Update the system
+  sudo pacman -Syu --noconfirm
 
-  # Add the repository to Apt sources:
-  printf "$GREEN\nAdding the repository to Apt sources...$NC\n"
-  echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update
+  # Install Docker
+  printf "$GREEN\nInstalling Docker...$NC\n"
+  sudo pacman -S --noconfirm docker
 
-  printf "$GREEN\nInstalling the Docker latest version...$NC\n"
-  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-  # Start Docker
+  # Start Docker service
   sudo systemctl start docker
+  sudo systemctl enable docker
 
   # To Test
   sudo docker run hello-world
@@ -42,24 +32,24 @@ else
   sudo groupadd docker
   sudo usermod -aG docker $USER
 
-  printf "$GREEN\nPlease log out and log back to manage docker as a non-root user!$NC\n"
+  printf "$GREEN\nPlease log out and log back in to manage Docker as a non-root user!$NC\n"
 fi
 
 if command -v docker-compose &> /dev/null; then
-  printf  "$YELLOW\nDocker Compose is already installed.$NC\n"
+  printf "$YELLOW\nDocker Compose is already installed.$NC\n"
 else
+  # Install Docker Compose
   printf "$GREEN\nInstalling Docker Compose...$NC\n"
-  sudo apt-get update
-  sudo apt-get install docker-compose-plugin
-  docker compose version
+  sudo pacman -S --noconfirm docker-compose
 
-  printf "$GREEN\nAdding docker compose to /bin/docker-compose...$NC\n"
-  echo 'docker compose "$@"' | sudo tee -a /bin/docker-compose > /dev/null
-  sudo chmod 755 /bin/docker-compose
+  # Check Docker Compose version
+  docker-compose version
 fi
 
-printf "Disable docker by default"
+# Optionally disable Docker service
+printf "$GREEN\nDisabling Docker by default...$NC\n"
 sudo systemctl disable docker.service
 sudo systemctl disable docker.socket
 
+# List Docker unit files
 systemctl list-unit-files | grep -i docker

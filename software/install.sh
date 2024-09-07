@@ -1,50 +1,30 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-printf "$GREEN\nUpgrading Ubuntu Software...$NC\n"
-sudo apt update -yq
-sudo apt upgrade -yq
+printf "$GREEN\nInstalling necessary packages...$NC\n"
+sudo pacman -Syu --noconfirm curl \
+    git \
+    base-devel \
+    openssl \
+    libyaml \
+    readline \
+    zlib \
+    bzip2 \
+    xz \
+    sqlite
 
-# Additional packages
-## Ruby
-printf "$GREEN\nInstalling additional packages...$NC\n"
+# Tmux copy feature
+sudo pacman -S xclip
 
-sudo apt install -yq curl \
-  git-core \
-  zlib1g-dev \
-  build-essential \
-  libssl-dev \
-  libreadline-dev \
-  libyaml-dev \
-  libsqlite3-dev \
-  sqlite3 \
-  libxml2-dev \
-  libxslt1-dev \
-  libcurl4-openssl-dev \
-  software-properties-common \
-  libffi-dev \
-  libpq-dev
+if ! command -v yay &> /dev/null; then
+  echo "Installing yay..."
 
-sudo apt install -yq libreoffice
+  # Clone yay repository
+  git clone https://aur.archlinux.org/yay-git.git
 
-## TLP
-sudo add-apt-repository ppa:linrunner/tlp
-sudo apt update -yq
+  # Change directory to yay-git
+  cd yay-git || exit
 
-sudo apt install -yq tlp tlp-rdw
-
-## Nvim
-sudo apt install -yq fzf \
-  ripgrep
-
-## Tmux
-sudo apt install -yq xclip
-
-## Obsidian
-sudo snap install obsidian --classic
-
-## Other
-sudo snap install vlc \
-  gimp \
-  skype \
-  postman
+  # Build and install yay
+  makepkg -si
+fi

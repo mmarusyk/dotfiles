@@ -1,6 +1,6 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
-ASDF_VERSION='v0.14.0'
+ASDF_VERSION='v0.14.1'
 
 if [ ! -d ~/.asdf ]; then
   printf "$GREEN\nCloning asdf...$NC\n"
