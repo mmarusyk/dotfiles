@@ -11,7 +11,8 @@ sudo pacman -Syu --noconfirm curl \
     zlib \
     bzip2 \
     xz \
-    sqlite
+    sqlite \
+    noto-fonts-cjk           # Fonts for Japanese and Chinese languages
 
 # Tmux copy feature
 sudo pacman -S xclip
