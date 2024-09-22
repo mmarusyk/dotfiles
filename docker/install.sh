@@ -1,9 +1,4 @@
-#! /bin/bash
-
-#
-# More info about docker: https://wiki.archlinux.org/title/Docker
-# About docker compose: https://docs.docker.com/compose/
-#
+#!/bin/bash
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -14,23 +9,32 @@ printf "$GREEN\nInstalling Docker Engine...$NC\n"
 if command -v docker &> /dev/null; then
   printf "$YELLOW\nDocker is already installed.$NC\n"
 else
-  # Update the system
-  sudo pacman -Syu --noconfirm
+  # Add Docker's official GPG key:
+  sudo apt-get update
+  sudo apt-get install ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-  # Install Docker
-  printf "$GREEN\nInstalling Docker...$NC\n"
-  sudo pacman -S --noconfirm docker
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
+
+  # Install docker
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   # Start Docker service
   sudo systemctl start docker
-  sudo systemctl enable docker
 
   # To Test
   sudo docker run hello-world
 
   # Manage Docker as a non-root user
   sudo groupadd docker
-  sudo usermod -aG docker $USER
+  sudo usermod -aG docker "$USER"
 
   printf "$GREEN\nPlease log out and log back in to manage Docker as a non-root user!$NC\n"
 fi
@@ -40,10 +44,13 @@ if command -v docker-compose &> /dev/null; then
 else
   # Install Docker Compose
   printf "$GREEN\nInstalling Docker Compose...$NC\n"
-  sudo pacman -S --noconfirm docker-compose
+  sudo apt-get update
+  sudo apt-get install -y docker-compose-plugin
+  docker compose version
 
-  # Check Docker Compose version
-  docker-compose version
+  printf "$GREEN\nAdding docker compose to /bin/docker-compose...$NC\n"
+  echo 'docker compose "$@"' | sudo tee -a /bin/docker-compose > /dev/null
+  sudo chmod 755 /bin/docker-compose
 fi
 
 # Optionally disable Docker service

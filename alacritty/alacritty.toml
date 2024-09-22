@@ -1,3 +1,7 @@
+[shell]
+  program = "/usr/bin/zsh"
+  args    = ["--login"]
+
 [font]
   normal = { family = "Iosevka", style = "Regular" }
   bold   = { family = "Iosevka", style = "Bold" }
@@ -9,11 +13,11 @@
   padding.y = 2
 
 [colors.normal]
-  black = "0x1e1e1e"    # A lighter dark gray
-  red = "0xf14c4c"      # Bright red
-  green = "0x23d18b"    # Bright green
-  yellow = "0xf5a623"   # Bright yellow
-  blue = "0x3399ff"     # Bright blue
+  black   = "0x1e1e1e"  # A lighter dark gray
+  red     = "0xf14c4c"  # Bright red
+  green   = "0x23d18b"  # Bright green
+  yellow  = "0xf5a623"  # Bright yellow
+  blue    = "0x3399ff"  # Bright blue
   magenta = "0xd17d8b"  # Bright magenta
-  cyan = "0x29b8db"     # Bright cyan
-  white = "0xdcdcdc"    # Light gray
+  cyan    = "0x29b8db"  # Bright cyan
+  white   = "0xdcdcdc"  # Light gray

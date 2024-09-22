@@ -13,7 +13,7 @@ fi
 
 if ! command -v code >/dev/null 2>&1; then
   printf "${GREEN}\nInstalling vscode...${NC}\n"
-  sudo yay -Syu --noconfirm visual-studio-code-bin
+  sudo snap install code
 fi
 
 if [ ! -d "$CONFIG_DIR" ]; then

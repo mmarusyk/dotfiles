@@ -1,31 +1,36 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-printf "$GREEN\nInstalling necessary packages...$NC\n"
-sudo pacman -Syu --noconfirm curl \
-    git \
-    base-devel \
-    openssl \
-    libyaml \
-    readline \
-    zlib \
-    bzip2 \
-    xz \
-    sqlite \
-    noto-fonts-cjk           # Fonts for Japanese and Chinese languages
+printf "$GREEN\nUpgrading Ubuntu Software...$NC\n"
+sudo apt update -yq
+sudo apt upgrade -yq
 
-# Tmux copy feature
-sudo pacman -S xclip
+# Additional packages
+printf "$GREEN\nInstalling additional packages...$NC\n"
 
-if ! command -v yay &> /dev/null; then
-  echo "Installing yay..."
+sudo apt install -yq curl \
+  git-core \
+  zlib1g-dev \
+  build-essential \
+  libssl-dev \
+  libreadline-dev \
+  libyaml-dev \
+  libsqlite3-dev \
+  sqlite3 \
+  libxml2-dev \
+  libxslt1-dev \
+  libcurl4-openssl-dev \
+  software-properties-common \
+  libffi-dev \
+  libpq-dev
 
-  # Clone yay repository
-  git clone https://aur.archlinux.org/yay-git.git
+sudo apt install -yq libreoffice
 
-  # Change directory to yay-git
-  cd yay-git || exit
+## TLP
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt update -yq
 
-  # Build and install yay
-  makepkg -si
-fi
+sudo apt install -yq tlp tlp-rdw
+
+## Tmux
+sudo apt install -yq xclip

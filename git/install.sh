@@ -8,25 +8,25 @@ BACKUP_DIR=$1
 # Check if a backup directory argument is provided
 if [ -z "$1" ]; then
   BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
-  mkdir -p $BACKUP_DIR
+  mkdir -p "$BACKUP_DIR"
 fi
 
 # Check if git is installed
 if ! command -v git >/dev/null 2>&1; then
   printf "$GREEN\nInstalling git...$NC\n"
-  sudo pacman -Syu --noconfirm git
+  sudo apt update && sudo apt install -y git
 fi
 
 # Update gitconfig configuration
 printf "$GREEN\nUpdating gitconfig config...$NC\n"
 if [ -f ~/.gitconfig ]; then
-  mv ~/.gitconfig $BACKUP_DIR
+  mv ~/.gitconfig "$BACKUP_DIR"
 fi
-ln -sf $DIR/gitconfig ~/.gitconfig
+ln -sf "$DIR/gitconfig" ~/.gitconfig
 
 # Update gitignore configuration
 printf "$GREEN\nUpdating gitignore config...$NC\n"
 if [ -f ~/.gitignore ]; then
-  mv ~/.gitignore $BACKUP_DIR
+  mv ~/.gitignore "$BACKUP_DIR"
 fi
-ln -sf $DIR/gitignore ~/.gitignore
+ln -sf "$DIR/gitignore" ~/.gitignore

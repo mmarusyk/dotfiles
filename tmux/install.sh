@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 GREEN='\033[0;32m'
 NC='\033[0m'
@@ -8,13 +8,14 @@ BACKUP_DIR=$1
 # Check if a backup directory argument is provided
 if [ -z "$1" ]; then
   BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
-  mkdir -p $BACKUP_DIR
+  mkdir -p "$BACKUP_DIR"
 fi
 
 # Check if tmux is installed
 if ! command -v tmux >/dev/null 2>&1; then
   printf "$GREEN\nInstalling tmux...$NC\n"
-  sudo pacman -Syu --noconfirm tmux
+  sudo apt update
+  sudo apt install -y tmux
 fi
 
 # Clone tmux plugin manager if not already present
@@ -26,9 +27,9 @@ fi
 # Update tmux configuration
 printf "$GREEN\nUpdating tmux config...$NC\n"
 if [ -f ~/.tmux.conf ]; then
-  mv ~/.tmux.conf $BACKUP_DIR
+  mv ~/.tmux.conf "$BACKUP_DIR"
 fi
-ln -sf $DIR/tmux.conf ~/.tmux.conf
+ln -sf "$DIR/tmux.conf" ~/.tmux.conf
 
 # Reload tmux configuration
 printf "$GREEN\nReloading tmux configs...$NC\n"
