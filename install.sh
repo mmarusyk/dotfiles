@@ -1,54 +1,51 @@
 #!/bin/bash
 
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-NC='\033[0m'
-BACKUP_DIR=$(pwd)/backup_dotfiles/$(date +%Y%m%d_%H%M%S)
+set -e
 
-DEFAULT_CONFIGS=(
-  "alacritty"
-  "software"
-  "gnome"
-  "fonts"
-  "docker"
-  "git"
-  "zsh"
-  "tmux"
-  "asdf"
-  "ruby"
-  "nodejs"
-  "erlang"
-  "elixir"
-  "vscode"
-  "neovim"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+RED="\e[31m"
+BLUE="\e[34m"
+RESET="\e[0m"
+
+echo -e "${BLUE}Starting dotfiles installation...${RESET}"
+
+INSTALL_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# List of install scripts
+SCRIPTS=(
+  # "fonts.sh"
+  # "alacritty.sh"
+  # "zsh.sh"
+  # "zellij.sh"
+  # "mise.sh"
+  # "vscode.sh"
+  # "git.sh"
+  # "docker.sh"
+  # "ruby.sh"
+  # "erlang.sh"
+  # "elixir.sh"
+  # "nodejs.sh"
+  "libreoffice.sh"
+  "slack.sh"
+  "gimp.sh"
+  "vlc.sh"
+  "zoom.sh"
+# TODO:
+# "veracrypt.sh"
+# "chrome.sh"
+# "obsidian.sh"
+# ""
 )
 
-# Determine which configs to use
-if [ "$#" -eq 0 ]; then
-  CONFIGS=("${DEFAULT_CONFIGS[@]}")
-else
-  CONFIGS=("$@")
-fi
-
-# Create backup directory for storing old configs
-mkdir -p "$BACKUP_DIR"
-
-# Check if all scripts exist
-for config in "${CONFIGS[@]}"; do
-  script_path="./$config/install.sh"
-
-  if [ ! -f "$script_path" ]; then
-    printf "${RED}Error: No install script found for $config.${NC}\n"
-    exit 1
+for script in "${SCRIPTS[@]}"; do
+  if [[ -f "$INSTALL_DIR/install/$script" ]]; then
+    echo -e "${YELLOW}Running install/$script...${RESET}"
+    bash "$INSTALL_DIR/install/$script"
+    echo -e "${GREEN}$script installed successfully.${RESET}"
+  else
+    echo -e "${RED}Error: install/$script not found! Skipping...${RESET}"
   fi
 done
 
-# Run install scripts
-for config in "${CONFIGS[@]}"; do
-  script_path="./$config/install.sh"
-
-  printf "${GREEN}Running $script_path...${NC}\n"
-  "$script_path" "$BACKUP_DIR"
-done
-
-printf "${GREEN}\n\nDONE${NC}\n\n"
+echo -e "${GREEN}Dotfiles installation completed!${RESET}"

@@ -1,0 +1,26 @@
+{
+  "aws.telemetry": false,
+  "editor.lineNumbers": "relative",
+  "editor.rulers": [
+    120
+  ],
+  "editor.fontFamily": "'Iosevka', 'Droid Sans Mono', 'monospace', monospace",
+  "editor.fontSize": 16,
+  "editor.formatOnSaveMode": "file",
+  "editor.lineHeight": 20,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "files.autoSave": "afterDelay",
+  "json.maxItemsComputed": 10000,
+  "telemetry.telemetryLevel": "off",
+  "vim.useSystemClipboard": true,
+  "vim.handleKeys": {
+    "<C-k>": false,
+    "<C-q>": false,
+    "<C-t>": false,
+    "<C-p>": false
+  },
+  "window.titleBarStyle": "custom",
+  "workbench.editor.enablePreview": true,
+  "workbench.iconTheme": "vscode-icons"
+}
