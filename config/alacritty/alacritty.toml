@@ -2,7 +2,7 @@
 program = "zellij"
 
 [font]
-normal = { family = "Iosevka", style = "Regular" }
+normal = { family = "Iosevka Nerd Font", style = "Regular" }
 size = 12
 
 [window]

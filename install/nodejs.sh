@@ -1,32 +1,15 @@
 #!/bin/bash
 
-set -e  # Exit on error
-
-# Colors
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-echo -e "${GREEN}\nInstalling Node.js LTS via Mise...${RESET}"
+set -e
 
 if ! command -v mise &> /dev/null; then
-    echo -e "${RED}Mise is not installed! Please install Mise first.${RESET}"
+    echo -e "${RED}Mise is not installed! Please install Mise first.${NC}"
     exit 1
 fi
 
-echo -e "${YELLOW}\nInstalling the latest LTS version of Node.js...${RESET}"
+echo -e "${YELLOW}\nInstalling the latest LTS version of Node.js...${NC}"
 mise use -g node@lts
+mise reshim
 
-if command -v node &> /dev/null; then
-    NODE_VERSION=$(node -v)
-    echo -e "${GREEN}Node.js installed successfully! Version: ${NODE_VERSION}${RESET}"
-else
-    echo -e "${RED}Node.js installation failed!${RESET}"
-    exit 1
-fi
-
-echo -e "${YELLOW}\nInstalling Yarn globally...${RESET}"
+echo -e "${YELLOW}\nInstalling Yarn globally...${NC}"
 npm install -g yarn
-
-echo -e "${YELLOW}\nNode.js installation complete!${RESET}"

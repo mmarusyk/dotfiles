@@ -2,31 +2,28 @@
 
 set -e
 
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-echo -e "${YELLOW}Installing Iosevka fonts...${RESET}"
-
-FONT_URL="http://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb"
-DEB_FILE="$HOME/fonts-iosevka.deb"
-
-if ! command -v wget &> /dev/null; then
-    echo -e "${YELLOW}Installing wget...${RESET}"
-    sudo apt update
-    sudo apt install -y wget
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  sudo apt update
+  sudo apt install -y fontconfig wget unzip
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  brew install fontconfig wget unzip
+else
+  echo -e "${RED}Unsupported OS: $OSTYPE${NC}"
+  exit 1
 fi
 
-echo -e "${YELLOW}Downloading Iosevka fonts .deb package...${RESET}"
-wget -O "$DEB_FILE" "$FONT_URL"
+FONT_DIR="$HOME/.local/share/fonts"
+mkdir -p "$FONT_DIR"
 
-echo -e "${YELLOW}Installing Iosevka fonts...${RESET}"
-sudo dpkg -i "$DEB_FILE"
-
-rm "$DEB_FILE"
-
-echo -e "${YELLOW}Refreshing font cache...${RESET}"
-sudo fc-cache -fv
-
-echo -e "${GREEN}Iosevka fonts installed successfully!${RESET}"
+if ! fc-list | grep -qi "Iosevka Nerd Font"; then
+  echo -e "${YELLOW}Downloading and installing Iosevka Nerd Font...${NC}"
+  cd /tmp
+  wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.zip -O Iosevka.zip
+  unzip -q Iosevka.zip -d IosevkaFont
+  cp IosevkaFont/*.ttf "$FONT_DIR"
+  rm -rf Iosevka.zip IosevkaFont
+  fc-cache -f
+  echo -e "${GREEN}Iosevka Nerd Font installed successfully!${NC}"
+else
+  echo -e "${GREEN}Iosevka Nerd Font is already installed.${NC}"
+fi

@@ -1,9 +1,5 @@
-[user]
-  email = misha.marusyk@gmail.com
-  name = Michael Marusyk
 [core]
   editor = code --wait
-  excludesFile = ~/.gitignore
   pager = less -F -X
 [color]
   ui = auto

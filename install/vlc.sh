@@ -1,23 +1,8 @@
 #!/bin/bash
 
-set -e  # Exit on error
+set -e
 
-# Colors
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-# Install VLC
-echo -e "${GREEN}\nInstalling VLC media player...${RESET}"
-sudo apt update -y
-sudo apt install -y vlc
-
-# Verify installation
-if command -v vlc &> /dev/null; then
-    echo -e "${GREEN}VLC installed successfully!${RESET}"
-else
-    echo -e "${RED}VLC installation failed!${RESET}"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  sudo apt update -y
+  sudo apt install -y vlc
 fi
-
-echo -e "${YELLOW}\nVLC installation complete!${RESET}"

@@ -2,32 +2,40 @@
 
 set -e
 
-INSTALL_DIR=$(pwd)/config/vscode
-CONFIG_DIR=$HOME/.config/Code/User
+CONFIG_DIR=$(pwd)/config/vscode
 
-GREEN="\e[32m"
-YELLOW="\e[33m"
-RED="\e[31m"
-RESET="\e[0m"
-
-echo -e "${GREEN}\nInstalling Visual Studio Code...${RESET}"
-
-echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
-
-sudo apt-get install wget gpg
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
-rm -f packages.microsoft.gpg
-
-sudo apt install apt-transport-https
-sudo apt update
-sudo apt install code
-
-if command -v code &> /dev/null; then
-    echo -e "${GREEN}Visual Studio Code installed successfully!${RESET}"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  HOME_DIR="$HOME/Library/Application Support/Code/User"
 else
-    echo -e "${RED}Visual Studio Code installation failed!${RESET}"
+  HOME_DIR="$HOME/.config/Code/User"
+fi
+
+if ! command -v code &> /dev/null; then
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
+
+        sudo apt-get install wget gpg
+        wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+        sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+        echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+        rm -f packages.microsoft.gpg
+
+        sudo apt install apt-transport-https
+        sudo apt update
+        sudo apt install -y code
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install --cask visual-studio-code
+    else
+        echo -e "${RED}Unsupported OS: $OSTYPE${NC}"
+        exit 1
+    fi
+else
+    echo -e "${YELLOW}Visual Studio Code is already installed.${NC}"
+fi
+
+if ! command -v code &> /dev/null; then
+  echo -e "${RED}Visual Studio Code installation failed!${NC}"
+  exit 1
 fi
 
 code --install-extension aaron-bond.better-comments
@@ -39,8 +47,5 @@ code --install-extension vscodevim.vim
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension github.copilot-chat
 
-echo -e "${GREEN}Copying new settings.json from $DIR...${RESET}"
-cp -f "$INSTALL_DIR/settings.json" "$CONFIG_DIR/settings.json"
-
-
-echo -e "${YELLOW}\nVisual Studio Code installation complete!${RESET}"
+echo -e "${GREEN}Copying new settings.json from $DIR...${NC}"
+cp -f "$CONFIG_DIR/settings.json" "$HOME_DIR/settings.json"

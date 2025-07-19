@@ -4,7 +4,7 @@
   "editor.rulers": [
     120
   ],
-  "editor.fontFamily": "'Iosevka', 'Droid Sans Mono', 'monospace', monospace",
+  "editor.fontFamily": "'Iosevka Nerd Font', 'Droid Sans Mono', 'monospace', monospace",
   "editor.fontSize": 16,
   "editor.formatOnSaveMode": "file",
   "editor.lineHeight": 20,
