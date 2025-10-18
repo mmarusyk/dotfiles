@@ -1,0 +1,6 @@
+name: core_arch_install
+description: Install base dependencies for Arch Linux
+
+steps:
+  - name: install_basics
+    install: sudo pacman -Sy --noconfirm git curl yq
