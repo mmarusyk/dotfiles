@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# Load shared utils
+for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+source "$ROOT_DIR/lib/executor.sh"
+
+# Flags
+DRY_RUN=false
+VERBOSE=false
+
+usage() {
+  echo "Usage: bootstrap [options]"
+  echo ""
+  echo "Options:"
+  echo "  -d, --dry-run     Show what would be executed without running"
+  echo "  -v, --verbose     Enable verbose output"
+  echo "  -h, --help        Show this help"
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -d|--dry-run) DRY_RUN=true ;;
+    -v|--verbose) VERBOSE=true ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "❌ Unknown option: $1"; usage; exit 1 ;;
+  esac
+  shift
+done
+
+detect_os
+require_dependencies yq
+
+log_info "🚀 Bootstrapping environment for $DETECTED_OS..."
+
+run_manifest "bootstrap" "$DETECTED_OS" "bootstrap" "$DRY_RUN" "$VERBOSE"
+
+log_success "✅ Bootstrap complete!"
+echo "➡️  Next: run './bin/install all -c'"

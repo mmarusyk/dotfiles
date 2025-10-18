@@ -33,14 +33,13 @@ dotfiles/                               # Main repository folder (root of the sy
 │
 ├── manifests/                          # Declarative configuration layer (YAML manifests)
 │   │
-│   ├── ubuntu/                         # Ubuntu/Debian-specific manifests
+│   ├── <software>/                     # Software-specific manifest directory
+│   │   └── <os>/                       # OS-specific subdirectory (macOS, Ubuntu, Arch)
+│   │        └── install.yaml           # Installation manifest for the software
+│   │        └── update.yaml            # Update manifest for keeping software current
+│   │        └── configure.yaml         # Configuration manifest for software setup
 │   │
-│   ├── arch/                           # Arch Linux-specific manifests
-│   │
-│   ├── macos/                          # macOS-specific manifests
-│   │
-│   ├── identification.yaml             # Collects user name/email for global configs
-│   └── symlinks.yaml                   # Maps config files → system paths (for `bin/link`)
+│   └── boostrap.yaml                   # Maps config files → system paths (for `bin/link`)
 │
 ├── config/                             # Actual configuration files (dotfiles)
 │   ├── zsh/                            # Shell configs
@@ -62,14 +61,5 @@ Sets up the minimum environment by installing necessary software and copying con
 
 **Usage**
 ```bash
-./bind/bootstrap
-```
-
-### `bin/install`
-
-Installs software.
-
-**Usage**
-```bash
-./bin/install [manifest]
+./bin/bootstrap
 ```

@@ -1,0 +1,17 @@
+name: bootstrap
+description: Minimal system bootstrap
+depends_on:
+  - core
+
+steps:
+  - name: prepare_folders
+    install: |
+      mkdir -p ~/.config ~/.local/bin ~/.cache/dotfiles ~/.backup
+      echo "✅ Basic folders prepared"
+
+  - name: summary
+    install: |
+      echo ""
+      echo "🚀 Bootstrap complete!"
+      echo "Installed components:"
+      echo ""
