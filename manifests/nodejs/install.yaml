@@ -1,0 +1,20 @@
+name: nodejs
+description: Install Node.js (LTS) and Yarn via mise
+depends_on:
+  - mise
+
+steps:
+  - name: install_nodejs
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      mise use -g node@lts
+      mise reshim
+      echo "✅ Node.js installed!"
+
+  - name: install_yarn
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      npm install -g yarn
+      echo "✅ Yarn installed!"

@@ -1,0 +1,59 @@
+name: zsh_ubuntu
+description: Install and configure Zsh with Oh My Zsh on Ubuntu
+
+steps:
+  - name: install_zsh
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      sudo apt update
+      sudo apt install -y curl zsh
+
+  - name: set_default_shell
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "🐚 Setting..."
+      ZSH_PATH=$(which zsh || echo "/bin/zsh")
+      chsh -s "$ZSH_PATH"
+      echo "✅ Zsh set as default shell!"
+
+  - name: install_oh_my_zsh
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        echo "✅ Oh My Zsh installed successfully!"
+      else
+        echo "⚠️  Oh My Zsh is already installed!"
+      fi
+
+  - name: copy_themes
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "🎨 Updating..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
+      
+      if [ -d "$ROOT_DIR/themes/zsh" ]; then
+        cp -r "$ROOT_DIR/themes/zsh/"* "$THEME_DIR/"
+        echo "✅ Zsh themes updated successfully!"
+      else
+        echo "⚠️  No themes found to update."
+      fi
+
+  - name: copy_config
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📝 Updating..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      cp "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
+      echo "✅ Zsh config updated successfully!"
+
+  - name: copy_aliases
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📝 Updating..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      cp "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"
+      echo "✅ Zsh aliases updated successfully!"

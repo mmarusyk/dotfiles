@@ -1,0 +1,34 @@
+name: ruby_ubuntu
+description: Install Ruby via mise on Ubuntu
+depends_on:
+  - mise
+
+steps:
+  - name: install_dependencies
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      sudo apt update -y
+      sudo apt install -yq \
+        curl \
+        git-core \
+        zlib1g-dev \
+        build-essential \
+        libssl-dev \
+        libreadline-dev \
+        libyaml-dev \
+        libsqlite3-dev \
+        sqlite3 \
+        libxml2-dev \
+        libxslt1-dev \
+        libcurl4-openssl-dev \
+        software-properties-common \
+        libffi-dev \
+        libpq-dev
+
+  - name: install_ruby
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      mise use -g ruby
+      echo "✅ Ruby installed!"

@@ -1,0 +1,70 @@
+name: shortcuts_ubuntu
+description: Setup GNOME keyboard shortcuts on Ubuntu
+
+steps:
+  - name: emoji_picker_shortcut
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      echo "⌨️  Setting up Emoji Picker shortcut (Ctrl + .)..."
+      
+      SHORTCUT_NAME="Emoji Picker"
+      COMMAND="gnome-characters"
+      KEYBINDING="<Control>period"
+      NEW_BINDING_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emoji-picker/"
+      NEW_BINDING_FORMAT="'$NEW_BINDING_PATH'"
+      
+      CURRENT_LIST=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
+      
+      if [[ "$CURRENT_LIST" == "@as []" ]]; then
+        NEW_LIST="[$NEW_BINDING_FORMAT]"
+      elif [[ "$CURRENT_LIST" == *"$NEW_BINDING_PATH"* ]]; then
+        NEW_LIST="$CURRENT_LIST"
+      else
+        NEW_LIST="${CURRENT_LIST%]*}, $NEW_BINDING_FORMAT]"
+      fi
+      
+      gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "$NEW_LIST"
+      gsettings set "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$NEW_BINDING_PATH" name "$SHORTCUT_NAME"
+      gsettings set "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$NEW_BINDING_PATH" command "$COMMAND"
+      gsettings set "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$NEW_BINDING_PATH" binding "$KEYBINDING"
+      
+      echo "✅ Emoji Picker shortcut configured!"
+
+  - name: install_goldendict
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      if ! command -v goldendict &> /dev/null; then
+        log_verbose "📦 Installing..."
+        sudo apt update
+        sudo apt install -y goldendict
+      else
+        echo "✅ GoldenDict already installed."
+      fi
+
+  - name: goldendict_shortcut
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      echo "⌨️  Setting up GoldenDict shortcut (Ctrl + Alt + W)..."
+      
+      SHORTCUT_NAME="Open GoldenDict"
+      COMMAND="goldendict"
+      KEYBINDING="<Control><Alt>w"
+      NEW_BINDING_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/open-goldendict/"
+      NEW_BINDING_FORMAT="'$NEW_BINDING_PATH'"
+      
+      CURRENT_LIST=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
+      
+      if [[ "$CURRENT_LIST" == "@as []" ]]; then
+        NEW_LIST="[$NEW_BINDING_FORMAT]"
+      elif [[ "$CURRENT_LIST" == *"$NEW_BINDING_PATH"* ]]; then
+        NEW_LIST="$CURRENT_LIST"
+      else
+        NEW_LIST="${CURRENT_LIST%]*}, $NEW_BINDING_FORMAT]"
+      fi
+      
+      gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "$NEW_LIST"
+      gsettings set "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$NEW_BINDING_PATH" name "$SHORTCUT_NAME"
+      gsettings set "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$NEW_BINDING_PATH" command "$COMMAND"
+      gsettings set "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$NEW_BINDING_PATH" binding "$KEYBINDING"
+      
+      echo "✅ GoldenDict shortcut configured!"

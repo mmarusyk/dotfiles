@@ -1,0 +1,9 @@
+name: core_ubuntu_install
+description: Install base dependencies for Ubuntu/Debian
+
+steps:
+  - name: update_system
+    script: sudo apt update -y && sudo apt upgrade -y
+
+  - name: install_basics
+    script: sudo apt install -y build-essential git curl wget yq

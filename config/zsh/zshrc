@@ -103,3 +103,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 eval "$(mise activate zsh)"
+
+# Auto-start Zellij if installed and not already running
+if command -v zellij &> /dev/null && [ -z "$ZELLIJ" ]; then
+  zellij
+fi

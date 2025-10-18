@@ -1,0 +1,40 @@
+name: zellij_ubuntu
+description: Install and configure Zellij terminal multiplexer on Ubuntu
+
+steps:
+  - name: install_dependencies
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing build dependencies..."
+      sudo apt update -y
+      sudo apt install -y build-essential
+
+  - name: install_rust
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "🦀 Checking if Cargo (Rust) is installed..."
+      if ! command -v cargo &> /dev/null; then
+        log_verbose "📦 Installing..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        export PATH="$HOME/.cargo/bin:$PATH"
+        echo "✅ Rust installed!"
+      else
+        log_verbose "✅ Cargo already installed."
+      fi
+
+  - name: install_zellij
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing Zellij..."
+      export PATH="$HOME/.cargo/bin:$PATH"
+      cargo install zellij
+      echo "✅ Zellij installed!"
+
+  - name: copy_config
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📝 Configuring Zellij..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      mkdir -p "$HOME/.config/zellij"
+      cp -r "$ROOT_DIR/config/zellij/." "$HOME/.config/zellij/"
+      log_verbose "✅ Configured!"
