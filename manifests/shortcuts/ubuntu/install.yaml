@@ -4,7 +4,6 @@ description: Setup GNOME keyboard shortcuts on Ubuntu
 steps:
   - name: emoji_picker_shortcut
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       echo "⌨️  Setting up Emoji Picker shortcut (Ctrl + .)..."
       
       SHORTCUT_NAME="Emoji Picker"
@@ -32,7 +31,6 @@ steps:
 
   - name: install_goldendict
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       if ! command -v goldendict &> /dev/null; then
         log_verbose "📦 Installing..."
         sudo apt update
@@ -43,7 +41,6 @@ steps:
 
   - name: goldendict_shortcut
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       echo "⌨️  Setting up GoldenDict shortcut (Ctrl + Alt + W)..."
       
       SHORTCUT_NAME="Open GoldenDict"

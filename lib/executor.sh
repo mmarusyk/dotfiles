@@ -68,6 +68,11 @@ run_manifest() {
       log_info "➡️  [$software] $mode: $name"
       [[ "$verbose" == "true" ]] && echo "Executing: $cmd"
       export VERBOSE="$verbose"
+      export ROOT_DIR="$ROOT_DIR"
+
+      # Source all utility functions for script execution
+      for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+
       eval "$cmd"
     fi
   done

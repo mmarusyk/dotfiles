@@ -4,7 +4,6 @@ description: Setup SSH keys
 steps:
   - name: check_or_generate_ssh_key
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       echo -e "\n🔑 SSH Key Setup"
       
       SSH_KEY="$HOME/.ssh/id_ed25519"

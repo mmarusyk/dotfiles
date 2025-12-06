@@ -4,7 +4,6 @@ description: Install and configure Visual Studio Code on macOS
 steps:
   - name: check_vscode
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       if command -v code &> /dev/null; then
         echo "✅ Visual Studio Code is already installed."
         exit 0
@@ -12,14 +11,12 @@ steps:
 
   - name: install_vscode
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       brew install --cask visual-studio-code
       echo "✅ Visual Studio Code installed!"
 
   - name: install_extensions
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       echo "🔌 Installing VS Code extensions..."
       code --install-extension aaron-bond.better-comments
       code --install-extension aliariff.vscode-erb-beautify
@@ -33,7 +30,6 @@ steps:
 
   - name: copy_settings
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📝 Copying..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       HOME_DIR="$HOME/Library/Application Support/Code/User"

@@ -4,7 +4,6 @@ description: Install mise (polyglot runtime manager) on macOS
 steps:
   - name: install_mise
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       brew install mise
       echo "✅ mise installed successfully!"

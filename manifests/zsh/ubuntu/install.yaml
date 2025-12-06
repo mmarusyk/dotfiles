@@ -4,14 +4,12 @@ description: Install and configure Zsh with Oh My Zsh on Ubuntu
 steps:
   - name: install_zsh
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       sudo apt update
       sudo apt install -y curl zsh
 
   - name: set_default_shell
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "🐚 Setting..."
       ZSH_PATH=$(which zsh || echo "/bin/zsh")
       chsh -s "$ZSH_PATH"
@@ -19,7 +17,6 @@ steps:
 
   - name: install_oh_my_zsh
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       if [ ! -d "$HOME/.oh-my-zsh" ]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -30,7 +27,6 @@ steps:
 
   - name: copy_themes
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "🎨 Updating..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
@@ -44,7 +40,6 @@ steps:
 
   - name: copy_config
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📝 Updating..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       cp "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
@@ -52,7 +47,6 @@ steps:
 
   - name: copy_aliases
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📝 Updating..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       cp "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"

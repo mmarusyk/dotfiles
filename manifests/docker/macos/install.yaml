@@ -4,7 +4,6 @@ description: Install Docker Desktop on macOS
 steps:
   - name: install_docker
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       if command -v docker &>/dev/null; then
         echo "✅ Docker is already installed."
       else

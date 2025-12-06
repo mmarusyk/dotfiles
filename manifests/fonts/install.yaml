@@ -4,7 +4,6 @@ description: Install Nerd Fonts (Iosevka)
 steps:
   - name: install_dependencies
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       if [[ "$(uname)" == "Linux" ]]; then
         sudo apt update
@@ -15,7 +14,6 @@ steps:
 
   - name: install_iosevka_nerd_font
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       FONT_DIR="$HOME/.local/share/fonts"
       mkdir -p "$FONT_DIR"
       

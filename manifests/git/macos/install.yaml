@@ -4,20 +4,17 @@ description: Install and configure Git on macOS
 steps:
   - name: install_git
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       brew install git
 
   - name: copy_config
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📝 Copying..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       cp -f "$ROOT_DIR/config/git/gitconfig" "$HOME/.gitconfig"
 
   - name: configure_user
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       echo "👤 Configuring Git user identification..."
       
       # Source the dotfiles environment

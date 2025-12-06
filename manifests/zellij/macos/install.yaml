@@ -4,13 +4,11 @@ description: Install and configure Zellij terminal multiplexer on macOS
 steps:
   - name: install_dependencies
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       brew install curl
 
   - name: install_rust
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "🦀 Checking..."
       if ! command -v cargo &> /dev/null; then
         echo "📦 Cargo (Rust) not found! Installing Rust..."
@@ -23,7 +21,6 @@ steps:
 
   - name: install_zellij
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       export PATH="$HOME/.cargo/bin:$PATH"
       cargo install zellij
@@ -31,7 +28,6 @@ steps:
 
   - name: copy_config
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📝 Setting..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       mkdir -p "$HOME/.config/zellij"

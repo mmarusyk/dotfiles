@@ -6,7 +6,6 @@ depends_on:
 steps:
   - name: install_dependencies
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       sudo apt update -y
       sudo apt install -yq \
@@ -28,7 +27,6 @@ steps:
 
   - name: install_ruby
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       mise use -g ruby
       echo "✅ Ruby installed!"

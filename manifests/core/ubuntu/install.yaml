@@ -7,3 +7,15 @@ steps:
 
   - name: install_basics
     script: sudo apt install -y build-essential git curl wget yq
+
+  - name: install_flatpak
+    script: |
+      log_verbose "📦 Installing Flatpak..."
+      sudo apt install -y flatpak
+      echo "✅ Flatpak installed!"
+
+  - name: enable_flathub
+    script: |
+      log_verbose "🔧 Enabling Flathub repository..."
+      sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      echo "✅ Flathub enabled!"

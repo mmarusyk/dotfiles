@@ -6,7 +6,6 @@ depends_on:
 steps:
   - name: install_dependencies_ubuntu
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       if [[ "$(uname)" == "Linux" ]]; then
         log_verbose "📦 Installing..."
         sudo apt update -y
@@ -15,14 +14,12 @@ steps:
 
   - name: install_erlang
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       mise use -g erlang
       echo "✅ Erlang installed!"
 
   - name: install_elixir
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       mise use -g elixir
       echo "✅ Elixir installed!"

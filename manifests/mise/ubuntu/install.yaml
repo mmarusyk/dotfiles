@@ -4,14 +4,12 @@ description: Install mise (polyglot runtime manager) on Ubuntu
 steps:
   - name: install_dependencies
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       sudo apt update -y
       sudo apt install -y gpg sudo wget curl
 
   - name: add_repository
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "🔑 Adding..."
       sudo install -dm 755 /etc/apt/keyrings
       wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg > /dev/null
@@ -21,7 +19,6 @@ steps:
 
   - name: install_mise
     script: |
-      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
       log_verbose "📦 Installing..."
       sudo apt update
       sudo apt install -y mise
