@@ -1,0 +1,33 @@
+name: fonts
+description: Install Nerd Fonts (Iosevka)
+
+steps:
+  - name: install_dependencies
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      if [[ "$(uname)" == "Linux" ]]; then
+        sudo apt update
+        sudo apt install -y fontconfig wget unzip
+      elif [[ "$(uname)" == "Darwin" ]]; then
+        brew install fontconfig wget unzip
+      fi
+
+  - name: install_iosevka_nerd_font
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      FONT_DIR="$HOME/.local/share/fonts"
+      mkdir -p "$FONT_DIR"
+      
+      if ! fc-list | grep -qi "Iosevka Nerd Font"; then
+        echo "📥 Downloading and installing Iosevka Nerd Font..."
+        cd /tmp
+        wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.zip -O Iosevka.zip
+        unzip -q Iosevka.zip -d IosevkaFont
+        cp IosevkaFont/*.ttf "$FONT_DIR"
+        rm -rf Iosevka.zip IosevkaFont
+        fc-cache -f
+        echo "✅ Iosevka Nerd Font installed successfully!"
+      else
+        echo "✅ Iosevka Nerd Font is already installed."
+      fi

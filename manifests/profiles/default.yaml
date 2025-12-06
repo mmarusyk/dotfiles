@@ -1,0 +1,35 @@
+name: default_profile
+description: Default development environment profile
+
+steps:
+  - name: install_core
+    manifest: core
+
+  - name: prepare_folders
+    script: |
+      mkdir -p ~/.config ~/.local/bin ~/.cache/dotfiles ~/.backup
+      echo "✅ Directories created"
+
+  - name: install_identification
+    manifest: identification
+
+  - name: install_ssh
+    manifest: ssh
+
+  - name: install_git
+    manifest: git
+
+  - name: install_fonts
+    manifest: fonts
+
+  - name: install_zsh
+    manifest: zsh
+
+  - name: install_zellij
+    manifest: zellij
+
+  - name: install_mise
+    manifest: mise
+
+  - name: install_vscode
+    manifest: vscode

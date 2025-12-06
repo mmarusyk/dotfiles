@@ -1,0 +1,37 @@
+name: git_ubuntu
+description: Install and configure Git on Ubuntu
+
+steps:
+  - name: install_git
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      sudo apt update
+      sudo apt install -y git
+
+  - name: copy_config
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📝 Copying..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      cp -f "$ROOT_DIR/config/git/gitconfig" "$HOME/.gitconfig"
+
+  - name: configure_user
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      echo "👤 Configuring Git user identification..."
+      
+      # Source the dotfiles environment
+      if [[ -f ~/.dotfiles.env ]]; then
+        source ~/.dotfiles.env
+      fi
+      
+      if [[ -n "${DOTFILES_USER_NAME//[[:space:]]/}" ]]; then
+        git config --global user.name "$DOTFILES_USER_NAME"
+        echo "✅ Set user.name: $DOTFILES_USER_NAME"
+      fi
+      
+      if [[ -n "${DOTFILES_USER_EMAIL//[[:space:]]/}" ]]; then
+        git config --global user.email "$DOTFILES_USER_EMAIL"
+        echo "✅ Set user.email: $DOTFILES_USER_EMAIL"
+      fi

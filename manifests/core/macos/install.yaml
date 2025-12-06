@@ -1,0 +1,14 @@
+name: core_macos_install
+description: Install base dependencies for macOS
+
+steps:
+  - name: install_homebrew
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      if ! command -v brew >/dev/null; then
+        echo "🍺 Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+
+  - name: install_basics
+    script: brew install git curl yq

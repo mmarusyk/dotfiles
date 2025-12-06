@@ -1,0 +1,27 @@
+name: ssh
+description: Setup SSH keys
+
+steps:
+  - name: check_or_generate_ssh_key
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      echo -e "\n🔑 SSH Key Setup"
+      
+      SSH_KEY="$HOME/.ssh/id_ed25519"
+      
+      if [[ -f "$SSH_KEY" ]]; then
+        echo "✅ SSH key already exists at: $SSH_KEY"
+      else
+        echo "⚠️  No SSH key found at: $SSH_KEY"
+        
+        # Source the dotfiles environment for email
+        if [[ -f ~/.dotfiles.env ]]; then
+          source ~/.dotfiles.env
+        fi
+        
+        read -rp "Do you want to generate a new SSH key now? (y/n): " CREATE_KEY
+        if [[ "$CREATE_KEY" =~ ^[Yy]$ ]]; then
+          ssh-keygen -t ed25519 -C "${DOTFILES_USER_EMAIL:-user@example.com}" -f "$SSH_KEY" -N ""
+          echo "✅ SSH key generated."
+        fi
+      fi

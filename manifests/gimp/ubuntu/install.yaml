@@ -1,0 +1,11 @@
+name: gimp_ubuntu
+description: Install GIMP image editor on Ubuntu
+
+steps:
+  - name: install_gimp
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      sudo apt update -y
+      sudo apt install -y gimp
+      echo "✅ GIMP installed!"

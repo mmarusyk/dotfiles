@@ -1,0 +1,42 @@
+name: vscode_macos
+description: Install and configure Visual Studio Code on macOS
+
+steps:
+  - name: check_vscode
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      if command -v code &> /dev/null; then
+        echo "✅ Visual Studio Code is already installed."
+        exit 0
+      fi
+
+  - name: install_vscode
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      brew install --cask visual-studio-code
+      echo "✅ Visual Studio Code installed!"
+
+  - name: install_extensions
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      echo "🔌 Installing VS Code extensions..."
+      code --install-extension aaron-bond.better-comments
+      code --install-extension aliariff.vscode-erb-beautify
+      code --install-extension amazonwebservices.aws-toolkit-vscode
+      code --install-extension ms-vscode-remote.remote-containers
+      code --install-extension shopify.ruby-extensions-pack
+      code --install-extension vscodevim.vim
+      code --install-extension vscode-icons-team.vscode-icons
+      code --install-extension github.copilot-chat
+      echo "✅ Extensions installed!"
+
+  - name: copy_settings
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📝 Copying..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      HOME_DIR="$HOME/Library/Application Support/Code/User"
+      mkdir -p "$HOME_DIR"
+      cp -f "$ROOT_DIR/config/vscode/settings.json" "$HOME_DIR/settings.json"
+      echo "✅ VS Code configured!"

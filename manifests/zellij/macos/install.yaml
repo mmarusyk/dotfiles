@@ -1,0 +1,39 @@
+name: zellij_macos
+description: Install and configure Zellij terminal multiplexer on macOS
+
+steps:
+  - name: install_dependencies
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      brew install curl
+
+  - name: install_rust
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "🦀 Checking..."
+      if ! command -v cargo &> /dev/null; then
+        echo "📦 Cargo (Rust) not found! Installing Rust..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        export PATH="$HOME/.cargo/bin:$PATH"
+        echo "✅ Rust and Cargo installed successfully!"
+      else
+        echo "✅ Cargo (Rust) is already installed."
+      fi
+
+  - name: install_zellij
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      export PATH="$HOME/.cargo/bin:$PATH"
+      cargo install zellij
+      echo "✅ Zellij installed successfully!"
+
+  - name: copy_config
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📝 Setting..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      mkdir -p "$HOME/.config/zellij"
+      cp -r "$ROOT_DIR/config/zellij/." "$HOME/.config/zellij/"
+      echo "✅ Zellij configured successfully!"

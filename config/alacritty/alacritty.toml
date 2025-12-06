@@ -1,9 +1,0 @@
-[shell]
-program = "zellij"
-
-[font]
-normal = { family = "Iosevka Nerd Font", style = "Regular" }
-size = 12
-
-[window]
-dynamic_title = false

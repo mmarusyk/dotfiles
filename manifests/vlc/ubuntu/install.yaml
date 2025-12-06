@@ -1,0 +1,11 @@
+name: vlc_ubuntu
+description: Install VLC media player on Ubuntu
+
+steps:
+  - name: install_vlc
+    script: |
+      source "$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)/lib/utils/log_verbose.sh"
+      log_verbose "📦 Installing..."
+      sudo apt update -y
+      sudo apt install -y vlc
+      echo "✅ VLC installed!"

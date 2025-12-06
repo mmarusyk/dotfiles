@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# Load shared utils
+for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+source "$ROOT_DIR/lib/executor.sh"
+
+# Flags
+DRY_RUN=false
+VERBOSE=false
+PROFILE="default"
+
+usage() {
+  echo "Usage: install [options]"
+  echo ""
+  echo "Install system dependencies and dotfiles"
+  echo ""
+  echo "Options:"
+  echo "  -p, --profile <name>  Install a specific profile (e.g., default)"
+  echo "  -d, --dry-run         Show what would be executed without running"
+  echo "  -v, --verbose         Enable verbose output"
+  echo "  -h, --help            Show this help"
+  echo ""
+  echo "Examples:"
+  echo "  install --profile default    Install default development profile"
+  echo "  install --dry-run --verbose  Preview installation steps"
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -p|--profile)
+      PROFILE="$2"
+      shift 2
+      ;;
+    -d|--dry-run) DRY_RUN=true; shift ;;
+    -v|--verbose) VERBOSE=true; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "❌ Unknown option: $1"; usage; exit 1 ;;
+  esac
+done
+
+detect_os
+require_dependencies yq
+
+log_info "🚀 Installing profile '$PROFILE' for $DETECTED_OS..."
+run_manifest "profiles/$PROFILE" "$DETECTED_OS" "$DRY_RUN" "$VERBOSE"
+log_success "✅ Profile '$PROFILE' installed successfully!"
