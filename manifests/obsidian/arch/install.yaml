@@ -1,0 +1,7 @@
+name: obsidian_arch_install
+description: Install Obsidian
+
+steps:
+  - name: install_obsidian_flatpak
+    script: |
+      sudo flatpak install -y flathub md.obsidian.Obsidian

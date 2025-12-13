@@ -1,0 +1,29 @@
+name: core_arch_install
+description: Install base dependencies for Arch Linux
+
+steps:
+  - name: update_system
+    script: sudo pacman -Syu --noconfirm
+
+  - name: install_basics
+    script: sudo pacman -S --noconfirm base-devel git curl wget yq less
+
+  - name: install_yay
+    script: |
+      if ! command -v yay &> /dev/null; then
+        git clone https://aur.archlinux.org/yay.git /tmp/yay
+        cd /tmp/yay
+        makepkg -si --noconfirm
+        cd -
+        rm -rf /tmp/yay
+      else
+        echo "yay is already installed."
+      fi
+
+  - name: install_flatpak
+    script: |
+      sudo pacman -S --noconfirm flatpak
+
+  - name: enable_flathub
+    script: |
+      sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

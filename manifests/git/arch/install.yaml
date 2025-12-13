@@ -1,0 +1,26 @@
+name: git_arch
+description: Install and configure Git
+
+steps:
+  - name: install_git
+    script: |
+      sudo pacman -S --noconfirm git
+
+  - name: copy_config
+    script: |
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      cp -f "$ROOT_DIR/config/git/gitconfig" "$HOME/.gitconfig"
+
+  - name: configure_user
+    script: |
+      if [[ -f ~/.dotfiles.env ]]; then
+        source ~/.dotfiles.env
+      fi
+      
+      if [[ -n "${DOTFILES_USER_NAME//[[:space:]]/}" ]]; then
+        git config --global user.name "$DOTFILES_USER_NAME"
+      fi
+      
+      if [[ -n "${DOTFILES_USER_EMAIL//[[:space:]]/}" ]]; then
+        git config --global user.email "$DOTFILES_USER_EMAIL"
+      fi

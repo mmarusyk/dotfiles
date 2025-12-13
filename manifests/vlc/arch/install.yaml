@@ -1,0 +1,7 @@
+name: vlc_arch
+description: Install VLC media player
+
+steps:
+  - name: install_vlc
+    script: |
+      sudo pacman -S --noconfirm vlc

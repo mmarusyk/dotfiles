@@ -1,0 +1,42 @@
+name: zsh_arch
+description: Install and configure Zsh with Oh My Zsh
+
+steps:
+  - name: install_zsh
+    script: |
+      sudo pacman -S --noconfirm curl zsh
+
+  - name: set_default_shell
+    script: |
+      ZSH_PATH=$(which zsh || echo "/bin/zsh")
+      chsh -s "$ZSH_PATH"
+
+  - name: install_oh_my_zsh
+    script: |
+      if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      fi
+
+  - name: copy_themes
+    script: |
+      log_verbose "🎨 Updating themes..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
+      
+      if [ -d "$ROOT_DIR/themes/zsh" ]; then
+        cp -r "$ROOT_DIR/themes/zsh/"* "$THEME_DIR/"
+        echo "✅ Zsh themes updated successfully!"
+      else
+        echo "⚠️  No themes found to update."
+      fi
+
+  - name: copy_config
+    script: |
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      cp "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
+
+  - name: copy_aliases
+    script: |
+      log_verbose "📝 Updating Zsh aliases..."
+      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+      cp "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"

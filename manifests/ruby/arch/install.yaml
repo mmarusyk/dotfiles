@@ -1,0 +1,11 @@
+name: ruby_arch
+description: Install Ruby
+
+steps:
+  - name: install_dependencies
+    script: |
+      sudo pacman -S --noconfirm base-devel libffi libyaml openssl zlib readline
+
+  - name: install_ruby
+    script: |
+      mise use --global ruby@latest

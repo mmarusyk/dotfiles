@@ -1,0 +1,19 @@
+name: vscode_arch_install
+description: Install Visual Studio Code
+
+steps:
+  - name: install_vscode
+    script: |
+      yay -S --noconfirm visual-studio-code-bin
+
+  - name: install_vscode_extensions
+    script: |
+      EXTENSIONS=(
+        "vscodevim.vim"
+      )
+
+      for EXT in "${EXTENSIONS[@]}"; do
+        if ! code --list-extensions | grep -q "$EXT"; then
+          code --install-extension "$EXT"
+        fi
+      done

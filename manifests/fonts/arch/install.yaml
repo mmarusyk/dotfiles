@@ -1,0 +1,7 @@
+name: fonts_arch_install
+description: Install Iosevka fonts
+
+steps:
+  - name: install_iosevka_fonts
+    script: |
+      yay -S --noconfirm ttf-iosevka ttf-iosevka-nerd

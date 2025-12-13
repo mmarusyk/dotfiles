@@ -33,3 +33,9 @@ steps:
 
   - name: install_vscode
     manifest: vscode
+
+  - name: install_obsidian
+    manifest: obsidian
+  
+  - name: install_jetbrains_toolbox
+    manifest: jetbrains_toolbox

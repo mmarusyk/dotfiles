@@ -1,0 +1,7 @@
+name: gimp_arch
+description: Install GIMP
+
+steps:
+  - name: install_gimp
+    script: |
+      sudo pacman -S --noconfirm gimp

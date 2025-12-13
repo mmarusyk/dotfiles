@@ -1,0 +1,24 @@
+name: docker_arch
+description: Install Docker and Docker Compose
+
+steps:
+  - name: check_docker
+    script: |
+      if command -v docker &>/dev/null; then
+        exit 0
+      fi
+
+  - name: install_docker
+    script: |
+      sudo pacman -S --noconfirm docker docker-compose docker-buildx
+
+  - name: start_docker
+    script: |
+      sudo systemctl enable docker
+      sudo systemctl start docker
+      sudo docker run hello-world || true
+
+  - name: add_user_to_group
+    script: |
+      sudo groupadd docker || true
+      sudo usermod -aG docker "$USER"

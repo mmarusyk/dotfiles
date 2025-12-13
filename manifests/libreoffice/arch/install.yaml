@@ -1,0 +1,7 @@
+name: libreoffice_arch
+description: Install LibreOffice
+
+steps:
+  - name: install_libreoffice
+    script: |
+      sudo pacman -S --noconfirm libreoffice-fresh
