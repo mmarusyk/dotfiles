@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
-log_verbose() { 
-  [[ "${VERBOSE:-false}" == "true" ]] && echo -e "\033[1;34m$*\033[0m"
+log_verbose() {
+  if [[ "${VERBOSE:-false}" == "true" ]]; then
+    echo -e "\033[1;34m$*\033[0m"
+  fi
+  return 0
 }

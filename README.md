@@ -70,3 +70,24 @@ Installs system dependencies and dotfiles based on the selected profile.
 # View all available options
 ./bin/install --help
 ```
+
+### `bin/update_all`
+
+Bulk-update installed software across package managers and user tools.
+
+Usage:
+```bash
+# Dry run (show actions):
+./bin/update_all --dry-run
+
+# Run updates (auto-detects OS and managers):
+./bin/update_all
+
+# Only run specific managers (comma-separated):
+./bin/update_all --only=apt,npm
+```
+
+Notes:
+- The script uses the repo's OS detection and utility functions in `lib/`.
+- It attempts updates for apt/pacman/brew/snap/flatpak and user tools (npm/pip/cargo/gem).
+- Run with care and review the commands in `lib/update_helpers.sh` before invoking.

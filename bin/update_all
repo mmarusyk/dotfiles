@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# Load utilities
+for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+source "$ROOT_DIR/lib/update_helpers.sh"
+
+DRY_RUN=false
+YES=false
+ONLY_MANAGERS=""
+
+usage() {
+  cat <<EOF
+Usage: update_all [--dry-run|-n] [--yes|-y] [--only=managers]
+  --dry-run, -n        Show what would be done without making changes
+  --yes, -y            Assume yes for prompts (currently informational)
+  --only=managers      Comma-separated list of managers to run (apt,pacman,brew,snap,flatpak)
+  --help, -h           Show this help
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dry-run|-n) DRY_RUN=true; shift ;;
+    --yes|-y) YES=true; shift ;;
+    --only) ONLY_MANAGERS="$2"; shift 2 ;;
+    --only=*) ONLY_MANAGERS="${1#*=}"; shift ;;
+    --help|-h) usage; exit 0 ;;
+    *) log_error "Unknown option: $1"; usage; exit 2 ;;
+  esac
+done
+
+# Detect OS
+detect_os || true
+log_info "Detected OS: ${DETECTED_OS:-unknown}"
+
+detect_and_collect_managers() {
+  local -n out_arr=$1
+  declare -a seen=()
+
+  add_manager() {
+    local name=$1
+    for s in "${seen[@]}"; do [[ "$s" == "$name" ]] && return; done
+    seen+=("$name")
+    out_arr+=("$name")
+  }
+
+  if [[ -n "$ONLY_MANAGERS" ]]; then
+    IFS=',' read -r -a ONLY <<< "$ONLY_MANAGERS"
+    for m in "${ONLY[@]}"; do add_manager "$m"; done
+    return 0
+  fi
+
+  # Start with OS defaults
+  read -r -a def <<< "$(default_managers_for_os)"
+  for m in "${def[@]}"; do add_manager "$m"; done
+
+  # Detect additional common managers on the system and add them
+  if command -v yay >/dev/null 2>&1; then add_manager "yay"; fi
+  if command -v paru >/dev/null 2>&1; then add_manager "paru"; fi
+  if command -v dnf >/dev/null 2>&1; then add_manager "dnf"; fi
+  if command -v zypper >/dev/null 2>&1; then add_manager "zypper"; fi
+  if command -v apk >/dev/null 2>&1; then add_manager "apk"; fi
+  if command -v xbps-install >/dev/null 2>&1; then add_manager "xbps"; fi
+  if command -v flatpak >/dev/null 2>&1; then add_manager "flatpak"; fi
+  if command -v mas >/dev/null 2>&1; then add_manager "mas"; fi
+  if command -v nix-env >/dev/null 2>&1; then add_manager "nix"; fi
+  if command -v pipx >/dev/null 2>&1; then add_manager "pipx"; fi
+}
+
+declare -a managers=()
+detect_and_collect_managers managers
+
+log_info "Managers to run: ${managers[*]}"
+
+for m in "${managers[@]}"; do
+  case "$m" in
+    apt)
+      update_apt "$DRY_RUN" || log_error "apt update failed"
+      ;;
+    pacman)
+      update_pacman "$DRY_RUN" || log_error "pacman update failed"
+      ;;
+    brew)
+      update_brew "$DRY_RUN" || log_error "brew update failed"
+      ;;
+    snap)
+      update_snap "$DRY_RUN" || log_error "snap refresh failed"
+      ;;
+    flatpak)
+      update_flatpak "$DRY_RUN" || log_error "flatpak update failed"
+      ;;
+    yay)
+      update_yay "$DRY_RUN" || log_error "yay update failed"
+      ;;
+    paru)
+      update_paru "$DRY_RUN" || log_error "paru update failed"
+      ;;
+    dnf)
+      update_dnf "$DRY_RUN" || log_error "dnf update failed"
+      ;;
+    zypper)
+      update_zypper "$DRY_RUN" || log_error "zypper update failed"
+      ;;
+    apk)
+      update_apk "$DRY_RUN" || log_error "apk update failed"
+      ;;
+    xbps)
+      update_xbps "$DRY_RUN" || log_error "xbps update failed"
+      ;;
+    pipx)
+      update_pipx "$DRY_RUN" || log_error "pipx update failed"
+      ;;
+    mas)
+      update_mas "$DRY_RUN" || log_error "mas update failed"
+      ;;
+    nix)
+      update_nix "$DRY_RUN" || log_error "nix update failed"
+      ;;
+    *)
+      log_verbose "Unknown manager: $m; skipping"
+      ;;
+  esac
+done
+
+log_info "Running user-level tool updates (npm, pip, cargo)"
+update_all_user_tools "$DRY_RUN"
+
+log_success "Update run complete"
