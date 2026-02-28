@@ -1,0 +1,35 @@
+name: claude_code
+description: Install Claude Code using the native installer (auto-updates)
+
+steps:
+  - name: check_already_installed
+    script: |
+      if command -v claude &>/dev/null; then
+        echo "✅ Claude Code already installed: $(claude --version)"
+        exit 0
+      fi
+
+  - name: install_claude_code
+    script: |
+      curl -fsSL https://claude.ai/install.sh | bash
+
+  - name: verify_install
+    script: |
+      if command -v claude &>/dev/null || [ -f "$HOME/.local/bin/claude" ]; then
+        "$HOME/.local/bin/claude" --version || true
+        echo "✅ Claude Code installed successfully"
+        echo "   Run 'claude' to start (restart shell or source your RC file first)"
+      else
+        echo "❌ Installation may have failed — binary not found at ~/.local/bin/claude"
+        exit 1
+      fi
+
+  - name: login
+    script: |
+      echo -e "\n🔐 Claude Code Login"
+      read -t 10 -rp "Login to Claude Code now? (y/n, auto-skip in 10s): " answer </dev/tty || true
+      if [[ "$answer" =~ ^[Yy]$ ]]; then
+        claude
+      else
+        echo -e "\nSkipped. Run 'claude' to authenticate when ready."
+      fi

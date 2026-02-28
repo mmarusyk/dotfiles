@@ -39,3 +39,6 @@ steps:
   
   - name: install_jetbrains_toolbox
     manifest: jetbrains_toolbox
+
+  - name: install_claude_code
+    manifest: claude-code
