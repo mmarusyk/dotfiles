@@ -4,14 +4,6 @@ depends_on:
   - mise
 
 steps:
-  - name: install_dependencies_ubuntu
-    script: |
-      if [[ "$(uname)" == "Linux" ]]; then
-        log_verbose "📦 Installing..."
-        sudo apt update -y
-        sudo apt install -y build-essential
-      fi
-
   - name: install_erlang
     script: |
       log_verbose "📦 Installing..."

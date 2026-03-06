@@ -1,21 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-update_apt() {
-  local dry_run=${1:-false}
-  if ! command -v apt >/dev/null 2>&1; then
-    log_verbose "apt not found; skipping apt updates"
-    return 0
-  fi
-  if [[ "$dry_run" == "true" ]]; then
-    log_info "[DRY RUN] apt update && apt upgrade -y && apt autoremove -y"
-    return 0
-  fi
-  log_info "Updating apt packages..."
-  sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt -y upgrade && sudo apt -y autoremove
-  log_success "apt updates complete"
-}
-
 update_pacman() {
   local dry_run=${1:-false}
   if ! command -v pacman >/dev/null 2>&1; then
@@ -309,13 +294,11 @@ update_all_user_tools() {
 
 default_managers_for_os() {
   case "${DETECTED_OS:-unknown}" in
-    ubuntu)
-      echo "apt snap flatpak" ;;
     arch)
       echo "pacman" ;;
     macos)
       echo "brew" ;;
     *)
-      echo "apt pacman brew" ;;
+      echo "pacman brew" ;;
   esac
 }

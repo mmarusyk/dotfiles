@@ -4,8 +4,6 @@ detect_os() {
     DETECTED_OS="macos"
   elif [[ -f /etc/arch-release ]]; then
     DETECTED_OS="arch"
-  elif [[ -f /etc/debian_version ]]; then
-    DETECTED_OS="ubuntu"
   else
     DETECTED_OS="unknown"
   fi

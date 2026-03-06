@@ -20,7 +20,7 @@ dotfiles/                               # Main repository folder (root of the sy
 │   ├── executor.sh                     # Manifest runner (dependency resolution + step execution)
 │   ├── update_helpers.sh               # Per-manager update functions used by update_all
 │   └── utils/                          # One function per file (single-responsibility helpers)
-│       ├── detect_os.sh                # Detects current OS (macOS, Arch, Ubuntu)
+│       ├── detect_os.sh                # Detects current OS (macOS, Arch)
 │       ├── require_dependencies.sh     # Verifies multiple dependencies at once
 │       ├── log_info.sh                 # Prints info messages in blue
 │       ├── log_success.sh              # Prints success messages in green
@@ -90,10 +90,10 @@ Usage:
 ./bin/update_all
 
 # Only run specific managers (comma-separated):
-./bin/update_all --only=apt,npm
+./bin/update_all --only=pacman,npm
 ```
 
 Notes:
 - The script uses the repo's OS detection and utility functions in `lib/`.
-- It attempts updates for apt/pacman/brew/snap/flatpak and user tools (npm/pip/cargo/gem).
+- It attempts updates for pacman/brew/snap/flatpak and user tools (npm/pip/cargo/gem).
 - Run with care and review the commands in `lib/update_helpers.sh` before invoking.

@@ -16,7 +16,7 @@ usage() {
 Usage: update_all [--dry-run|-n] [--yes|-y] [--only=managers]
   --dry-run, -n        Show what would be done without making changes
   --yes, -y            Assume yes for prompts (currently informational)
-  --only=managers      Comma-separated list of managers to run (apt,pacman,brew,snap,flatpak)
+  --only=managers      Comma-separated list of managers to run (pacman,brew,snap,flatpak)
   --help, -h           Show this help
 EOF
 }
@@ -77,9 +77,6 @@ log_info "Managers to run: ${managers[*]}"
 
 for m in "${managers[@]}"; do
   case "$m" in
-    apt)
-      update_apt "$DRY_RUN" || log_error "apt update failed"
-      ;;
     pacman)
       update_pacman "$DRY_RUN" || log_error "pacman update failed"
       ;;
