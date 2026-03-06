@@ -1,1 +1,5 @@
 _old
+
+# Machine-local overrides (never commit)
+config/local/
+*.local

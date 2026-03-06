@@ -1,0 +1,9 @@
+name: server_profile
+description: Headless server profile — core tools only, no GUI
+
+steps:
+  - name: base
+    manifest: profiles/base
+
+  - name: install_zsh
+    manifest: zsh

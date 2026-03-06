@@ -51,8 +51,15 @@ run_manifest() {
       # Use inline script
       cmd="$script_cmd"
     elif [[ -n "$manifest_ref" && "$manifest_ref" != "null" ]]; then
-      # Call another manifest
-      cmd="ROOT_DIR=\"\$(cd \"\$(dirname \"\${BASH_SOURCE[0]}\")/../..\" && pwd)\"; source \"\$ROOT_DIR/lib/executor.sh\"; run_manifest \"$manifest_ref\" \"$os\" \"$mode\" \"$dry_run\" \"$verbose\""
+      # Call another manifest directly (run_manifest is already in scope)
+      if [[ "$dry_run" == "true" ]]; then
+        log_info "🔍 [DRY RUN] [$software] $mode: $name (-> $manifest_ref)"
+        [[ "$verbose" == "true" ]] && echo "Would call: run_manifest \"$manifest_ref\" \"$os\" \"$mode\" \"$dry_run\" \"$verbose\""
+      else
+        log_info "➡️  [$software] $mode: $name (-> $manifest_ref)"
+        run_manifest "$manifest_ref" "$os" "$mode" "$dry_run" "$verbose"
+      fi
+      continue
     else
       # No script or manifest specified - skip this step
       log_error "❌ Step '$name' has neither 'script' nor 'manifest' key"

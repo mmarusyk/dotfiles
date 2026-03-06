@@ -30,24 +30,26 @@ steps:
       log_verbose "🎨 Updating..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
-      
+
       if [ -d "$ROOT_DIR/themes/zsh" ]; then
-        cp -r "$ROOT_DIR/themes/zsh/"* "$THEME_DIR/"
+        for f in "$ROOT_DIR/themes/zsh/"*; do
+          ln -sf "$f" "$THEME_DIR/$(basename "$f")"
+        done
         echo "✅ Zsh themes updated successfully!"
       else
         echo "⚠️  No themes found to update."
       fi
 
-  - name: copy_config
+  - name: link_config
     script: |
-      log_verbose "📝 Updating..."
+      log_verbose "📝 Linking..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-      cp "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
-      echo "✅ Zsh config updated successfully!"
+      ln -sf "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
+      echo "✅ Zsh config linked successfully!"
 
-  - name: copy_aliases
+  - name: link_aliases
     script: |
-      log_verbose "📝 Updating..."
+      log_verbose "📝 Linking..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-      cp "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"
-      echo "✅ Zsh aliases updated successfully!"
+      ln -sf "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"
+      echo "✅ Zsh aliases linked successfully!"

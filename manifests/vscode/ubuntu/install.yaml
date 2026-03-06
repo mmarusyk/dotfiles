@@ -38,11 +38,11 @@ steps:
       code --install-extension github.copilot-chat
       echo "✅ Extensions installed!"
 
-  - name: copy_settings
+  - name: link_settings
     script: |
-      log_verbose "📝 Copying..."
+      log_verbose "📝 Linking..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       HOME_DIR="$HOME/.config/Code/User"
       mkdir -p "$HOME_DIR"
-      cp -f "$ROOT_DIR/config/vscode/settings.json" "$HOME_DIR/settings.json"
+      ln -sf "$ROOT_DIR/config/vscode/settings.json" "$HOME_DIR/settings.json"
       echo "✅ VS Code configured!"

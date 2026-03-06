@@ -27,10 +27,10 @@ steps:
       cargo install zellij
       echo "✅ Zellij installed!"
 
-  - name: copy_config
+  - name: link_config
     script: |
-      log_verbose "📝 Configuring Zellij..."
+      log_verbose "📝 Linking Zellij config..."
       ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       mkdir -p "$HOME/.config/zellij"
-      cp -r "$ROOT_DIR/config/zellij/." "$HOME/.config/zellij/"
+      ln -sf "$ROOT_DIR/config/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
       log_verbose "✅ Configured!"

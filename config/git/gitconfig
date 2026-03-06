@@ -3,3 +3,5 @@
   pager = less -F -X
 [color]
   ui = auto
+[include]
+  path = ~/.gitconfig.local

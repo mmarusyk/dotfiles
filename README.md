@@ -14,40 +14,46 @@ git clone https://github.com/mmarusyk/dotfiles.git && cd dotfiles && ./bin/insta
 dotfiles/                               # Main repository folder (root of the system)
 │
 ├── bin/                                # Executable CLI commands
-│   └── install                         # Install system dependencies and profiles
+│   ├── install                         # Install system dependencies and profiles
+│   └── update_all                      # Bulk-update all package managers and user tools
 ├── lib/                                # Core logic and shared functions
 │   ├── executor.sh                     # Manifest runner (dependency resolution + step execution)
+│   ├── update_helpers.sh               # Per-manager update functions used by update_all
 │   └── utils/                          # One function per file (single-responsibility helpers)
-│       ├── detect_os.sh                # Detects current OS (macOS, Ubuntu)
-│       ├── get_os_pretty_name.sh       # Returns readable OS name (e.g., "Ubuntu / Debian")
-│       ├── check_dependency.sh         # Checks if a required command exists
+│       ├── detect_os.sh                # Detects current OS (macOS, Arch, Ubuntu)
 │       ├── require_dependencies.sh     # Verifies multiple dependencies at once
 │       ├── log_info.sh                 # Prints info messages in blue
 │       ├── log_success.sh              # Prints success messages in green
 │       ├── log_warn.sh                 # Prints warning messages in yellow
-│       └── log_error.sh                # Prints error messages in red
+│       ├── log_error.sh                # Prints error messages in red
+│       └── is_installed.sh             # Checks if a command exists (idempotency guard)
 │
 ├── manifests/                          # Declarative configuration layer (YAML manifests)
 │   ├── profiles/                       # Installation profiles
-│   │   └── default/                    # Default development profile
-│   │        └── install.yaml           # Profile installation steps
+│   │   ├── default.yaml                # Full desktop development profile
+│   │   ├── desktop.yaml                # Dev tools + GUI apps
+│   │   ├── dev.yaml                    # Base + docker, languages
+│   │   ├── base.yaml                   # Minimal: core, git, zsh, mise
+│   │   └── server.yaml                 # Headless server profile
 │   ├── core/                           # Core system dependencies
-│   │   └── <os>/                       # OS-specific subdirectory (macOS, Ubuntu)
-│   │        └── install.yaml           # Core dependencies installation
+│   │   └── <os>/install.yaml           # OS-specific core packages
 │   └── <software>/                     # Software-specific manifest directory
-│       └── <os>/                       # OS-specific subdirectory
-│            └── install.yaml           # Installation manifest for the software
+│       └── <os>/install.yaml           # OS-specific installation manifest
 │
 ├── config/                             # Actual configuration files (dotfiles)
 │   ├── zsh/                            # Shell configs
-│   │   └── .zshrc
-│   ├── kitty/                          # Kitty terminal config
-│   │   └── kitty.conf
-│   ├── vscode/                         # VSCode user settings
-│   │   └── settings.json
-│   ├── mise/                           # mise (version manager) config
-│   │   └── config.toml
-│   └── ...                             # (Add more: tmux, git, nvim, etc.)
+│   │   ├── zshrc
+│   │   └── aliases.zsh
+│   ├── git/                            # Git config
+│   │   └── gitconfig
+│   ├── zellij/                         # Zellij terminal multiplexer
+│   │   └── config.kdl
+│   └── vscode/                         # VSCode user settings
+│       └── settings.json
+│
+├── themes/                             # Custom shell themes
+│   └── zsh/
+│       └── obraun-custom.zsh-theme
 │
 └── README.md                           # Documentation
 ```

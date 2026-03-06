@@ -1,0 +1,15 @@
+name: desktop_profile
+description: Desktop profile — dev + GUI editor + terminal multiplexer
+
+steps:
+  - name: dev
+    manifest: profiles/dev
+
+  - name: install_zellij
+    manifest: zellij
+
+  - name: install_vscode
+    manifest: vscode
+
+  - name: install_obsidian
+    manifest: obsidian

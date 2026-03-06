@@ -1,0 +1,23 @@
+name: base_profile
+description: Minimal profile — works on any machine including headless servers
+
+steps:
+  - name: install_core
+    manifest: core
+
+  - name: prepare_folders
+    script: |
+      mkdir -p ~/.config ~/.local/bin ~/.cache/dotfiles ~/.backup
+      echo "Directories created"
+
+  - name: install_identification
+    manifest: identification
+
+  - name: install_ssh
+    manifest: ssh
+
+  - name: install_git
+    manifest: git
+
+  - name: install_mise
+    manifest: mise

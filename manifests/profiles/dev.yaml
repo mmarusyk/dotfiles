@@ -1,0 +1,24 @@
+name: dev_profile
+description: Developer profile — base + shell + languages + docker
+
+steps:
+  - name: base
+    manifest: profiles/base
+
+  - name: install_zsh
+    manifest: zsh
+
+  - name: install_fonts
+    manifest: fonts
+
+  - name: install_nodejs
+    manifest: nodejs
+
+  - name: install_ruby
+    manifest: ruby
+
+  - name: install_elixir
+    manifest: elixir
+
+  - name: install_docker
+    manifest: docker
