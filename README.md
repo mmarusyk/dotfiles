@@ -30,11 +30,11 @@ dotfiles/                               # Main repository folder (root of the sy
 │
 ├── manifests/                          # Declarative configuration layer (YAML manifests)
 │   ├── profiles/                       # Installation profiles
-│   │   ├── default.yaml                # Full desktop development profile
-│   │   ├── desktop.yaml                # Dev tools + GUI apps
-│   │   ├── dev.yaml                    # Base + docker, languages
-│   │   ├── base.yaml                   # Minimal: core, git, zsh, mise
-│   │   └── server.yaml                 # Headless server profile
+│   │   ├── default/install.yaml        # Full desktop development profile
+│   │   ├── desktop/install.yaml        # Dev tools + GUI apps
+│   │   ├── dev/install.yaml            # Base + docker, languages
+│   │   ├── base/install.yaml           # Minimal: core, git, zsh, mise
+│   │   └── server/install.yaml         # Headless server profile
 │   ├── core/                           # Core system dependencies
 │   │   └── <os>/install.yaml           # OS-specific core packages
 │   └── <software>/                     # Software-specific manifest directory
