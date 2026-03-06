@@ -4,18 +4,18 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Load utilities
+# shellcheck source=/dev/null
 for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+# shellcheck source=lib/update_helpers.sh
 source "$ROOT_DIR/lib/update_helpers.sh"
 
 DRY_RUN=false
-YES=false
 ONLY_MANAGERS=""
 
 usage() {
   cat <<EOF
-Usage: update_all [--dry-run|-n] [--yes|-y] [--only=managers]
+Usage: update_all [--dry-run|-n] [--only=managers]
   --dry-run, -n        Show what would be done without making changes
-  --yes, -y            Assume yes for prompts (currently informational)
   --only=managers      Comma-separated list of managers to run (pacman,brew,snap,flatpak)
   --help, -h           Show this help
 EOF
@@ -24,7 +24,6 @@ EOF
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run|-n) DRY_RUN=true; shift ;;
-    --yes|-y) YES=true; shift ;;
     --only) ONLY_MANAGERS="$2"; shift 2 ;;
     --only=*) ONLY_MANAGERS="${1#*=}"; shift ;;
     --help|-h) usage; exit 0 ;;

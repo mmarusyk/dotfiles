@@ -5,7 +5,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Load shared utils
+# shellcheck source=/dev/null
 for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+# shellcheck source=lib/executor.sh
 source "$ROOT_DIR/lib/executor.sh"
 
 # Flags

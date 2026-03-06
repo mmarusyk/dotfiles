@@ -18,7 +18,7 @@ jobs:
 
       - name: Run shellcheck on bin/ and lib/
         run: |
-          find bin/ lib/ -type f -name "*.sh" -o \( -type f -name "install" \) | \
+          find bin/ lib/ -type f \( -name "*.sh" -o -name "install" -o -name "update_all" \) | \
             xargs shellcheck --severity=warning
 
   yamllint:
@@ -31,7 +31,7 @@ jobs:
         run: pip install yamllint
 
       - name: Run yamllint on manifests/
-        run: yamllint manifests/
+        run: yamllint -c .yamllint.yml manifests/
 
   dry-run-ubuntu:
     name: Dry Run (Ubuntu)

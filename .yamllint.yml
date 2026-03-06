@@ -1,0 +1,7 @@
+extends: default
+
+rules:
+  document-start: disable   # optional --- marker, not required for simple configs
+  line-length:
+    max: 120                 # shell scripts in YAML blocks can be long
+    level: warning

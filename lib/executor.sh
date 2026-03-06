@@ -7,7 +7,8 @@ run_manifest() {
   local mode=$3       # e.g., install, update, configure
   local dry_run=${4:-false}    # optional: dry run mode
   local verbose=${5:-false}    # optional: verbose output
-  local ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  local ROOT_DIR
+  ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
   local paths=(
     "$ROOT_DIR/manifests/$software/$os/$mode.yaml"
@@ -78,6 +79,7 @@ run_manifest() {
       export ROOT_DIR="$ROOT_DIR"
 
       # Source all utility functions for script execution
+      # shellcheck source=/dev/null
       for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
 
       eval "$cmd"
