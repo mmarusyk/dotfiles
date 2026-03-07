@@ -8,7 +8,7 @@ steps:
 
   - name: set_default_shell
     script: |
-      ZSH_PATH=$(which zsh || echo "/bin/zsh")
+      ZSH_PATH=$(command -v zsh || echo "/bin/zsh")
       chsh -s "$ZSH_PATH"
 
   - name: install_oh_my_zsh
@@ -20,7 +20,6 @@ steps:
   - name: copy_themes
     script: |
       log_verbose "🎨 Updating themes..."
-      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
 
       if [ -d "$ROOT_DIR/themes/zsh" ]; then
@@ -34,11 +33,9 @@ steps:
 
   - name: link_config
     script: |
-      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       ln -sf "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
 
   - name: link_aliases
     script: |
       log_verbose "📝 Linking Zsh aliases..."
-      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       ln -sf "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"

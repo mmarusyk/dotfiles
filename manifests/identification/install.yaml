@@ -18,9 +18,9 @@ steps:
 
   - name: save_to_env
     script: |
-      echo -e "\n💾 Saving identification to ~/.dotfiles.env..."
-      cat > ~/.dotfiles.env << EOF
-      export DOTFILES_USER_NAME="$DOTFILES_USER_NAME"
-      export DOTFILES_USER_EMAIL="$DOTFILES_USER_EMAIL"
-      EOF
+      echo -e "\n💾 Saving identification to $ROOT_DIR/.env..."
+      cat > "$ROOT_DIR/.env" << EOF
+export DOTFILES_USER_NAME="$DOTFILES_USER_NAME"
+export DOTFILES_USER_EMAIL="$DOTFILES_USER_EMAIL"
+EOF
       echo "✅ Identification saved successfully!"

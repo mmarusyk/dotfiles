@@ -8,19 +8,14 @@ steps:
 
   - name: link_config
     script: |
-      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       ln -sf "$ROOT_DIR/config/git/gitconfig" "$HOME/.gitconfig"
 
   - name: configure_user
     script: |
-      if [[ -f ~/.dotfiles.env ]]; then
-        source ~/.dotfiles.env
-      fi
-
-      if [[ -n "${DOTFILES_USER_NAME//[[:space:]]/}" ]]; then
+      if [[ -n "${DOTFILES_USER_NAME:-}" ]]; then
         git config --file "$HOME/.gitconfig.local" user.name "$DOTFILES_USER_NAME"
       fi
 
-      if [[ -n "${DOTFILES_USER_EMAIL//[[:space:]]/}" ]]; then
+      if [[ -n "${DOTFILES_USER_EMAIL:-}" ]]; then
         git config --file "$HOME/.gitconfig.local" user.email "$DOTFILES_USER_EMAIL"
       fi

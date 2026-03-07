@@ -31,7 +31,6 @@ steps:
   - name: link_settings
     script: |
       log_verbose "📝 Linking..."
-      ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
       HOME_DIR="$HOME/Library/Application Support/Code/User"
       mkdir -p "$HOME_DIR"
       ln -sf "$ROOT_DIR/config/vscode/settings.json" "$HOME_DIR/settings.json"

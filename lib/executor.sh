@@ -18,7 +18,7 @@ run_manifest() {
 
   local manifest_path=""
   for path in "${paths[@]}"; do
-    [[ "$verbose" == "true" ]] && log_info "🔍 Checking for manifest at: ${path}"
+    if [[ "$verbose" == "true" ]]; then log_info "🔍 Checking for manifest at: ${path}"; fi
     if [[ -f "$path" ]]; then
       manifest_path="$path"
       break
@@ -35,9 +35,10 @@ run_manifest() {
   # Dependencies
   local deps
   deps=$(yq -r '.depends_on[]?' "$manifest_path" 2>/dev/null || true)
-  for dep in $deps; do
+  while IFS= read -r dep; do
+    [[ -z "$dep" ]] && continue
     run_manifest "$dep" "$os" "install" "$dry_run" "$verbose"
-  done
+  done <<< "$deps"
 
   # Execute steps
   yq -c '.steps[]' "$manifest_path" | while read -r step; do
@@ -55,7 +56,7 @@ run_manifest() {
       # Call another manifest directly (run_manifest is already in scope)
       if [[ "$dry_run" == "true" ]]; then
         log_info "🔍 [DRY RUN] [$software] $mode: $name (-> $manifest_ref)"
-        [[ "$verbose" == "true" ]] && echo "Would call: run_manifest \"$manifest_ref\" \"$os\" \"$mode\" \"$dry_run\" \"$verbose\""
+        if [[ "$verbose" == "true" ]]; then echo "Would call: run_manifest \"$manifest_ref\" \"$os\" \"$mode\" \"$dry_run\" \"$verbose\""; fi
       else
         log_info "➡️  [$software] $mode: $name (-> $manifest_ref)"
         run_manifest "$manifest_ref" "$os" "$mode" "$dry_run" "$verbose"
@@ -71,16 +72,20 @@ run_manifest() {
     
     if [[ "$dry_run" == "true" ]]; then
       log_info "🔍 [DRY RUN] [$software] $mode: $name"
-      [[ "$verbose" == "true" ]] && echo "Command: $cmd"
+      if [[ "$verbose" == "true" ]]; then echo "Command: $cmd"; fi
     else
       log_info "➡️  [$software] $mode: $name"
-      [[ "$verbose" == "true" ]] && echo "Executing: $cmd"
+      if [[ "$verbose" == "true" ]]; then echo "Executing: $cmd"; fi
       export VERBOSE="$verbose"
       export ROOT_DIR="$ROOT_DIR"
 
       # Source all utility functions for script execution
       # shellcheck source=/dev/null
       for f in "$ROOT_DIR/lib/utils/"*.sh; do source "$f"; done
+
+      # Load user env vars (DOTFILES_USER_NAME, DOTFILES_USER_EMAIL, etc.)
+      # shellcheck source=/dev/null
+      if [[ -f "$ROOT_DIR/.env" ]]; then source "$ROOT_DIR/.env"; fi
 
       eval "$cmd"
     fi
