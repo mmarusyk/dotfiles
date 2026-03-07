@@ -15,9 +15,11 @@ dotfiles/                               # Main repository folder (root of the sy
 │
 ├── bin/                                # Executable CLI commands
 │   ├── install                         # Install system dependencies and profiles
+│   ├── menu                            # Interactive TUI software manager (arrow keys + Enter)
 │   └── update_all                      # Bulk-update all package managers and user tools
 ├── lib/                                # Core logic and shared functions
 │   ├── executor.sh                     # Manifest runner (dependency resolution + step execution)
+│   ├── menu.sh                         # TUI menu implementation (requires gum)
 │   ├── update_helpers.sh               # Per-manager update functions used by update_all
 │   └── utils/                          # One function per file (single-responsibility helpers)
 │       ├── detect_os.sh                # Detects current OS (macOS, Arch)
@@ -57,6 +59,26 @@ dotfiles/                               # Main repository folder (root of the sy
 │
 └── README.md                           # Documentation
 ```
+
+### `menu`
+
+Interactive TUI for browsing and managing software from the manifest library.
+
+**Requirements**
+
+- [`gum`](https://github.com/charmbracelet/gum) — installed automatically on first run via `pacman` (Arch) or `brew` (macOS)
+- `yq` — required for parsing YAML manifests (installed by `core` manifest)
+
+**Usage**
+```bash
+./bin/menu
+```
+
+Navigate with **↑ ↓** arrow keys, confirm with **Enter**, cancel/go back with **Ctrl+C** or the Back option.
+
+The menu auto-detects the current OS and only lists software that has a manifest available for it. The available actions (Install / Update / Destroy) are shown per-software based on which YAML files exist under `manifests/<software>/`.
+
+---
 
 ### `bin/install`
 
