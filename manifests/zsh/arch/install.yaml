@@ -9,7 +9,7 @@ steps:
   - name: set_default_shell
     script: |
       ZSH_PATH=$(command -v zsh || echo "/bin/zsh")
-      chsh -s "$ZSH_PATH"
+      sudo chsh -s "$ZSH_PATH" "$USER"
 
   - name: install_oh_my_zsh
     script: |

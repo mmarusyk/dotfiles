@@ -10,6 +10,7 @@ steps:
     script: |
       EXTENSIONS=(
         "vscodevim.vim"
+        "anthropic.claude-code"
       )
 
       for EXT in "${EXTENSIONS[@]}"; do
@@ -17,3 +18,13 @@ steps:
           code --install-extension "$EXT"
         fi
       done
+  - name: copy_configs
+    script: |
+      HOME_DIR="$HOME/.config/Code/User"
+      mkdir -p "$HOME_DIR"
+      ln -sf "$ROOT_DIR/config/vscode/settings.json" "$HOME_DIR/settings.json"
+  - name: fix_encryption
+    script: |
+      sudo pacman -S --noconfirm gnome-keyring libsecret
+      mkdir -p "$HOME/.vscode"
+      ln -sf "$ROOT_DIR/config/vscode/argv.json" "$HOME/.vscode/argv.json"

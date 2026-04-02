@@ -1,5 +1,4 @@
 {
-  "aws.telemetry": false,
   "editor.lineNumbers": "relative",
   "editor.rulers": [
     120

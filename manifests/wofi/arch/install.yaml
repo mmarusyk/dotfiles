@@ -1,0 +1,7 @@
+name: wofi_arch
+description: Install Wofi application launcher
+
+steps:
+  - name: install_wofi
+    script: |
+      sudo pacman -S --needed --noconfirm wofi

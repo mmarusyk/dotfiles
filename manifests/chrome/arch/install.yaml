@@ -1,0 +1,7 @@
+name: chrome_arch
+description: Install Google Chrome on Arch Linux
+
+steps:
+  - name: install_chrome
+    script: |
+      yay -S --noconfirm --needed google-chrome

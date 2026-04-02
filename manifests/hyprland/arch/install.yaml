@@ -1,0 +1,12 @@
+name: hyprland_arch
+description: Install and configure Hyprland on Arch Linux
+
+steps:
+  - name: install_hyprland
+    script: |
+      sudo pacman -S --noconfirm --needed hyprland
+
+  - name: link_config
+    script: |
+      mkdir -p "$HOME/.config/hypr"
+      ln -sf "$ROOT_DIR/config/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"

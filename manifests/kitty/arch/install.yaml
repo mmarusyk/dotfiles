@@ -1,0 +1,14 @@
+name: kitty_arch
+description: Install and configure Kitty terminal on Arch Linux
+depends_on:
+  - zsh
+
+steps:
+  - name: install_kitty
+    script: |
+      sudo pacman -S --needed --noconfirm kitty
+
+  - name: link_config
+    script: |
+      mkdir -p "$HOME/.config/kitty"
+      ln -sf "$ROOT_DIR/config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"

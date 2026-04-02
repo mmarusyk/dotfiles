@@ -4,4 +4,11 @@ description: Install Iosevka fonts
 steps:
   - name: install_iosevka_fonts
     script: |
-      yay -S --noconfirm ttf-iosevka ttf-iosevka-nerd
+      yay -S --needed --noconfirm ttf-iosevka ttf-iosevka-nerd
+
+  - name: install_noto_fonts
+    script: |
+      sudo pacman -S --needed --noconfirm \
+        noto-fonts \
+        noto-fonts-emoji \
+        noto-fonts-cjk
