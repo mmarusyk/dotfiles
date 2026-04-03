@@ -1,5 +1,7 @@
 name: ruby_arch
 description: Install Ruby
+depends_on:
+  - mise
 
 steps:
   - name: install_dependencies

@@ -12,7 +12,7 @@ eval "$(mise activate zsh)"
 
 # Auto-start Zellij if installed and not already running
 if command -v zellij &>/dev/null && [[ -z "$ZELLIJ" ]]; then
-  zellij
+  exec zellij
 fi
 
 # Machine-local overrides (not tracked in git)

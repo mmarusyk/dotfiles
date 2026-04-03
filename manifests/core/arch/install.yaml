@@ -20,17 +20,6 @@ steps:
         echo "yay is already installed."
       fi
 
-  - name: install_network_manager
-    script: |
-      sudo pacman -S --noconfirm --needed networkmanager nm-connection-editor
-      sudo systemctl enable --now NetworkManager
-      sudo systemctl disable --now iwd 2>/dev/null || true
-
-  - name: create_user_dirs
-    script: |
-      sudo pacman -S --noconfirm --needed xdg-user-dirs
-      xdg-user-dirs-update
-
   - name: install_flatpak
     script: |
       sudo pacman -S --noconfirm flatpak

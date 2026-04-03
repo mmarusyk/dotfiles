@@ -22,5 +22,11 @@
   "window.titleBarStyle": "custom",
   "workbench.editor.enablePreview": true,
   "workbench.iconTheme": "vscode-icons",
-  "claudeCode.preferredLocation": "panel"
+  "claudeCode.preferredLocation": "panel",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.profiles.linux": {
+    "zsh": {
+      "path": "/usr/bin/zsh"
+    }
+  }
 }

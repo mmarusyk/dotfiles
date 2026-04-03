@@ -5,6 +5,9 @@ steps:
   - name: base
     manifest: profiles/base
 
+  - name: install_vscode
+    manifest: vscode
+
   - name: install_zsh
     manifest: zsh
 
