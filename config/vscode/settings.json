@@ -21,5 +21,6 @@
   },
   "window.titleBarStyle": "custom",
   "workbench.editor.enablePreview": true,
-  "workbench.iconTheme": "vscode-icons"
+  "workbench.iconTheme": "vscode-icons",
+  "claudeCode.preferredLocation": "panel"
 }

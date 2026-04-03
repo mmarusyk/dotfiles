@@ -5,3 +5,8 @@ steps:
   - name: install_wofi
     script: |
       sudo pacman -S --needed --noconfirm wofi
+
+  - name: link_config
+    script: |
+      mkdir -p "$HOME/.config/wofi"
+      ln -sf "$ROOT_DIR/config/wofi/style.css" "$HOME/.config/wofi/style.css"

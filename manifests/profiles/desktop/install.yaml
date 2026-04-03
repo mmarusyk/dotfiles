@@ -1,5 +1,5 @@
 name: desktop_profile
-description: Desktop profile — dev + GUI editor + terminal multiplexer
+description: Desktop profile — dev + Hyprland WM + GUI apps + terminal multiplexer
 
 steps:
   - name: dev
@@ -8,8 +8,41 @@ steps:
   - name: install_zellij
     manifest: zellij
 
+  - name: install_kitty
+    manifest: kitty
+
+  - name: install_wofi
+    manifest: wofi
+
+  - name: install_waybar
+    manifest: waybar
+
+  - name: configure_wireplumber
+    manifest: wireplumber
+
+  - name: install_hyprlock
+    manifest: hyprlock
+
+  - name: install_hyprland
+    manifest: hyprland
+
+  - name: install_screenshot
+    manifest: screenshot
+
   - name: install_vscode
     manifest: vscode
 
+  - name: install_chrome
+    manifest: chrome
+
   - name: install_obsidian
     manifest: obsidian
+
+  - name: install_gimp
+    manifest: gimp
+
+  - name: install_libreoffice
+    manifest: libreoffice
+
+  - name: install_vlc
+    manifest: vlc

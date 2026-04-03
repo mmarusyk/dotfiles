@@ -1,0 +1,9 @@
+name: wireplumber_arch
+description: Configure WirePlumber audio session manager on Arch Linux
+
+steps:
+  - name: link_config
+    script: |
+      mkdir -p "$HOME/.config/wireplumber/wireplumber.conf.d"
+      ln -sf "$ROOT_DIR/config/wireplumber/wireplumber.conf.d/no-suspend.conf" \
+        "$HOME/.config/wireplumber/wireplumber.conf.d/no-suspend.conf"

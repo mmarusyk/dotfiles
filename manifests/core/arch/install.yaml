@@ -6,7 +6,7 @@ steps:
     script: sudo pacman -Syu --noconfirm
 
   - name: install_basics
-    script: sudo pacman -S --noconfirm base-devel git curl wget yq less
+    script: sudo pacman -S --noconfirm base-devel git curl wget yq less brightnessctl
 
   - name: install_yay
     script: |
@@ -19,6 +19,17 @@ steps:
       else
         echo "yay is already installed."
       fi
+
+  - name: install_network_manager
+    script: |
+      sudo pacman -S --noconfirm --needed networkmanager nm-connection-editor
+      sudo systemctl enable --now NetworkManager
+      sudo systemctl disable --now iwd 2>/dev/null || true
+
+  - name: create_user_dirs
+    script: |
+      sudo pacman -S --noconfirm --needed xdg-user-dirs
+      xdg-user-dirs-update
 
   - name: install_flatpak
     script: |
