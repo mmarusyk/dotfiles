@@ -1,5 +1,5 @@
-name: docker_arch
-description: Install Podman on Arch Linux
+name: docker_ubuntu
+description: Install Podman on Ubuntu
 
 steps:
   - name: install_podman
@@ -8,7 +8,7 @@ steps:
         echo "✅ Podman is already installed."
       else
         log_verbose "📦 Installing..."
-        sudo pacman -S --noconfirm podman
+        sudo apt-get install -y podman
         echo "✅ Podman installed!"
       fi
 

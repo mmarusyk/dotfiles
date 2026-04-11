@@ -1,0 +1,19 @@
+name: fonts_ubuntu_install
+description: Install Iosevka and Noto fonts
+
+steps:
+  - name: install_iosevka_nerd_font
+    script: |
+      FONT_DIR="$HOME/.local/share/fonts/IosevkaNerdFont"
+      if fc-list | grep -qi "Iosevka Nerd Font"; then
+        log_info "✅ Iosevka Nerd Font is already installed"
+      else
+        VERSION=$(curl -s https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest \
+          | grep '"tag_name"' | sed 's/.*"tag_name": "\(.*\)".*/\1/')
+        mkdir -p "$FONT_DIR"
+        curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/${VERSION}/Iosevka.tar.xz" \
+          -o /tmp/Iosevka.tar.xz
+        tar -xf /tmp/Iosevka.tar.xz -C "$FONT_DIR"
+        rm /tmp/Iosevka.tar.xz
+        fc-cache -f "$FONT_DIR"
+      fi

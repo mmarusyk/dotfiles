@@ -5,15 +5,10 @@ plugins=(vi-mode git)
 source $ZSH/oh-my-zsh.sh
 
 # Version manager
-eval "$(mise activate zsh)"
+command -v mise &>/dev/null && eval "$(mise activate zsh)"
 
 # Aliases
 [[ -f "$HOME/.aliases.zsh" ]] && source "$HOME/.aliases.zsh"
-
-# Auto-start Zellij if installed and not already running
-if command -v zellij &>/dev/null && [[ -z "$ZELLIJ" ]]; then
-  exec zellij
-fi
 
 # Machine-local overrides (not tracked in git)
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

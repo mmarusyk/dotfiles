@@ -1,0 +1,14 @@
+name: chrome_ubuntu
+description: Install Google Chrome on Ubuntu
+
+steps:
+  - name: install_chrome
+    script: |
+      if command -v google-chrome-stable &>/dev/null; then
+        log_info "✅ Google Chrome already installed"
+      else
+        TMP_DEB=$(mktemp --suffix=.deb)
+        wget -O "$TMP_DEB" https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt-get install -y "$TMP_DEB"
+        rm -f "$TMP_DEB"
+      fi

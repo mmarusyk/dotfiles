@@ -1,12 +1,12 @@
-name: kitty_arch
-description: Install and configure Kitty terminal on Arch Linux
+name: kitty_ubuntu
+description: Install and configure Kitty terminal on Ubuntu
 depends_on:
   - zellij
 
 steps:
   - name: install_kitty
     script: |
-      sudo pacman -S --needed --noconfirm kitty
+      sudo apt-get install -y kitty
 
   - name: link_config
     script: |

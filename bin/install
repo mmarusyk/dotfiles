@@ -61,6 +61,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 detect_os
+
+# Bootstrap yq before the executor can use it to parse any manifest
+if ! command -v yq &>/dev/null; then
+  log_info "📦 'yq' is required — installing..."
+  if   [[ "$DETECTED_OS" == "arch"   ]]; then sudo pacman -S --noconfirm yq
+  elif [[ "$DETECTED_OS" == "macos"  ]]; then brew install yq
+  elif [[ "$DETECTED_OS" == "ubuntu" ]]; then sudo snap install yq
+  else
+    log_error "❌ Cannot auto-install yq on '$DETECTED_OS'. Install it manually."
+    exit 1
+  fi
+fi
+
 require_dependencies yq
 
 # Determine what to install

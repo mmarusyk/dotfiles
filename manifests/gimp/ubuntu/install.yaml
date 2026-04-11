@@ -1,0 +1,7 @@
+name: gimp_ubuntu
+description: Install GIMP
+
+steps:
+  - name: install_gimp
+    script: |
+      sudo apt-get install -y gimp

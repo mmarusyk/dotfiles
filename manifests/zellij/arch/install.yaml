@@ -1,5 +1,7 @@
 name: zellij_arch
 description: Install and configure Zellij terminal multiplexer on Arch Linux
+depends_on:
+  - zsh
 
 steps:
   - name: install_zellij

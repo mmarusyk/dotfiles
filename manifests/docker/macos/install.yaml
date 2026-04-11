@@ -1,13 +1,17 @@
 name: docker_macos
-description: Install Docker Desktop on macOS
+description: Install Colima on macOS
 
 steps:
-  - name: install_docker
+  - name: install_colima
     script: |
       if command -v docker &>/dev/null; then
         echo "✅ Docker is already installed."
       else
         log_verbose "📦 Installing..."
-        brew install --cask docker
-        echo "✅ Docker Desktop installed!"
+        brew install colima docker docker-compose docker-buildx
+        echo "✅ Colima installed!"
       fi
+
+  - name: start_colima
+    script: |
+      colima start

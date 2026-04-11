@@ -1,0 +1,7 @@
+name: vlc_ubuntu
+description: Install VLC media player
+
+steps:
+  - name: install_vlc
+    script: |
+      sudo apt-get install -y vlc

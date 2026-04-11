@@ -62,6 +62,12 @@ _ensure_gum() {
   echo "📦 'gum' is required for the interactive menu — installing..."
   if   command -v pacman &>/dev/null; then sudo pacman -S --noconfirm gum
   elif command -v brew   &>/dev/null; then brew install gum
+  elif command -v apt-get &>/dev/null; then
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" \
+      | sudo tee /etc/apt/sources.list.d/charm.list > /dev/null
+    sudo apt-get update && sudo apt-get install -y gum
   else
     echo "❌ Could not auto-install gum."
     echo "   Install it manually: https://github.com/charmbracelet/gum"
@@ -97,7 +103,7 @@ show_menu() {
   local os="$DETECTED_OS"
 
   if [[ "$os" == "unknown" ]]; then
-    echo "❌ Unsupported OS. Only 'arch' and 'macos' are supported."
+    echo "❌ Unsupported OS. Only 'arch', 'macos' and 'ubuntu' are supported."
     exit 1
   fi
 

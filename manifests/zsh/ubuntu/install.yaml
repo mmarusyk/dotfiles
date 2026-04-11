@@ -1,0 +1,41 @@
+name: zsh_ubuntu
+description: Install and configure Zsh with Oh My Zsh
+
+steps:
+  - name: install_zsh
+    script: |
+      sudo apt-get install -y curl zsh
+
+  - name: set_default_shell
+    script: |
+      ZSH_PATH=$(command -v zsh || echo "/bin/zsh")
+      sudo chsh -s "$ZSH_PATH" "$USER"
+
+  - name: install_oh_my_zsh
+    script: |
+      if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      fi
+
+  - name: copy_themes
+    script: |
+      log_verbose "🎨 Updating themes..."
+      THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
+
+      if [ -d "$ROOT_DIR/themes/zsh" ]; then
+        for f in "$ROOT_DIR/themes/zsh/"*; do
+          ln -sf "$f" "$THEME_DIR/$(basename "$f")"
+        done
+        echo "✅ Zsh themes updated successfully!"
+      else
+        echo "⚠️  No themes found to update."
+      fi
+
+  - name: link_config
+    script: |
+      ln -sf "$ROOT_DIR/config/zsh/zshrc" "$HOME/.zshrc"
+
+  - name: link_aliases
+    script: |
+      log_verbose "📝 Linking Zsh aliases..."
+      ln -sf "$ROOT_DIR/config/zsh/aliases.zsh" "$HOME/.aliases.zsh"

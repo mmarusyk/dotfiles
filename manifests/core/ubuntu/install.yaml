@@ -1,0 +1,25 @@
+name: core_ubuntu_install
+description: Install base dependencies for Ubuntu
+
+steps:
+  - name: update_system
+    script: |
+      sudo apt-get update && sudo apt-get upgrade -y
+
+  - name: install_basics
+    script: |
+      sudo apt-get install -y build-essential git curl wget less
+
+  - name: install_yq
+    script: |
+      sudo snap install yq
+
+  - name: install_gum
+    script: |
+      if ! command -v gum &>/dev/null; then
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" \
+          | sudo tee /etc/apt/sources.list.d/charm.list > /dev/null
+        sudo apt-get update && sudo apt-get install -y gum
+      fi
