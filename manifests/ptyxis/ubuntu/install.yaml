@@ -2,13 +2,13 @@ name: ptyxis_ubuntu
 description: Configure Ptyxis terminal to launch Zellij
 depends_on:
   - zellij
+  - fonts
 
 steps:
   - name: install_ptyxis
     script: |
       if command -v ptyxis &>/dev/null; then
         log_info "✅ Ptyxis is already installed"
-        exit 0
       fi
       sudo apt-get install -y ptyxis
 
@@ -23,6 +23,15 @@ steps:
       PROFILE_UUID=$(gsettings get org.gnome.Ptyxis default-profile-uuid | tr -d "'")
       PROFILE_PATH="/org/gnome/Ptyxis/Profiles/${PROFILE_UUID}/"
 
-      gsettings set "org.gnome.Ptyxis.Profile:${PROFILE_PATH}" custom-shell-command "$ZELLIJ_PATH"
-      gsettings set "org.gnome.Ptyxis.Profile:${PROFILE_PATH}" use-custom-shell-command true
+      gsettings set "org.gnome.Ptyxis.Profile:${PROFILE_PATH}" custom-command "$ZELLIJ_PATH"
+      gsettings set "org.gnome.Ptyxis.Profile:${PROFILE_PATH}" use-custom-command true
       log_info "✅ Ptyxis configured to launch zellij (${ZELLIJ_PATH})"
+
+  - name: set_font
+    script: |
+      PROFILE_UUID=$(gsettings get org.gnome.Ptyxis default-profile-uuid | tr -d "'")
+      PROFILE_PATH="/org/gnome/Ptyxis/Profiles/${PROFILE_UUID}/"
+
+      gsettings set org.gnome.Ptyxis use-system-font false
+      gsettings set org.gnome.Ptyxis font-name "IosevkaNerdFontMono 12"
+      log_info "✅ Ptyxis font set to IosevkaNerdFontMono 12"

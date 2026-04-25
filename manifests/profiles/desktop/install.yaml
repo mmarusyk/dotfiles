@@ -5,6 +5,9 @@ steps:
   - name: dev
     manifest: profiles/dev
 
+  - name: install_fonts
+    manifest: fonts
+
   - name: install_zellij
     manifest: zellij
 
