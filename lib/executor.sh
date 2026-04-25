@@ -41,11 +41,11 @@ run_manifest() {
   done <<< "$deps"
 
   # Execute steps
-  yq -c '.steps[]' "$manifest_path" | while read -r step; do
+  yq -o json -I 0 '.steps[]' "$manifest_path" | while read -r step; do
     local name script_cmd manifest_ref
     name=$(echo "$step" | yq -r '.name // "unnamed"')
-    script_cmd=$(echo "$step" | yq -r ".script // empty")
-    manifest_ref=$(echo "$step" | yq -r ".manifest // empty")
+    script_cmd=$(echo "$step" | yq -r '.script // ""')
+    manifest_ref=$(echo "$step" | yq -r '.manifest // ""')
     
     # Determine what to execute
     local cmd=""
