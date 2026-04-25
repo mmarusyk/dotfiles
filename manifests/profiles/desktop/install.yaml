@@ -8,8 +8,8 @@ steps:
   - name: install_zellij
     manifest: zellij
 
-  - name: install_kitty
-    manifest: kitty
+  - name: configure_ptyxis
+    manifest: ptyxis
 
   - name: install_chrome
     manifest: chrome

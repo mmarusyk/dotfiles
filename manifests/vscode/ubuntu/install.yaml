@@ -15,14 +15,13 @@ steps:
 
   - name: add_repository
     script: |
-      sudo tee /etc/apt/sources.list.d/vscode.sources > /dev/null << 'EOF'
-      Types: deb
-      URIs: https://packages.microsoft.com/repos/code
-      Suites: stable
-      Components: main
-      Architectures: amd64,arm64,armhf
-      Signed-By: /usr/share/keyrings/microsoft.gpg
-      EOF
+      if [[ -f /etc/apt/sources/list.d/vscode.sources ]]; then
+        log_info "✅ VS Code repository already configured"
+      else
+        printf 'Types: deb\nURIs: https://packages.microsoft.com/repos/code\nSuites: stable\nComponents: main\nArchitectures: amd64,arm64,armhf\nSigned-By: /usr/share/keyrings/microsoft.gpg\n' \
+          | sudo tee /etc/apt/sources.list.d/vscode.sources > /dev/null
+        log_info "✅ Microsoft repository added"
+      fi
 
   - name: install_vscode
     script: |
@@ -48,3 +47,4 @@ steps:
       HOME_DIR="$HOME/.config/Code/User"
       mkdir -p "$HOME_DIR"
       ln -sf "$ROOT_DIR/config/vscode/settings.json" "$HOME_DIR/settings.json"
+

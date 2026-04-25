@@ -1,0 +1,28 @@
+name: ptyxis_ubuntu
+description: Configure Ptyxis terminal to launch Zellij
+depends_on:
+  - zellij
+
+steps:
+  - name: install_ptyxis
+    script: |
+      if command -v ptyxis &>/dev/null; then
+        log_info "✅ Ptyxis is already installed"
+        exit 0
+      fi
+      sudo apt-get install -y ptyxis
+
+  - name: set_zellij_as_shell
+    script: |
+      ZELLIJ_PATH=$(command -v zellij)
+      if [ -z "$ZELLIJ_PATH" ]; then
+        log_error "zellij not found in PATH — run zellij manifest first"
+        exit 1
+      fi
+
+      PROFILE_UUID=$(gsettings get org.gnome.Ptyxis default-profile-uuid | tr -d "'")
+      PROFILE_PATH="/org/gnome/Ptyxis/Profiles/${PROFILE_UUID}/"
+
+      gsettings set "org.gnome.Ptyxis.Profile:${PROFILE_PATH}" custom-shell-command "$ZELLIJ_PATH"
+      gsettings set "org.gnome.Ptyxis.Profile:${PROFILE_PATH}" use-custom-shell-command true
+      log_info "✅ Ptyxis configured to launch zellij (${ZELLIJ_PATH})"
