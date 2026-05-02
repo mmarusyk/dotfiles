@@ -1,9 +1,0 @@
-name: mise_macos
-description: Install mise (polyglot runtime manager) on macOS
-
-steps:
-  - name: install_mise
-    script: |
-      log_verbose "📦 Installing..."
-      brew install mise
-      echo "✅ mise installed successfully!"

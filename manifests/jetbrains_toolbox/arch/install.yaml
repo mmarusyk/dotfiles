@@ -1,7 +1,0 @@
-name: jetbrains_toolbox
-description: Install JetBrains Toolbox
-
-steps:
-  - name: install_jetbrains_toolbox
-    script: |
-      yay -S --noconfirm jetbrains-toolbox

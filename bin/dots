@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export ROOT_DIR
+
+source "$ROOT_DIR/lib/utils.sh"
+source "$ROOT_DIR/lib/packages.sh"
+for f in "$ROOT_DIR/lib/apps/"*.sh; do source "$f"; done
+
+# ── Defaults ───────────────────────────────────────────────────────────────────
+DRY_RUN=false
+VERBOSE=false
+MODE="install"
+PROFILE_NAME="default"
+APPS=()
+
+# ── Usage ──────────────────────────────────────────────────────────────────────
+usage() {
+  cat <<EOF
+Usage: dots [options] [app...]
+
+Options:
+  -p, --profile <name>  Profile to use from profiles/ (default: default)
+  -m, --mode <mode>     Mode: install | update | destroy | config  (default: install)
+  -d, --dry-run         Print commands without executing
+  -v, --verbose         Print each command before running
+  -h, --help            Show this help
+
+Examples:
+  ./bin/dots                        Install default profile
+  ./bin/dots --profile work         Install work profile
+  ./bin/dots docker nodejs          Install specific apps
+  ./bin/dots --mode update          Update all apps
+  ./bin/dots --mode config          Re-link all configs
+  ./bin/dots --dry-run --verbose    Preview install
+EOF
+}
+
+# ── Argument parsing ───────────────────────────────────────────────────────────
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -p|--profile) PROFILE_NAME="$2"; shift 2 ;;
+    -m|--mode)    MODE="$2";         shift 2 ;;
+    -d|--dry-run) DRY_RUN=true;      shift ;;
+    -v|--verbose) VERBOSE=true;      shift ;;
+    -h|--help)    usage; exit 0 ;;
+    -*) log_error "Unknown option: $1"; usage; exit 1 ;;
+    *)  APPS+=("$1"); shift ;;
+  esac
+done
+
+export DRY_RUN VERBOSE MODE
+
+detect_os
+
+if [[ "$DETECTED_OS" == "unknown" ]]; then
+  log_error "Unsupported OS. Supported: arch, ubuntu, macos"
+  exit 1
+fi
+
+profile_file="$ROOT_DIR/profiles/${PROFILE_NAME}.sh"
+if [[ ! -f "$profile_file" ]]; then
+  log_error "Profile '$PROFILE_NAME' not found at $profile_file"
+  exit 1
+fi
+# shellcheck source=/dev/null
+source "$profile_file"
+
+# shellcheck source=/dev/null
+[[ -f "$ROOT_DIR/.env" ]] && source "$ROOT_DIR/.env"
+
+# ── Dispatcher ─────────────────────────────────────────────────────────────────
+dispatch() {
+  local app=$1
+  local fn_app="${app//-/_}"   # hyphens → underscores for function names
+
+  log_info "[$MODE] $app"
+
+  local custom_fn="custom_${MODE}_${fn_app}"
+  if declare -f "$custom_fn" > /dev/null 2>&1; then
+    "$custom_fn"
+    return
+  fi
+
+  case "$MODE" in
+    install)
+      pkg_install "$app"
+      local config_fn="config_${fn_app}"
+      declare -f "$config_fn" > /dev/null 2>&1 && "$config_fn"
+      ;;
+    update)  pkg_update  "$app" ;;
+    destroy) pkg_destroy "$app" ;;
+    config)
+      local config_fn="config_${fn_app}"
+      if declare -f "$config_fn" > /dev/null 2>&1; then
+        "$config_fn"
+      else
+        log_warn "No config defined for $app — skipping"
+      fi
+      ;;
+    *)
+      log_error "Unknown mode: $MODE"
+      exit 1
+      ;;
+  esac
+}
+
+# ── Resolve targets ────────────────────────────────────────────────────────────
+targets=( "${APPS[@]:-${PROFILE[@]}}" )
+
+log_info "mode=$MODE | os=$DETECTED_OS | targets=${targets[*]}"
+
+for app in "${targets[@]}"; do
+  dispatch "$app"
+done
+
+log_success "Done."

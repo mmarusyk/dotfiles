@@ -1,3 +1,123 @@
 #!/usr/bin/env bash
-# Entry point for the dotfiles interactive software manager
-exec "$(cd "$(dirname "$0")/.." && pwd)/lib/menu.sh" "$@"
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export ROOT_DIR
+
+source "$ROOT_DIR/lib/utils.sh"
+source "$ROOT_DIR/lib/packages.sh"
+for f in "$ROOT_DIR/lib/apps/"*.sh; do source "$f"; done
+
+detect_os
+
+# ── gum bootstrap ──────────────────────────────────────────────────────────────
+_ensure_gum() {
+  command -v gum &>/dev/null && return
+  log_info "'gum' is required — installing..."
+  case $DETECTED_OS in
+    arch)   sudo pacman -S --noconfirm gum ;;
+    macos)  brew install gum ;;
+    ubuntu) _core_install_gum_ubuntu ;;
+  esac
+}
+
+# ── App discovery ──────────────────────────────────────────────────────────────
+_all_apps() {
+  for f in "$ROOT_DIR/lib/apps/"*.sh; do basename "$f" .sh; done
+  eval "printf '%s\n' \"\${!PKG_${DETECTED_OS}[@]}\""
+}
+
+_app_has_mode() {
+  local app=$1 mode=$2
+  local fn_app="${app//-/_}"
+  declare -f "custom_${mode}_${fn_app}" > /dev/null 2>&1 && return 0
+  if [[ "$mode" == "config" ]]; then
+    declare -f "config_${fn_app}" > /dev/null 2>&1 && return 0
+    return 1
+  fi
+  local pkg_var="PKG_${DETECTED_OS}[${app}]"
+  [[ -n "${!pkg_var:-}" ]]
+}
+
+_sw_emoji() {
+  case "$1" in
+    docker)            echo "🐳" ;;
+    vscode)            echo "💻" ;;
+    git)               echo "🔧" ;;
+    zsh)               echo "🐚" ;;
+    nodejs)            echo "🟩" ;;
+    ruby)              echo "💎" ;;
+    mise)              echo "⚙️ " ;;
+    fonts)             echo "🔤" ;;
+    obsidian)          echo "🔮" ;;
+    gimp)              echo "🎨" ;;
+    libreoffice)       echo "📄" ;;
+    vlc)               echo "🎬" ;;
+    elixir)            echo "💧" ;;
+    ssh)               echo "🔑" ;;
+    identification)    echo "🪪" ;;
+    zellij)            echo "🪟" ;;
+    core)              echo "🏗️ " ;;
+    ptyxis)            echo "🖥️ " ;;
+    *)                 echo "📦" ;;
+  esac
+}
+
+# ── Menu loop ──────────────────────────────────────────────────────────────────
+_run_menu() {
+  local -a all_apps=()
+  while IFS= read -r app; do
+    all_apps+=("$app")
+  done < <(_all_apps | sort -u)
+
+  while true; do
+    local -a items=() app_names=()
+    for app in "${all_apps[@]}"; do
+      _app_has_mode "$app" "install" || continue
+      items+=("$(_sw_emoji "$app")  $app")
+      app_names+=("$app")
+    done
+    items+=("🚪  Exit")
+
+    local choice
+    choice=$(gum choose \
+      --header "  Dotfiles Manager  ◆  OS: $DETECTED_OS" \
+      --header.foreground=212 \
+      "${items[@]}") || break
+
+    [[ "$choice" == *"Exit"* ]] && break
+
+    local selected=""
+    for app in "${app_names[@]}"; do
+      [[ "$choice" == *"  $app"* ]] && selected="$app" && break
+    done
+    [[ -z "$selected" ]] && continue
+
+    local -a actions=()
+    _app_has_mode "$selected" "install" && actions+=("📦  Install")
+    _app_has_mode "$selected" "update"  && actions+=("🔄  Update")
+    _app_has_mode "$selected" "destroy" && actions+=("🗑️   Destroy")
+    _app_has_mode "$selected" "config"  && actions+=("⚙️   Config")
+    actions+=("↩️   Back")
+
+    local action
+    action=$(gum choose \
+      --header "  $(_sw_emoji "$selected")  $selected" \
+      --header.foreground=212 \
+      "${actions[@]}") || continue
+
+    [[ "$action" == *"Back"* ]] && continue
+
+    local mode=""
+    [[ "$action" == *"Install"* ]] && mode="install"
+    [[ "$action" == *"Update"*  ]] && mode="update"
+    [[ "$action" == *"Destroy"* ]] && mode="destroy"
+    [[ "$action" == *"Config"*  ]] && mode="config"
+    [[ -z "$mode" ]] && continue
+
+    "$ROOT_DIR/bin/dots" --mode "$mode" "$selected"
+  done
+}
+
+_ensure_gum
+_run_menu

@@ -1,7 +1,0 @@
-name: mise_arch
-description: Install mise
-
-steps:
-  - name: install_mise
-    script: |
-      sudo pacman -S --noconfirm mise
