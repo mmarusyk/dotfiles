@@ -1,0 +1,31 @@
+{
+  "theme": "auto",
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.git/**)",
+      "Read(**/node_modules/**)",
+      "Read(**/vendor/**)",
+      "Read(**/target/**)",
+      "Read(**/__pycache__/**)",
+      "Read(**/.venv/**)",
+      "Read(**/*.lock)",
+      "Read(**/*.min.js)",
+      "Read(**/*.min.css)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ]
+  }
+}

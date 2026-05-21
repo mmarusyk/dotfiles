@@ -24,6 +24,12 @@ custom_install_claude() {
     curl -fsSL https://claude.ai/install.sh | bash
   fi
   _claude_ensure_local_bin_path
+  config_claude
+}
+
+config_claude() {
+  run_cmd mkdir -p "$HOME/.claude"
+  run_cmd ln -sf "$ROOT_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
 }
 
 custom_update_claude() {
@@ -31,6 +37,7 @@ custom_update_claude() {
 }
 
 custom_destroy_claude() {
+  run_cmd rm -f "$HOME/.claude/settings.json"
   run_cmd rm -f "$HOME/.local/bin/claude"
   run_cmd rm -rf "$HOME/.local/share/claude"
 }
