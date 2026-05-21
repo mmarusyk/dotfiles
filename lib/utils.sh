@@ -82,6 +82,19 @@ pkg_destroy() {
   esac
 }
 
+# ── Config linker ─────────────────────────────────────────────────────────────
+# Symlinks src into dst. If dst is a real file (not a symlink), backs it up to
+# dst.bak, warns the user, then creates the symlink.
+link_config() {
+  local src="$1" dst="$2"
+  if [[ -e "$dst" && ! -L "$dst" ]]; then
+    run_cmd cp "$dst" "${dst}.bak"
+    log_warn "$dst backed up to ${dst}.bak — replacing with symlink"
+  fi
+  run_cmd mkdir -p "$(dirname "$dst")"
+  run_cmd ln -sf "$src" "$dst"
+}
+
 # ── Dependency check ───────────────────────────────────────────────────────────
 require_dependencies() {
   for dep in "$@"; do

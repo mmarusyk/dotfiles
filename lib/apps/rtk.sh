@@ -33,8 +33,7 @@ custom_install_rtk() {
 }
 
 config_rtk() {
-  run_cmd mkdir -p "$HOME/.config/rtk"
-  run_cmd ln -sf "$ROOT_DIR/config/rtk/config.toml" "$HOME/.config/rtk/config.toml"
+  link_config "$ROOT_DIR/config/rtk/config.toml" "$HOME/.config/rtk/config.toml"
   if ! command -v rtk &>/dev/null; then
     log_warn "rtk not found — skipping Claude Code hook setup"
     return 0

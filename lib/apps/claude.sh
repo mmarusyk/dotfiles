@@ -28,8 +28,7 @@ custom_install_claude() {
 }
 
 config_claude() {
-  run_cmd mkdir -p "$HOME/.claude"
-  run_cmd ln -sf "$ROOT_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+  link_config "$ROOT_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
 }
 
 custom_update_claude() {
