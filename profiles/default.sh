@@ -4,7 +4,7 @@ PROFILE=(
   core identification ssh
   git zsh mise
   vscode fonts
-  nodejs claude ruby elixir
+  nodejs claude rtk ruby elixir
   docker
   zellij ptyxis
   chrome obsidian
