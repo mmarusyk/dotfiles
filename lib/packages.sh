@@ -26,6 +26,7 @@ declare -A PKG_ubuntu=(
 
 declare -A PKG_macos=(
   [git]="git"
+  [dotnet]=""       # custom install — lib/apps/dotnet.sh
   [zsh]="zsh"
   [mise]="mise"
   [zellij]="zellij"
