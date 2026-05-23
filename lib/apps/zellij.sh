@@ -26,8 +26,13 @@ custom_install_zellij() {
 }
 
 config_zellij() {
+  local src
+  case $DETECTED_OS in
+    macos) src="$ROOT_DIR/config/zellij/config-macos.kdl" ;;
+    *)     src="$ROOT_DIR/config/zellij/config-linux.kdl" ;;
+  esac
   run_cmd mkdir -p "$HOME/.config/zellij"
-  run_cmd ln -sf "$ROOT_DIR/config/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
+  run_cmd ln -sf "$src" "$HOME/.config/zellij/config.kdl"
 }
 
 custom_update_zellij() {
