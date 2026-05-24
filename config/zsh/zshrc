@@ -17,3 +17,5 @@ command -v mise &>/dev/null && eval "$(mise activate zsh)"
 
 # Machine-local overrides (not tracked in git)
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+export PATH="$HOME/.local/bin:$PATH"
