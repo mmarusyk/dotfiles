@@ -33,7 +33,7 @@ dotfiles/
 ├── lib/
 │   ├── packages.sh      # Data: app → package name per OS (one row per app, no logic)
 │   ├── apps/            # One file per app — only for non-standard installs
-│   │   ├── zellij.sh
+│   │   ├── iterm2.sh
 │   │   ├── fonts.sh
 │   │   ├── vscode.sh
 │   │   └── ...
@@ -45,8 +45,8 @@ dotfiles/
 │   │   └── aliases.zsh
 │   ├── git/
 │   │   └── gitconfig
-│   ├── zellij/
-│   │   └── config.kdl
+│   ├── tmux/
+│   │   └── tmux.conf
 │   └── vscode/
 │       └── settings.json
 │
@@ -64,9 +64,9 @@ dotfiles/
 Each app is one line. Apps with identical package names across OSes are zero-cost to add:
 
 ```bash
-declare -A PKG_arch=(   [zellij]="zellij"  [fonts]="ttf-iosevka-nerd"       ... )
-declare -A PKG_ubuntu=( [zellij]=""        [fonts]="fonts-iosevka"           ... )
-declare -A PKG_macos=(  [zellij]="zellij"  [fonts]="font-iosevka-nerd-font"  ... )
+declare -A PKG_arch=(   [tmux]="tmux"  [fonts]="ttf-iosevka-nerd"       ... )
+declare -A PKG_ubuntu=( [tmux]="tmux"  [fonts]="fonts-iosevka"           ... )
+declare -A PKG_macos=(  [tmux]="tmux"  [fonts]="font-iosevka-nerd-font"  ... )
 ```
 
 An empty value means "no standard package — fall back to a custom function."
@@ -92,11 +92,11 @@ pkg_install() {
 Only apps that can't be installed via a standard package manager get a file. Everything else is handled by `pkg_install` automatically. Each file defines up to four functions — skip any that don't apply:
 
 ```bash
-# lib/apps/zellij.sh
-custom_install_zellij() { ... }
-custom_update_zellij()  { ... }
-custom_destroy_zellij() { ... }
-config_zellij()         { ... }  # symlinks or post-install setup
+# lib/apps/iterm2.sh
+custom_install_iterm2() { ... }
+custom_update_iterm2()  { ... }
+custom_destroy_iterm2() { ... }
+config_iterm2()         { ... }  # symlinks or post-install setup
 ```
 
 All files in `lib/apps/` are sourced automatically — no registration needed.

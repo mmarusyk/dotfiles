@@ -6,10 +6,10 @@ custom_install_ptyxis() {
 }
 
 config_ptyxis() {
-  local zellij_path
-  zellij_path=$(command -v zellij || true)
-  if [[ -z "$zellij_path" ]]; then
-    log_warn "zellij not found — run 'dots zellij' first"
+  local tmux_path
+  tmux_path=$(command -v tmux || true)
+  if [[ -z "$tmux_path" ]]; then
+    log_warn "tmux not found — run 'dots tmux' first"
     return 1
   fi
 
@@ -17,7 +17,7 @@ config_ptyxis() {
   profile_uuid=$(gsettings get org.gnome.Ptyxis default-profile-uuid | tr -d "'")
   profile_path="/org/gnome/Ptyxis/Profiles/${profile_uuid}/"
 
-  run_cmd gsettings set "org.gnome.Ptyxis.Profile:${profile_path}" custom-command "$zellij_path"
+  run_cmd gsettings set "org.gnome.Ptyxis.Profile:${profile_path}" custom-command "$tmux_path"
   run_cmd gsettings set "org.gnome.Ptyxis.Profile:${profile_path}" use-custom-command true
   run_cmd gsettings set org.gnome.Ptyxis use-system-font false
   run_cmd gsettings set org.gnome.Ptyxis font-name "IosevkaNerdFontMono 12"

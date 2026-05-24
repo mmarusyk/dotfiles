@@ -56,7 +56,7 @@ _sw_emoji() {
     elixir)            echo "💧" ;;
     ssh)               echo "🔑" ;;
     identification)    echo "🪪" ;;
-    zellij)            echo "🪟" ;;
+    tmux)              echo "🪟" ;;
     core)              echo "🏗️ " ;;
     ptyxis)            echo "🖥️ " ;;
     *)                 echo "📦" ;;

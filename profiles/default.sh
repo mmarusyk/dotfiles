@@ -6,7 +6,7 @@ PROFILE=(
   vscode fonts
   nodejs claude rtk ruby elixir
   docker
-  zellij ptyxis
+  tmux iterm2 ptyxis
   chrome obsidian
   gimp libreoffice vlc
 )

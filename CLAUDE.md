@@ -70,3 +70,7 @@ Use `--dry-run --verbose` to preview any operation without side effects:
 ## Interactive menu
 
 `bin/menu` is an interactive TUI (requires `gum`, installed automatically on first run). It wraps `bin/dots` for browsing and managing apps without flags.
+
+## Git commit messages
+
+One sentence, maximum 12 words.

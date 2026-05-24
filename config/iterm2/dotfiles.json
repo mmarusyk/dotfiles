@@ -1,0 +1,10 @@
+{
+  "Profiles": [
+    {
+      "Name": "Dotfiles",
+      "Guid": "F8B2A1C3-4D5E-6F70-8192-A3B4C5D6E7F8",
+      "Custom Command": "Yes",
+      "Command": "/usr/bin/env tmux -CC new-session -A -s main"
+    }
+  ]
+}
