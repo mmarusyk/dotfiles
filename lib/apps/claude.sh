@@ -29,6 +29,7 @@ custom_install_claude() {
 
 config_claude() {
   link_config "$ROOT_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+  link_config "$ROOT_DIR/config/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 }
 
 custom_update_claude() {
@@ -37,6 +38,7 @@ custom_update_claude() {
 
 custom_destroy_claude() {
   run_cmd rm -f "$HOME/.claude/settings.json"
+  run_cmd rm -f "$HOME/.claude/statusline-command.sh"
   run_cmd rm -f "$HOME/.local/bin/claude"
   run_cmd rm -rf "$HOME/.local/share/claude"
 }

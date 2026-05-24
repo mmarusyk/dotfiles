@@ -1,5 +1,8 @@
 {
-  "theme": "auto",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
   "permissions": {
     "deny": [
       "Read(**/.env)",
@@ -27,5 +30,7 @@
         ]
       }
     ]
-  }
+  },
+  "theme": "auto",
+  "skipAutoPermissionPrompt": true
 }
