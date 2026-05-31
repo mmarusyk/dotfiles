@@ -4,6 +4,8 @@ plugins=(vi-mode git)
 
 source $ZSH/oh-my-zsh.sh
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # Version manager
 command -v mise &>/dev/null && eval "$(mise activate zsh)"
 
@@ -12,5 +14,3 @@ command -v mise &>/dev/null && eval "$(mise activate zsh)"
 
 # Machine-local overrides (not tracked in git)
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
-
-export PATH="$HOME/.local/bin:$PATH"
