@@ -23,6 +23,7 @@ declare -A PKG_ubuntu=(
   [gimp]="gimp"
   [vlc]="vlc"
   [libreoffice]="libreoffice"
+  [anki]=""            # custom install — lib/apps/anki.sh
 )
 
 declare -A PKG_macos=(

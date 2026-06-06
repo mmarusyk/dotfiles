@@ -8,5 +8,5 @@ PROFILE=(
   docker
   tmux iterm2 ptyxis
   chrome obsidian
-  gimp libreoffice vlc
+  gimp libreoffice vlc anki
 )
