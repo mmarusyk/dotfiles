@@ -14,6 +14,7 @@ declare -A PKG_arch=(
 )
 
 declare -A PKG_ubuntu=(
+  [kubernetes]=""    # custom install — lib/apps/kubernetes.sh
   [azure-cli]=""     # custom install — lib/apps/azure-cli.sh
   [git]="git"
   [zsh]="zsh"
@@ -28,6 +29,7 @@ declare -A PKG_ubuntu=(
 )
 
 declare -A PKG_macos=(
+  [kubernetes]=""    # custom install — lib/apps/kubernetes.sh
   [azure-cli]="azure-cli"
   [git]="git"
   [dotnet]=""       # custom install — lib/apps/dotnet.sh
