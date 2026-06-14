@@ -14,6 +14,7 @@ declare -A PKG_arch=(
 )
 
 declare -A PKG_ubuntu=(
+  [azure-cli]=""     # custom install — lib/apps/azure-cli.sh
   [git]="git"
   [zsh]="zsh"
   [mise]=""         # curl installer — lib/apps/mise.sh
@@ -27,6 +28,7 @@ declare -A PKG_ubuntu=(
 )
 
 declare -A PKG_macos=(
+  [azure-cli]="azure-cli"
   [git]="git"
   [dotnet]=""       # custom install — lib/apps/dotnet.sh
   [zsh]="zsh"
