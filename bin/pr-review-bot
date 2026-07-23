@@ -1,0 +1,364 @@
+#!/usr/bin/env bash
+#
+# pr-review-bot — periodically reviews GitHub PRs where you are a requested
+# reviewer, using Claude Code headlessly plus any project/user review skills.
+#
+# For each PR it creates a DRAFT (pending) GitHub review with inline line
+# comments only (no top-level comment), private to you until you "Submit review".
+# It is
+# NEVER auto-submitted (the API call omits `event`). The headless Claude stays
+# read-only (it only produces the findings); this script makes the single,
+# controlled API call that creates the pending review. A copy is also saved to
+# ~/pr-reviews and a macOS notification fires.
+#
+# Usage:
+#   pr-review-bot [run]     One review pass (default)
+#   pr-review-bot install   Install & load the launchd agent (every 10 min)
+#   pr-review-bot uninstall Unload & remove the launchd agent
+#   pr-review-bot status    Show agent + last activity
+#   pr-review-bot logs      Tail the log
+#   pr-review-bot reviews   List saved reviews
+
+set -euo pipefail
+
+# Ensure Homebrew/system tools are found under launchd's minimal environment.
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH:-}"
+
+# ---- Config (override in ~/.config/pr-review-bot/config) --------------------
+CONFIG_FILE="${HOME}/.config/pr-review-bot/config"
+[[ -f "$CONFIG_FILE" ]] && source "$CONFIG_FILE"
+
+STATE_DIR="${PR_REVIEW_STATE_DIR:-$HOME/.local/state/pr-review-bot}"
+CACHE_DIR="${PR_REVIEW_CACHE_DIR:-$HOME/.cache/pr-review-bot}"
+REVIEWS_DIR="${PR_REVIEW_OUTPUT_DIR:-$HOME/pr-reviews}"
+MAX_PER_RUN="${PR_REVIEW_MAX_PER_RUN:-5}"     # cap PRs reviewed per pass
+SEARCH_LIMIT="${PR_REVIEW_SEARCH_LIMIT:-30}"  # PRs to fetch from search
+
+STATE_FILE="$STATE_DIR/state.json"
+LOG_FILE="$STATE_DIR/bot.log"
+LOCK_DIR="$STATE_DIR/.lock"
+
+LABEL="com.mmarusyk.pr-review-bot"
+PLIST="$HOME/Library/LaunchAgents/${LABEL}.plist"
+SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+
+# ---- Logging ----------------------------------------------------------------
+log() { printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" | tee -a "$LOG_FILE" >&2; }
+
+notify() {
+  local title="$1" msg="$2"
+  if command -v terminal-notifier >/dev/null 2>&1; then
+    terminal-notifier -title "$title" -message "$msg" -group "$LABEL" >/dev/null 2>&1 || true
+  else
+    osascript -e "display notification \"${msg//\"/\\\"}\" with title \"${title//\"/\\\"}\"" >/dev/null 2>&1 || true
+  fi
+}
+
+# ---- Preconditions ----------------------------------------------------------
+require() {
+  for c in "$@"; do
+    command -v "$c" >/dev/null 2>&1 || { log "ERROR: missing dependency '$c'"; exit 1; }
+  done
+}
+
+# ---- Review pass ------------------------------------------------------------
+run_pass() {
+  mkdir -p "$STATE_DIR" "$CACHE_DIR" "$REVIEWS_DIR"
+  [[ -f "$STATE_FILE" ]] || echo '{}' > "$STATE_FILE"
+
+  # Prevent overlapping runs (a review can outlast the 10-min interval).
+  if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+    log "another run holds the lock ($LOCK_DIR); skipping"
+    exit 0
+  fi
+  trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
+
+  require gh jq claude
+
+  log "searching for PRs where I'm a requested reviewer…"
+  local prs
+  prs="$(gh search prs --review-requested=@me --state=open \
+          --limit "$SEARCH_LIMIT" \
+          --json number,title,url,repository 2>>"$LOG_FILE" || echo '[]')"
+
+  local count
+  count="$(echo "$prs" | jq 'length')"
+  log "found $count open PR(s) awaiting my review"
+  [[ "$count" -eq 0 ]] && exit 0
+
+  # Read into an array first: inner commands (claude/git/gh) must not share
+  # this loop's stdin, or they drain the remaining PR rows.
+  local rows=()
+  while IFS= read -r row; do rows+=("$row"); done < <(echo "$prs" | jq -c '.[]')
+
+  local reviewed=0
+  for row in "${rows[@]}"; do
+    [[ "$reviewed" -ge "$MAX_PER_RUN" ]] && { log "hit MAX_PER_RUN=$MAX_PER_RUN; stopping"; break; }
+
+    local num repo url title
+    num="$(echo "$row" | jq -r '.number')"
+    repo="$(echo "$row" | jq -r '.repository.nameWithOwner')"
+    url="$(echo "$row" | jq -r '.url')"
+    title="$(echo "$row" | jq -r '.title')"
+
+    # Current head commit — re-review only when it changes.
+    local sha
+    sha="$(gh pr view "$num" --repo "$repo" --json headRefOid -q .headRefOid 2>>"$LOG_FILE" || echo "")"
+    [[ -z "$sha" ]] && { log "! could not resolve head sha for $repo#$num; skipping"; continue; }
+
+    local key="${repo}#${num}"
+    local last
+    last="$(jq -r --arg k "$key" '.[$k] // ""' "$STATE_FILE")"
+    if [[ "$sha" == "$last" ]]; then
+      continue  # already reviewed at this commit
+    fi
+
+    log "reviewing $key @ ${sha:0:8} — $title"
+    review_pr "$num" "$repo" "$url" "$title" "$sha" || { log "! review failed for $key"; continue; }
+
+    # Record success.
+    local tmp; tmp="$(mktemp)"
+    jq --arg k "$key" --arg v "$sha" '.[$k]=$v' "$STATE_FILE" > "$tmp" && mv "$tmp" "$STATE_FILE"
+    reviewed=$((reviewed + 1))
+  done
+
+  log "pass complete; $reviewed PR(s) reviewed"
+}
+
+# review_pr NUM REPO URL TITLE SHA
+review_pr() {
+  local num="$1" repo="$2" url="$3" title="$4" sha="$5"
+  local dir="$CACHE_DIR/$repo"
+
+  # Ensure a local clone so project CLAUDE.md / .claude skills apply.
+  if [[ ! -d "$dir/.git" ]]; then
+    log "  cloning $repo (first time)…"
+    mkdir -p "$(dirname "$dir")"
+    gh repo clone "$repo" "$dir" -- --quiet >>"$LOG_FILE" 2>&1 || { log "  clone failed"; return 1; }
+  fi
+
+  # Check out the PR branch (best effort; diff-based review works regardless).
+  ( cd "$dir" && git fetch --quiet origin >>"$LOG_FILE" 2>&1 || true
+    gh pr checkout "$num" --force >>"$LOG_FILE" 2>&1 || log "  (couldn't check out branch; reviewing diff only)" )
+
+  local prompt
+  prompt="You are reviewing GitHub pull request: ${url}
+Repository: ${repo}  (checked out in the current directory, on the PR branch)
+Title: ${title}
+
+Steps:
+1. Run \`gh pr diff ${num} --repo ${repo}\` to see the full change.
+2. Read surrounding code as needed for context.
+3. If this project or your environment exposes code-review skills (e.g. an organization-specific review skill, or a project /code-review), apply their criteria and conventions.
+4. Prioritise correctness bugs, security issues, and violations of the project's own conventions. Mention simplifications only when clearly worthwhile.
+
+Do NOT describe, summarise, or explain what the PR does. Do NOT write any overall/top-level review comment. Produce ONLY per-line review comments.
+
+Your entire response MUST be a single minified JSON object: it must begin with { and end with } — no preamble, no explanation, no code fences, nothing before or after. Use exactly this shape:
+{\"comments\":[{\"path\":\"<repo-relative file path>\",\"line\":<integer line number>,\"side\":\"RIGHT\",\"body\":\"<a short, clear review comment: what to change and why, ending with a concrete suggestion to improve. When you propose a specific code change, include a GitHub \`\`\`suggestion code block so it can be applied in one click.>\"}]}
+
+Rules:
+- Every comment MUST be anchored to a line that appears in this PR's diff. Prefer \"side\":\"RIGHT\" with the NEW-file line number; for a removed line use \"side\":\"LEFT\" with the OLD-file line number.
+- There is NO overall comment field. For an issue about code elsewhere (e.g. a cross-file break), anchor the comment to the line IN THIS DIFF that causes it — never to an unchanged line.
+- Each comment must stand on its own, be immediately understandable, and contain a concrete suggestion for improvement. Be concise — do NOT restate what the code does.
+- Only raise things worth changing. If nothing needs changing, return {\"comments\":[]}.
+- Do NOT post anything yourself — only print the JSON. The surrounding tooling creates a DRAFT (pending, unpublished) review from it."
+
+  # Headless generation. Allowlist is read-only + GitHub *read* commands only;
+  # the model cannot post. This script performs the one controlled write below.
+  local raw
+  if ! raw="$( cd "$dir" && claude -p "$prompt" \
+        --allowedTools \
+          "Read" "Grep" "Glob" "Skill" "Task" \
+          "Bash(gh pr diff:*)" "Bash(gh pr view:*)" \
+          "Bash(git log:*)" "Bash(git show:*)" "Bash(git diff:*)" \
+          "Bash(rg:*)" "Bash(cat:*)" "Bash(ls:*)" "Bash(head:*)" "Bash(tail:*)" \
+        </dev/null 2>>"$LOG_FILE" )"; then
+    log "  claude generation returned non-zero"
+    return 1
+  fi
+
+  # Parse the model output into a comments array. If it isn't clean JSON, try to
+  # extract the outermost { … } object (the model sometimes prepends prose).
+  local clean parsed comments
+  clean="$(printf '%s' "$raw" | sed '/^```/d')"
+  parsed="$(jq -ec . <<<"$clean" 2>/dev/null)" \
+    || parsed="$(printf '%s' "$clean" | perl -0777 -ne 'print $1 if /(\{.*\})/s' | jq -ec . 2>/dev/null)" \
+    || parsed=""
+  if [[ -n "$parsed" ]]; then
+    comments="$(jq -c 'if (.comments|type)=="array" then .comments else [] end' <<<"$parsed")"
+  else
+    log "  could not parse review JSON; skipping"
+    return 1
+  fi
+
+  # Keep only comments anchored to a real diff line, so GitHub never rejects the
+  # review (a single off-diff line 422s the whole thing) and nothing spills into
+  # a global comment. Anything unanchorable is dropped, not promoted.
+  comments="$(filter_to_diff_lines "$num" "$repo" "$comments")"
+
+  local ncomments; ncomments="$(jq 'length' <<<"$comments")"
+
+  # Save a local copy for the record.
+  local stamp outfile
+  stamp="$(date '+%Y%m%d-%H%M%S')"
+  outfile="$REVIEWS_DIR/${repo//\//_}_${num}_${sha:0:8}_${stamp}.md"
+  {
+    echo "# Draft review: ${repo}#${num}"
+    echo; echo "**${title}**"; echo
+    echo "- PR: ${url}"
+    echo "- Commit: \`${sha}\`"
+    echo "- Generated: $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "- Inline comments: ${ncomments}"
+    echo; echo "---"; echo
+    if [[ "$ncomments" -gt 0 ]]; then
+      jq -r '.[] | "### \(.path):\(.line) (\(.side))\n\n\(.body)\n"' <<<"$comments"
+    else
+      echo "_No inline findings — nothing to comment._"
+    fi
+  } > "$outfile"
+  log "  saved local copy -> $outfile"
+
+  if [[ "$ncomments" -eq 0 ]]; then
+    log "  no anchorable inline comments; no review created"
+    notify "Reviewed (no comments): ${repo}#${num}" "$title"
+    return 0
+  fi
+
+  # Create the draft (pending) review on GitHub — inline comments only, no body.
+  post_pending_review "$repo" "$num" "$sha" "$comments" "$title"
+  return 0
+}
+
+# filter_to_diff_lines NUM REPO COMMENTS_JSON  ->  filtered COMMENTS_JSON on stdout
+# Drops any comment whose (path, side, line) is not a commentable position in the
+# PR diff. Valid positions = added/context lines (RIGHT, new-file numbering) and
+# removed/context lines (LEFT, old-file numbering) within each hunk.
+filter_to_diff_lines() {
+  local num="$1" repo="$2" comments="$3"
+  local posfile; posfile="$(mktemp)"
+  gh pr diff "$num" --repo "$repo" 2>/dev/null | awk '
+    /^\+\+\+ b\// { path=substr($0,7); newln=0; oldln=0; next }
+    /^@@ / {
+      match($0, /-[0-9]+/); oldln=substr($0,RSTART+1,RLENGTH-1)+0;
+      match($0, /\+[0-9]+/); newln=substr($0,RSTART+1,RLENGTH-1)+0;
+      next
+    }
+    path=="" { next }
+    /^\\/    { next }
+    /^\+/    { print path"\tRIGHT\t"newln; newln++; next }
+    /^-/     { print path"\tLEFT\t"oldln;  oldln++; next }
+    /^ /     { print path"\tRIGHT\t"newln; print path"\tLEFT\t"oldln; newln++; oldln++; next }
+  ' > "$posfile"
+
+  local kept="[]" n c p s l i
+  n="$(jq 'length' <<<"$comments")"
+  for ((i=0; i<n; i++)); do
+    c="$(jq -c ".[$i]" <<<"$comments")"
+    p="$(jq -r '.path'          <<<"$c")"
+    s="$(jq -r '.side // "RIGHT"' <<<"$c")"
+    l="$(jq -r '.line'          <<<"$c")"
+    if grep -qxF "$(printf '%s\t%s\t%s' "$p" "$s" "$l")" "$posfile"; then
+      kept="$(jq -c ". + [$c]" <<<"$kept")"
+    else
+      log "  dropping off-diff comment: ${p}:${l} (${s})"
+    fi
+  done
+  rm -f "$posfile"
+  printf '%s' "$kept"
+}
+
+# post_pending_review REPO NUM SHA COMMENTS_JSON TITLE
+# Creates a PENDING review (no `event` field) — visible only to the user until
+# they submit it. Inline comments ONLY: no top-level/global review body. Every
+# comment is pre-validated against the diff, so GitHub should never 422 on lines.
+post_pending_review() {
+  local repo="$1" num="$2" sha="$3" comments="$4" title="$5"
+  local endpoint="/repos/${repo}/pulls/${num}/reviews"
+  local ncomments; ncomments="$(jq 'length' <<<"$comments")"
+
+  # Omit `body` entirely (no global comment) and `event` (stays pending).
+  local payload
+  payload="$(jq -n --arg c "$sha" --argjson cm "$comments" '{commit_id:$c, comments:$cm}')"
+  if printf '%s' "$payload" | gh api --method POST "$endpoint" --input - \
+       >>"$LOG_FILE" 2>>"$LOG_FILE"; then
+    log "  created draft pending review with ${ncomments} inline comment(s), no body"
+    notify "Draft review ready to submit: ${repo}#${num}" "$title"
+    return 0
+  fi
+
+  log "  ! could not create pending review (a pending review may already exist for this PR — submit or discard it; it will retry on the next commit)"
+  notify "Draft review NOT created: ${repo}#${num}" "See ~/pr-reviews and: pr-review-bot logs"
+  return 1
+}
+
+# ---- launchd management -----------------------------------------------------
+cmd_install() {
+  require gh jq claude
+  mkdir -p "$STATE_DIR" "$(dirname "$PLIST")"
+  cat > "$PLIST" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>            <string>${LABEL}</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>${SELF}</string>
+    <string>run</string>
+  </array>
+  <key>StartInterval</key>    <integer>600</integer>
+  <key>RunAtLoad</key>        <true/>
+  <key>ProcessType</key>      <string>Background</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key> <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>HOME</key> <string>${HOME}</string>
+  </dict>
+  <key>StandardOutPath</key>  <string>${LOG_FILE}</string>
+  <key>StandardErrorPath</key><string>${LOG_FILE}</string>
+</dict>
+</plist>
+PLIST
+
+  launchctl unload "$PLIST" 2>/dev/null || true
+  launchctl load "$PLIST"
+  log "installed launchd agent '$LABEL' (every 600s) -> $PLIST"
+  echo "Installed. Runs every 10 minutes. Reviews land in: $REVIEWS_DIR"
+  echo "Tail activity with: $(basename "$SELF") logs"
+}
+
+cmd_uninstall() {
+  launchctl unload "$PLIST" 2>/dev/null || true
+  rm -f "$PLIST"
+  log "uninstalled launchd agent '$LABEL'"
+  echo "Uninstalled. State/reviews kept ($STATE_DIR, $REVIEWS_DIR); delete manually if desired."
+}
+
+cmd_status() {
+  if launchctl list | grep -q "$LABEL"; then
+    echo "agent: LOADED"
+    launchctl list | grep "$LABEL" || true
+  else
+    echo "agent: not loaded (run: $(basename "$SELF") install)"
+  fi
+  echo
+  echo "reviews dir: $REVIEWS_DIR ($(ls -1 "$REVIEWS_DIR" 2>/dev/null | wc -l | tr -d ' ') files)"
+  echo
+  echo "last log lines:"
+  tail -n 15 "$LOG_FILE" 2>/dev/null || echo "  (no log yet)"
+}
+
+cmd_logs()    { touch "$LOG_FILE"; tail -n 50 -f "$LOG_FILE"; }
+cmd_reviews() { ls -1t "$REVIEWS_DIR" 2>/dev/null || echo "no reviews yet"; }
+
+# ---- Dispatch ---------------------------------------------------------------
+case "${1:-run}" in
+  run)       run_pass ;;
+  install)   cmd_install ;;
+  uninstall) cmd_uninstall ;;
+  status)    cmd_status ;;
+  logs)      cmd_logs ;;
+  reviews)   cmd_reviews ;;
+  *) echo "usage: $(basename "$0") [run|install|uninstall|status|logs|reviews]" >&2; exit 2 ;;
+esac
