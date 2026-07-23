@@ -33,7 +33,8 @@ run_cmd() {
 # ── Package management ─────────────────────────────────────────────────────────
 _resolve_pkg() {
   local app=$1
-  local pkg_var="PKG_${DETECTED_OS}[${app}]"
+  local key="${app//-/_}"
+  local pkg_var="PKG_${DETECTED_OS}__${key}"
   echo "${!pkg_var:-}"
 }
 
