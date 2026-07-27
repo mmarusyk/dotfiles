@@ -34,6 +34,10 @@ REVIEWS_DIR="${PR_REVIEW_OUTPUT_DIR:-$HOME/pr-reviews}"
 MAX_PER_RUN="${PR_REVIEW_MAX_PER_RUN:-5}"     # cap PRs reviewed per pass
 SEARCH_LIMIT="${PR_REVIEW_SEARCH_LIMIT:-30}"  # PRs to fetch from search
 
+# PRNotifier.app (built by dotfiles: lib/apps/pr-review-notifier.sh) posts the
+# notification and handles click-to-open. Falls back to osascript if absent.
+NOTIFIER_APP="${PR_REVIEW_NOTIFIER_APP:-$HOME/Applications/PRNotifier.app}"
+
 STATE_FILE="$STATE_DIR/state.json"
 LOG_FILE="$STATE_DIR/bot.log"
 LOCK_DIR="$STATE_DIR/.lock"
@@ -46,10 +50,14 @@ SELF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]
 log() { printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" | tee -a "$LOG_FILE" >&2; }
 
 notify() {
-  local title="$1" msg="$2"
-  if command -v terminal-notifier >/dev/null 2>&1; then
-    terminal-notifier -title "$title" -message "$msg" -group "$LABEL" >/dev/null 2>&1 || true
+  local title="$1" msg="$2" url="${3:-}"
+  local bin="$NOTIFIER_APP/Contents/MacOS/PRNotifier"
+  if [[ -n "$url" && -x "$bin" ]]; then
+    # PRNotifier shows a clickable banner + "Open PR" button that opens $url.
+    # It backgrounds itself (exits shortly after posting; relaunched on click).
+    "$bin" "$title" "$msg" "$url" >/dev/null 2>&1 &
   else
+    # Fallback: osascript can't carry a click action, so the link is omitted.
     osascript -e "display notification \"${msg//\"/\\\"}\" with title \"${title//\"/\\\"}\"" >/dev/null 2>&1 || true
   fi
 }
@@ -221,12 +229,12 @@ Rules:
 
   if [[ "$ncomments" -eq 0 ]]; then
     log "  no anchorable inline comments; no review created"
-    notify "Reviewed (no comments): ${repo}#${num}" "$title"
+    notify "No issues found — worth approving 👍: ${repo}#${num}" "$title" "$url"
     return 0
   fi
 
   # Create the draft (pending) review on GitHub — inline comments only, no body.
-  post_pending_review "$repo" "$num" "$sha" "$comments" "$title"
+  post_pending_review "$repo" "$num" "$sha" "$comments" "$title" "$url"
   return 0
 }
 
@@ -268,12 +276,12 @@ filter_to_diff_lines() {
   printf '%s' "$kept"
 }
 
-# post_pending_review REPO NUM SHA COMMENTS_JSON TITLE
+# post_pending_review REPO NUM SHA COMMENTS_JSON TITLE URL
 # Creates a PENDING review (no `event` field) — visible only to the user until
 # they submit it. Inline comments ONLY: no top-level/global review body. Every
 # comment is pre-validated against the diff, so GitHub should never 422 on lines.
 post_pending_review() {
-  local repo="$1" num="$2" sha="$3" comments="$4" title="$5"
+  local repo="$1" num="$2" sha="$3" comments="$4" title="$5" url="${6:-}"
   local endpoint="/repos/${repo}/pulls/${num}/reviews"
   local ncomments; ncomments="$(jq 'length' <<<"$comments")"
 
@@ -283,12 +291,12 @@ post_pending_review() {
   if printf '%s' "$payload" | gh api --method POST "$endpoint" --input - \
        >>"$LOG_FILE" 2>>"$LOG_FILE"; then
     log "  created draft pending review with ${ncomments} inline comment(s), no body"
-    notify "Draft review ready to submit: ${repo}#${num}" "$title"
+    notify "Draft review ready to submit (${ncomments} comment(s)): ${repo}#${num}" "$title" "$url"
     return 0
   fi
 
   log "  ! could not create pending review (a pending review may already exist for this PR — submit or discard it; it will retry on the next commit)"
-  notify "Draft review NOT created: ${repo}#${num}" "See ~/pr-reviews and: pr-review-bot logs"
+  notify "Draft review NOT created: ${repo}#${num}" "See ~/pr-reviews and: pr-review-bot logs" "$url"
   return 1
 }
 

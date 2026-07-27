@@ -42,3 +42,4 @@ PKG_macos__iterm2=""            # custom install — lib/apps/iterm2.sh
 PKG_macos__gimp="gimp"
 PKG_macos__vlc="vlc"
 PKG_macos__libreoffice="libreoffice"
+PKG_macos__pr_review_notifier="" # custom install — lib/apps/pr-review-notifier.sh
