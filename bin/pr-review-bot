@@ -83,11 +83,14 @@ run_pass() {
 
   require gh jq claude
 
-  log "searching for PRs where I'm a requested reviewer…"
+  log "searching for open, non-draft PRs where I'm a requested reviewer…"
   local prs
-  prs="$(gh search prs --review-requested=@me --state=open \
+  prs="$(gh search prs --review-requested=@me --state=open --draft=false \
           --limit "$SEARCH_LIMIT" \
-          --json number,title,url,repository 2>>"$LOG_FILE" || echo '[]')"
+          --json number,title,url,repository,isDraft 2>>"$LOG_FILE" || echo '[]')"
+
+  # Defensive guard: drop any draft that slips through the search filter.
+  prs="$(echo "$prs" | jq '[.[] | select(.isDraft != true)]')"
 
   local count
   count="$(echo "$prs" | jq 'length')"
